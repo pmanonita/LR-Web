@@ -8,7 +8,7 @@
  * Service in the lrwebApp.
  */
 angular.module('lrwebApp')
-  .service('userservice', ['$rootScope', '$http', '$q', '$log', function ($rootScope, $http, $q, $log) {
+  .service('userService', ['$rootScope', '$http', '$q', '$log', function ($rootScope, $http, $q, $log) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
     var _defUser = {
@@ -30,7 +30,19 @@ angular.module('lrwebApp')
     }
 
     function _updateLoggedInStatus() {
-      user.isLoggedIn = (user.email.length && user.emailVerified) || (user.mobile.length && user.mobileVerified);
+      user.isLoggedIn = true;
+    }
+
+	//Update user info from Parse API response
+    function _updateUserInfo(u, bNotify) {
+      bNotify = bNotify || true;      
+      user.name = u.username;
+      user.oID = u.objectId;
+      user.sToken = u.sessionToken;
+      _updateLoggedInStatus();
+      if(bNotify) {
+        _userStatusNotify();
+      }
     }
 
 
@@ -83,7 +95,7 @@ angular.module('lrwebApp')
         'password': password
       }
 
-      var $req = $http.post('http://localhost:8080/LRService/login/', o).$promise;
+      var $req = $http.get('http://localhost:8080/ScraperService/v1/', o).$promise;
 
       //send ajax form submission
       $req.then(function(data, status, headers, config) {
@@ -107,5 +119,11 @@ angular.module('lrwebApp')
       //always return deferred object
       return d.promise;
     }
+    return {
+      isLoggedIn: function() { return user.isLoggedIn; },
+      getSessionToken: function() { return user.sToken;},
+      getUser: function() {return user;},
+      login: _login,
+    };
 
   }]);
