@@ -30,9 +30,15 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/lrhome', {
+        templateUrl: 'views/lrhome.html',
+        controller: 'LrhomeCtrl',
+        controllerAs: 'lrhome'
+      })
       .when('/', {
         templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
+        controllerAs: 'login'
       })
       .otherwise({
         redirectTo: '/'

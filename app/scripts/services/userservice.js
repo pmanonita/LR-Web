@@ -72,11 +72,11 @@ angular.module('lrwebApp')
 
       return ret;
     }
-    function _login(username, password) {
+    function _login(userData) {
     	console.log("at login")
       //normalize input
-      user = user || '';
-      password = password || '';
+      var username = userData.username || '';
+      var password = userData.password || '';
 
       var ret = _defResult, d = $q.defer();
 
@@ -90,16 +90,29 @@ angular.module('lrwebApp')
 
       //set progress
       d.notify('Logging in');
-      var o = {
-        'username': username,
-        'password': password
-      }
+      //var o = {
+      //  'username': username,
+      // 'password': password
+      //}
+      var data = 'username=' + encodeURIComponent(username) + '&password=' +  encodeURIComponent(password);
+      console.log(data);
 
-      var $req = $http.get('http://localhost:8080/ScraperService/v1/', o).$promise;
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };    
+
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/user-service/login', data, config);
 
       //send ajax form submission
-      $req.then(function(data, status, headers, config) {
+      $promise.then(function(data, status, headers, config) {
         $log.debug('User Info + ' + JSON.stringify(data));
+
+        //Temp return. to-do fix me
+        return d.promise;
 
         if(data.result.code !== 1) {
           //some error

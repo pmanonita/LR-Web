@@ -16,13 +16,15 @@ angular.module('lrwebApp')
     ];
     $scope.submitForm = function(){
       //send a request to user service and submit the form
-      $log.debug('on login form ' + $scope.user);
-      userService.login($scope.user, $scope.password).then(function(/*res*/) {
+      $log.debug('on login form ' + $scope.user.username);
+      userService.login($scope.user).then(function(/*res*/) {
         //success callback
+        $log.debug('Login Sucess');
         $location.path('/lrhome');
       }, function(res) {
         //error callback & show the error message
         $log.debug('Login failed ' + JSON.stringify(res));
+        
       });
       return false;
     };

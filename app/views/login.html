@@ -5,7 +5,7 @@
   	  <label for="loginuser" class="sr-only"></label>
   	  <label class="col-md-4 control-label" for="loginuser">Username</label>
   	  <div class="col-md-4">
-        <input id="loginuser" name="user" type="text" placeholder="Username" class="form-control input-md" required ng-model="user">    
+        <input id="loginuser" name="user" type="text" placeholder="Username" class="form-control input-md" required ng-model="user.username">    
         <span id="loginuserStatus" class="sr-only">(success)</span>  	
   	    <div data-ng-messages="loginform.user.$error" data-ng-if="loginform.user.$dirty" role="alert" class="text-danger">
           <div data-ng-message="required">Please fill out this field.</div>            
@@ -18,7 +18,7 @@
   	  <label for="loginpassword" class="sr-only"></label>
       <label class="col-md-4 control-label" for="loginpassword">Password</label>
       <div class="col-md-4">
-        <input id="loginpassword" name="password" type="password" placeholder="Password" class="form-control input-md" required ng-model="password">
+        <input id="loginpassword" name="password" type="password" placeholder="Password" class="form-control input-md" required ng-model="user.password">
 		<div data-ng-messages="loginform.password.$error" data-ng-if="loginform.password.$dirty" role="alert" class="text-danger">
       	  <div data-ng-message="required">Please fill out this field.</div>
     	</div>    
