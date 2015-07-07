@@ -11,11 +11,17 @@ angular.module('lrwebApp')
   .service('userService', ['$rootScope', '$http', '$q', '$log', function ($rootScope, $http, $q, $log) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
-    var _defUser = {
+   var _defUser = {  //Default user object
           'isLoggedIn' : false,
           'name': '',
-          'oID': '',
-          'sToken': '',          
+          'email': '',
+          'emailVerified': false,
+          'mobile': '',
+          'mobileVerified': false,
+          'authToken': '',
+          'firstName': '',
+          'lastName': '',
+          'initials': ''
         },
         user = _defUser,    //Default user object
         _defResult = {
@@ -35,10 +41,15 @@ angular.module('lrwebApp')
 
 	//Update user info from Parse API response
     function _updateUserInfo(u, bNotify) {
-      bNotify = bNotify || true;      
+       if(angular.isUndefined(bNotify)) {
+        bNotify = true;
+      }
+      user.email = u.email;
+      user.mobile = u.mobile;
       user.name = u.username;
-      user.oID = u.objectId;
-      user.sToken = u.sessionToken;
+      user.authToken = u.authToken;      
+      user.emailVerified = u.emailVerified || false;
+      user.mobileVerified = u.isMobileVerified || false;
       _updateLoggedInStatus();
       if(bNotify) {
         _userStatusNotify();
@@ -111,21 +122,24 @@ angular.module('lrwebApp')
       $promise.then(function(data, status, headers, config) {
         $log.debug('User Info + ' + JSON.stringify(data));
 
-        //Temp return. to-do fix me
-        return d.promise;
+        var result = data.data.result; // Fix it
 
-        if(data.result.code !== 1) {
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
           //some error
           d.reject(ret);
           return;
         }
 
         /*Update all user info*/
-        _updateUserInfo(data.result.user);
+        _updateUserInfo(result.user);
         ret.sts = true;
         d.resolve(ret);        
 
       }, function(r) {
+      	$log.debug('Error Info + ' + JSON.stringify(r.data));
         ret = _parseErrorResponse(r.data);
         d.reject(ret);
       });
