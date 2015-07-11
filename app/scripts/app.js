@@ -35,6 +35,11 @@ angular
         controller: 'LrhomeCtrl',
         controllerAs: 'lrhome'
       })
+      .when('/createlr', {
+        templateUrl: 'views/createlr.html',
+        controller: 'LrhomeCtrl',
+        controllerAs: 'lrhome'
+      })
       .when('/', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
