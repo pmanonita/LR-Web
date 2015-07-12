@@ -11,7 +11,7 @@ angular.module('lrwebApp')
   .service('userService', ['$rootScope', '$http', '$q', '$log', function ($rootScope, $http, $q, $log) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
-   var _defUser = {  //Default user object
+   var _defUser = { //Default user object
           'isLoggedIn' : false,
           'name': '',
           'email': '',
@@ -23,12 +23,15 @@ angular.module('lrwebApp')
           'lastName': '',
           'initials': ''
         },
-        user = _defUser,    //Default user object
+        user = {},
+
         _defResult = {
           'sts' : false,
           'code': 1,
           'msg': 'Unexpected error.'
         };
+
+        angular.merge(user, _defUser);
 
     //Notify changes in user data to all listeners
     function _userStatusNotify() {
@@ -41,6 +44,7 @@ angular.module('lrwebApp')
 
 	//Update user info from Parse API response
     function _updateUserInfo(u, bNotify) {
+      console.log("updaing use details after logged in successful");
        if(angular.isUndefined(bNotify)) {
         bNotify = true;
       }
@@ -105,6 +109,7 @@ angular.module('lrwebApp')
       //  'username': username,
       // 'password': password
       //}
+     
       var data = 'username=' + encodeURIComponent(username) + '&password=' +  encodeURIComponent(password);
       console.log(data);
 
@@ -122,7 +127,8 @@ angular.module('lrwebApp')
       $promise.then(function(data, status, headers, config) {
         $log.debug('User Info + ' + JSON.stringify(data));
 
-        var result = data.data.result; // Fix it
+       // var result = data.data.result; // Fix it
+       var result = data.data; 
 
         $log.debug(result);
         $log.debug(result.code);
@@ -146,11 +152,88 @@ angular.module('lrwebApp')
       //always return deferred object
       return d.promise;
     }
+
+     function _signup(userData) {
+      console.log("at createuser")
+      //normalize input
+      var username = userData.username || '';
+      var password = userData.password || '';
+      var firstname = userData.firstname || '';
+      var lastname = userData.lastname || '';
+      var email = userData.email || '';
+      var mobile = userData.mobile || '';
+      var role = 'default';
+
+
+      var ret = _defResult, d = $q.defer();
+
+      //input validation
+      //validation as per rule, should be done in the controller. We do
+      //minimum empty check here.
+      if(!username.length || !password.length) {
+        ret.msg = 'Invalid input!';
+        d.reject(ret);
+      }
+
+      //set progress
+      d.notify('Creating user');
+      //var o = {
+      //  'username': username,
+      // 'password': password
+      //}
+       var data = 'userName=' + encodeURIComponent(username) + 
+                '&password=' +  encodeURIComponent(password) +
+                '&firstName=' + firstname +
+                '&lastName=' + lastname +
+                '&email=' + email +
+                '&mobile=' + mobile +
+                '&role=' + role;
+      console.log(data);
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };    
+
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/user-service/signup', data, config);
+
+      //send ajax form submission
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('User Info + ' + JSON.stringify(data));
+
+        var result = data.data; // Fix it
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          //some error
+          d.reject(ret);
+          return;
+        }
+
+        /*Update all user info*/
+        _updateUserInfo(result.user);
+        ret.sts = true;
+        d.resolve(ret);        
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      //always return deferred object
+      return d.promise;
+    }
     return {
       isLoggedIn: function() { return user.isLoggedIn; },
       getSessionToken: function() { return user.sToken;},
       getUser: function() {return user;},
       login: _login,
+      signup:_signup,
     };
 
   }]);

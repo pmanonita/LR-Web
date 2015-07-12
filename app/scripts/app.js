@@ -40,6 +40,11 @@ angular
         controller: 'LrhomeCtrl',
         controllerAs: 'lrhome'
       })
+      .when('/signup', {
+        templateUrl: 'views/signup.html',
+        controller: 'UserCtrl',
+        controllerAs: 'user'
+      })
       .when('/', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
