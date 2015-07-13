@@ -1,68 +1,67 @@
-<div class="row">
-  <div class="col-md-3">
-  <!-- Blank left navigation-->  
-  </div>
-
-  <div class="col-md-6">
-
-    <!-- Blank hight is inserted-->
-    <div class="row">     
-      <div class="col-md-12">       
-      <div style="height: 140px;">      
-      </div>
-      </div>
+  <div class="row">
+    <div class="col-md-3">
+    <!-- Blank left navigation-->  
     </div>
 
-    <div class="row" data-ng-controller="LoginCtrl"> 
-      <!-- Blank hight is inserted-->        
-      <div class="col-md-12" style="height: 100px;"> 
+    <div class="col-md-6">
+      <!-- Blank hight is inserted-->
+      <div class="row">     
+        <div class="col-md-12">       
+        <div style="height: 140px;">      
+        </div>
+        </div>
       </div>
-       
-      <div class="cliente">
-      <form class="form-horizontal" name="loginForm" data-ng-submit="submitForm()"> 
 
-        <div class="form-group">
-          <label for="loginuser" class="sr-only"></label>
-          <label class="col-md-4 control-label" for="loginuser">Username</label>
-          <div class="col-md-4">
-            <input id="loginuser" name="user" type="text" placeholder="Username" class="form-control input-md" required ng-model="user.username">    
-            <span id="loginuserStatus" class="sr-only">(success)</span>  	
-          	<div data-ng-messages="loginform.user.$error" data-ng-if="loginform.user.$dirty" role="alert" class="text-danger">
-              <div data-ng-message="required">Please fill out this field.</div>            
+      <div class="row" data-ng-controller="LoginCtrl"> 
+        <!-- Blank hight is inserted-->        
+        <div class="col-md-12" style="height: 100px;"> 
+        </div>
+         
+        <div class="cliente">
+          <form class="form-horizontal" name="loginForm" data-ng-submit="submitForm()"> 
+
+          <div class="form-group">
+            <label for="loginuser" class="sr-only"></label>
+            <label class="col-md-4 control-label" for="loginuser">Username</label>
+            <div class="col-md-4">
+              <input id="loginuser" name="user" type="text" placeholder="Username" class="form-control input-md" required ng-model="user.username">    
+              <span id="loginuserStatus" class="sr-only">(success)</span>  	
+            	<div data-ng-messages="loginform.user.$error" data-ng-if="loginform.user.$dirty" role="alert" class="text-danger">
+                <div data-ng-message="required">Please fill out this field.</div>            
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Password input-->
-        <div class="form-group">
-          <label for="loginpassword" class="sr-only"></label>
-          <label class="col-md-4 control-label" for="loginpassword">Password</label>
-          <div class="col-md-4">
-            <input id="loginpassword" name="password" type="password" placeholder="Password" class="form-control input-md" required ng-model="user.password">
-        		<div data-ng-messages="loginform.password.$error" data-ng-if="loginform.password.$dirty" role="alert" class="text-danger">
-              <div data-ng-message="required">Please fill out this field.</div>
-            </div>    
+          <!-- Password input-->
+          <div class="form-group">
+            <label for="loginpassword" class="sr-only"></label>
+            <label class="col-md-4 control-label" for="loginpassword">Password</label>
+            <div class="col-md-4">
+              <input id="loginpassword" name="password" type="password" placeholder="Password" class="form-control input-md" required ng-model="user.password">
+          		<div data-ng-messages="loginform.password.$error" data-ng-if="loginform.password.$dirty" role="alert" class="text-danger">
+                <div data-ng-message="required">Please fill out this field.</div>
+              </div>    
+            </div>
           </div>
-        </div>
 
-          	<!-- Button -->
-        <div class="form-group">  
-        	<label class="col-md-4 control-label" for="loginbutton"></label>  	  
-          <div class="col-md-8">  	  	
-            <button id="loginbutton" class="btn btn-primary btn-lg btn-lg-sw" type="submit" data-ng-disabled="loginForm.$invalid">Login</button>    
-          </div> 
-        </div>
+            	<!-- Button -->
+          <div class="form-group">  
+          	<label class="col-md-4 control-label" for="loginbutton"></label>  	  
+            <div class="col-md-8">  	  	
+              <button id="loginbutton" class="btn btn-primary btn-lg btn-lg-sw" type="submit" data-ng-disabled="loginForm.$invalid">Login</button>    
+            </div> 
+          </div>
 
-      </form>
+        </form>
 
+      </div>
+      </div>
+      
     </div>
-    </div>
-    
-  </div>
 
-  <div class="col-md-3">
-    <!-- Blank right navigation-->    
+    <div class="col-md-3">
+      <!-- Blank right navigation-->    
+    </div>
+      
   </div>
-    
-</div>
 
