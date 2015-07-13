@@ -13,26 +13,31 @@ angular.module('lrwebApp')
 
    var _defUser = { //Default user object
           'isLoggedIn' : false,
+          'isAdmin' : false,
+          'id' : '',
           'name': '',
-          'email': '',
-          'emailVerified': false,
-          'mobile': '',
-          'mobileVerified': false,
+          'email': '',          
+          'mobile': '',          
           'authToken': '',
           'firstName': '',
           'lastName': '',
-          'initials': ''
+          'role': ''
         },
         user = {},
 
         _defResult = {
           'sts' : false,
-          'code': 1,
+          'code': 0,
           'msg': 'Unexpected error.'
         };
 
         angular.merge(user, _defUser);
 
+    function _updateRoleStatus() {
+      if(user.role && user.role == 'admin') {
+        user.isAdmin = true;
+      }
+    }
     //Notify changes in user data to all listeners
     function _userStatusNotify() {
       $rootScope.$broadcast('user:updated', user);
@@ -40,7 +45,7 @@ angular.module('lrwebApp')
 
     function _updateLoggedInStatus() {
       user.isLoggedIn = true;
-    }
+    }    
 
 	//Update user info from Parse API response
     function _updateUserInfo(u, bNotify) {
@@ -50,11 +55,16 @@ angular.module('lrwebApp')
       }
       user.email = u.email;
       user.mobile = u.mobile;
-      user.name = u.username;
-      user.authToken = u.authToken;      
-      user.emailVerified = u.emailVerified || false;
-      user.mobileVerified = u.isMobileVerified || false;
+      user.name = u.userName;
+      user.id = u.id;
+      user.firstName = u.firstName
+      user.lastName = u.lastName
+      user.authToken = u.authToken;
+      user.role = u.role;
+
       _updateLoggedInStatus();
+      _updateRoleStatus();
+
       if(bNotify) {
         _userStatusNotify();
       }
@@ -72,15 +82,15 @@ angular.module('lrwebApp')
         return ret;
       }
 
-      //error message is returned as string instead of object occasionally :(
+      
       if(angular.isObject(o.error) && o.error.message){
         ret.msg = o.error.message;
       } else if(angular.isString(o.error)){
         ret.msg = o.error;
         try {
           err = angular.fromJson(o.error);
-          if(err && (err.message||err.status)) {
-            ret.msg = (err.message || err.status);
+          if(err && (err.message||err.errorCode)) {
+            ret.msg = (err.message || err.errorCode);
           }
         }catch(e){}
       }
@@ -153,7 +163,47 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
-     function _signup(userData) {
+    function _signout() {
+      console.log("At signout");
+      var ret = _defResult, d = $q.defer(), p = d.promise;
+      
+      //pre-check      
+      if(user.id == "" && !user.isLoggedIn) {
+        d.reject(ret);
+        return p;
+      }
+
+      //signout the user
+
+      console.log("Signout process started")
+      var data = {}      
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' : user.authToken,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };    
+
+      console.log(config.headers.auth_token);
+
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/user-service/logout', data, config);
+
+      $promise.finally(function() {
+        //irrespective of success or failure status
+        //delete the object
+        angular.merge(user, _defUser);
+        ret.sts = true;
+        ret.msg = '';
+        d.resolve(ret);
+        _updateLoggedInStatus();
+        _userStatusNotify();
+      });
+      return p;
+    }
+
+    function _signup(userData) {
       console.log("at createuser")
       //normalize input
       var username = userData.username || '';
@@ -162,14 +212,11 @@ angular.module('lrwebApp')
       var lastname = userData.lastname || '';
       var email = userData.email || '';
       var mobile = userData.mobile || '';
-      var role = 'default';
-
+      var role = userData.role || 'default';
 
       var ret = _defResult, d = $q.defer();
 
-      //input validation
-      //validation as per rule, should be done in the controller. We do
-      //minimum empty check here.
+      //input validation 
       if(!username.length || !password.length) {
         ret.msg = 'Invalid input!';
         d.reject(ret);
@@ -177,17 +224,15 @@ angular.module('lrwebApp')
 
       //set progress
       d.notify('Creating user');
-      //var o = {
-      //  'username': username,
-      // 'password': password
-      //}
-       var data = 'userName=' + encodeURIComponent(username) + 
-                '&password=' +  encodeURIComponent(password) +
-                '&firstName=' + firstname +
-                '&lastName=' + lastname +
-                '&email=' + email +
-                '&mobile=' + mobile +
-                '&role=' + role;
+      
+      var data = 'userName=' + encodeURIComponent(username) + 
+                 '&password=' +  encodeURIComponent(password) +
+                 '&firstName=' + firstname +
+                 '&lastName=' + lastname +
+                 '&email=' + email +
+                 '&mobile=' + mobile +
+                 '&role=' + role;
+
       console.log(data);
 
       var config = { 
@@ -195,8 +240,7 @@ angular.module('lrwebApp')
           'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
           'Content-Type': 'application/x-www-form-urlencoded'
         }
-      };    
-
+      };
 
       var $promise = $http.post('http://localhost:8080/LRService/v1/user-service/signup', data, config);
 
@@ -230,10 +274,12 @@ angular.module('lrwebApp')
     }
     return {
       isLoggedIn: function() { return user.isLoggedIn; },
+      isAdmin: function() { return user.isAdmin; },      
       getSessionToken: function() { return user.sToken;},
-      getUser: function() {return user;},
+      getUser: function() {return user;},      
       login: _login,
       signup:_signup,
+      signout: _signout
     };
 
   }]);
