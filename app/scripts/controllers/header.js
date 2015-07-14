@@ -21,9 +21,7 @@
           $scope.isLoggedIn = u.isLoggedIn;
           $scope.username = u.firstName || u.name;
           $scope.profilePic = user.profilePic;
-          $scope.initials = user.initials;
-          $scope.isLoggedIn = userService.isLoggedIn();
-          $scope.isAdmin = userService.isAdmin();
+          $scope.initials = user.initials;          
       });
 
      
