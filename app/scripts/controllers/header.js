@@ -1,5 +1,5 @@
   angular.module('lrwebApp')
-    .controller('HeaderCtrl', ['$scope', '$log', '$location', 'userService', function ($scope, $log, $location, userService) {
+    .controller('HeaderCtrl', ['$scope', '$log', '$location', 'userService', function ($scope, $log, $location, userService) {      
       
        $scope.isLoggedIn = userService.isLoggedIn();
        $scope.isAdmin = userService.isAdmin();     
@@ -23,6 +23,7 @@
           $scope.profilePic = user.profilePic;
           $scope.initials = user.initials;
 
+          $scope.isLoggedIn = userService.isLoggedIn();
           $scope.isAdmin = userService.isAdmin();
       });
 

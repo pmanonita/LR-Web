@@ -44,7 +44,9 @@ angular.module('lrwebApp')
     }
 
     function _updateLoggedInStatus() {
-      user.isLoggedIn = true;
+      if (user.authToken && user.authToken.length > 0) {
+        user.isLoggedIn = true;
+      }      
     }    
 
 	//Update user info from Parse API response
@@ -105,20 +107,14 @@ angular.module('lrwebApp')
 
       var ret = _defResult, d = $q.defer();
 
-      //input validation
-      //validation as per rule, should be done in the controller. We do
-      //minimum empty check here.
+      //input validation     
       if(!username.length || !password.length) {
         ret.msg = 'Invalid input!';
         d.reject(ret);
       }
 
       //set progress
-      d.notify('Logging in');
-      //var o = {
-      //  'username': username,
-      // 'password': password
-      //}
+      d.notify('Logging in');   
      
       var data = 'username=' + encodeURIComponent(username) + '&password=' +  encodeURIComponent(password);
       console.log(data);
@@ -174,7 +170,6 @@ angular.module('lrwebApp')
       }
 
       //signout the user
-
       console.log("Signout process started")
       var data = {}      
       var config = { 
