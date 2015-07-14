@@ -46,7 +46,7 @@ angular.module('lrwebApp')
     function _updateLoggedInStatus() {
       if (user.authToken && user.authToken.length > 0) {
         user.isLoggedIn = true;
-      }      
+      }
     }    
 
 	//Update user info from Parse API response
