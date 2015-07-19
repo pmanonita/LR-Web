@@ -1,216 +1,96 @@
 <div class="row">
   
-  <!--vertical navigation bar -->
-  <div class="col-md-2" data-ng-controller="LeftNavCtrl">
-    <div class="cliente"> 
-    <ul class="nav nav-pills nav-stacked" >                
-      <li ><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
-      <li class="active"><a href="/#/createlr"><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
-      <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>
-
-      <li ng-show="isAdmin"><a href="/#/signup"><i class="fa fa-list-alt fa-fw" ></i>New User </a></li>
-    </ul>
+  
+   <!--vertical navigation bar -->
+     <div class="col-md-2" data-ng-controller="LeftNavCtrl">
+      <div class="cliente"> 
+        <ul class="nav nav-pills nav-stacked" >
+          <li ><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
+          <li  class="active"><a href="/#/createlr><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
+          <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>   
+          <li ng-show="isAdmin"><a href="/#/signup"><i class="fa fa-list-alt fa-fw" ></i>New User </a></li>
+        </ul>
+      </div>
     </div>
-  </div>
+
+ 
+            
 
   <!--form design -->
-  <div class="col-md-10">
-    <form class="form-horizontal">
-
-    <div class="row">
-      <div class="form-group">
-        <label for="inputLR" class="control-label col-xs-2">LR</label>
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="inputLR" placeholder="LR">
-        </div>
-        <label for="vehicleno" class="control-label col-xs-2">VehicleNo</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="vehicleno" placeholder="VehicleNo">
-        </div>
-         <label for="vehicleowner" class="control-label col-xs-2">Vehicle Owner</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="vehicleowner" placeholder="Vehicle Owner">
-        </div>
-
-      </div>
-    </div>
-    
-   <div class="row">
-      <div class="form-group">              
-        <label for="consigner" class="control-label col-xs-2">Consignor Add</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="consigner" placeholder="Consignor Add">
-        </div>
-        <label for="consignee" class="control-label col-xs-2">Consignee Add</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="consignee" placeholder="Consignee Add">
-        </div>
-         <label for="consignerServTax" class="control-label col-xs-2">Service Tax No(Consignor)</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="consignerServTax" placeholder="">
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group">             
-        <label for="consigneeServTax" class="control-label col-xs-2">Service Tax No(Consignee)</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="consigneeServTax" placeholder="">
-        </div>
-         <label for="billingParty" class="control-label col-xs-2">Billing Party</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="billingParty" placeholder="">
-        </div>
-        <label for="freightToBroker" class="control-label col-xs-2">Freight To broker</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="freightToBroker" placeholder="">
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group">             
-        <label for="extractPayBroker" class="control-label col-xs-2">Extra Payment To Broker</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="extractPayBroker" placeholder="">
-        </div>
-        <label for="freightToBroker" class="control-label col-xs-2">Freight To Billing</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="freightToBroker" placeholder="">
-        </div>
-         <label for="advance" class="control-label col-xs-2">Advance</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="advance" placeholder="">
-        </div>
-      </div>
-    </div>
-
-     <div class="row">
-      <div class="form-group">  
-         <label for="balanceFreight" class="control-label col-xs-2">Balance Freight</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="balanceFreight" placeholder="">
-        </div>  
-        <label for="loadigCharg" class="control-label col-xs-2">Loading Charges</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="loadigCharg" placeholder="">
-        </div>
-        <label for="unloadingCharg" class="control-label col-xs-2">Unloading charges</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="unloadingCharg" placeholder="">
-        </div>         
-        
-      </div>
-    </div>
-
-     <div class="row">
-      <div class="form-group">  
-         <label for="loadingDetn" class="control-label col-xs-2">Detention at Loading</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="loadingDetn" placeholder="">
-        </div>  
-        <label for="loadingDetnBr" class="control-label col-xs-2">Loading Detention To broker</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="loadingDetnBr" placeholder="">
-        </div>
-        <label for="loadingDetnBilling" class="control-label col-xs-2">Loading Detention to Billing</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="loadingDetnBilling" placeholder="">
-        </div>         
-        
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group">  
-         <label for="unloadingDetn" class="control-label col-xs-2">Detention at UnLoading</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="unloadingDetn" placeholder="">
-        </div>  
-        <label for="unloadingDetnBr" class="control-label col-xs-2">UnLoading Detention To broker</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="unloadingDetnBr" placeholder="">
-        </div>
-        <label for="unloadingDetnBilling" class="control-label col-xs-2">UnLoading Detention to Billing</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="unloadingDetnBilling" placeholder="">
-        </div>         
-        
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group">  
-         <label for="other1" class="control-label col-xs-2">Other1</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="other1" placeholder="">
-
-        </div> 
-                   
-        <div class="col-xs-3">
-          <input type="text" class="form-control" id="remarks1" placeholder="Remarks for Other 1">
-          
-        </div>
-                   
-        <div class="col-xs-3">
-          <input type="text" class="form-control" id="billinhOther1" placeholder="Billing for Other 1">
-        </div> 
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group">  
-         <label for="other2" class="control-label col-xs-2">Other2</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="other2" placeholder="">
-
-        </div> 
-                   
-        <div class="col-xs-3">
-          <input type="text" class="form-control" id="remarks2" placeholder="Remarks for Other 2">
-          
-        </div>
-                   
-        <div class="col-xs-3">
-          <input type="text" class="form-control" id="billinhOther2" placeholder="Billing for Other 2">
-        </div> 
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group">  
-         <label for="other3" class="control-label col-xs-2">Other3</label>            
-        <div class="col-xs-2">
-          <input type="text" class="form-control" id="other3" placeholder="">
-
-        </div> 
-                   
-        <div class="col-xs-3">
-          <input type="text" class="form-control" id="remarks3" placeholder="Remarks for Other 3">
-          
-        </div>
-                   
-        <div class="col-xs-3">
-          <input type="text" class="form-control" id="billinhOther3" placeholder="Billing for Other 3">
-        </div> 
-      </div>
-    </div>
+  <div class="col-md-10" data-ng-controller="LrCtrl">
+    <form class="form-horizontal" name="lrForm" data-ng-submit="submitForm()"> 
 
     
-   
+      <div class="col-xs-12">
+      <!--first page -->
 
+               
+         <div class="row">
+          <div class="form-group">        
+            <label for="vehicleno" class="control-label col-xs-2"><small>Vehicle No</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="vehicleno" placeholder="Vehicle No"
+               ng-model="lr.vehicleNo">          
+            </div>
+             <label for="vehicleowner" class="control-label col-xs-2"><small>Vehicle Owner</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="vehicleowner" placeholder="Vehicle Owner"
+               ng-model="lr.vehicleOwner"> 
+            </div>
 
-     <div class="row">
-      <div class="form-group">
-        <div class="col-xs-2">                              
+          </div>
         </div>
-        <div class="col-xs-8">             
-          <a href="#" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-save-file"></span> </a>
+    
+       <div class="row">   
+          <div id="fm2" class="form-group" >             
+            <label for="consigner" class="control-label col-xs-2"><small>Consignor Add</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="consigner" placeholder="Consignor Add" ng-model="lr.consignor">
+            </div>
+            <label for="consignee" class="control-label col-xs-2"><small>Consignee Add</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="consignee" placeholder="Consignee Add"  ng-model="lr.consignee">
+            </div>
+           
+          </div>
         </div>
-      </div>           
-     </div>
 
+        <div class="row">
+          <div class="form-group"> 
+            <label for="consignerServTax" class="control-label col-xs-2"><small>Service Tax No(Consignor)</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="consignerServTax" placeholder="" ng-model="lr.servTaxConsigner">
+            </div>            
+            <label for="consigneeServTax" class="control-label col-xs-2"><small>Service Tax No(Consignee)</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="consigneeServTax" placeholder="" ng-model="lr.servTaxConsignee">
+            </div>
+            
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group"> 
+            <label for="billingParty" class="control-label col-xs-2"><small>Billing Party</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty">
+            </div>                    
+           
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <div class="col-xs-2">                              
+            </div>
+            <div class="col-xs-8"> 
+              <button id="lrBtn" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-save-file"></span></button>           
+            </div>
+          </div>           
+        </div>
+
+    
+      </div>
     </form>
   </div>
   

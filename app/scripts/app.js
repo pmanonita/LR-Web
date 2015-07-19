@@ -37,8 +37,13 @@ angular
       })
       .when('/createlr', {
         templateUrl: 'views/createlr.html',
-        controller: 'LrhomeCtrl',
-        controllerAs: 'lrhome'
+        controller: 'LrCtrl',
+        controllerAs: 'lr'
+      })
+      .when('/editlr', {
+        templateUrl: 'views/editlr.html',
+        controller: 'EditLrCtrl',
+        controllerAs: 'editlr'
       })
       .when('/signup', {
         templateUrl: 'views/signup.html',

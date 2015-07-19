@@ -8,6 +8,7 @@
             <!--[if lte IE 8]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
+           
         </head>
 
         <body ng-app="lrwebApp" style="background: #D0F5A9">
@@ -17,10 +18,10 @@
                     <nav class="navbar navbar-default navbar-inverse" role="navigation"> 
                         <div class="container-fluid" ng-controller="HeaderCtrl">
                             <div class="navbar-header pull-left">
-                                <a class="navbar-brand" href="#/lrhome">LR MGMT</a>    
+                                <a class="navbar-brand" href="#/lrhome">LR MGMT</a> {{isLoggedIn}} 
                             </div>        
 
-                            <div class="collapse navbar-collapse navbar-right" >
+                            <div class="collapse navbar-collapse navbar-right">
                                 <ul class="nav navbar-nav" ng-show="isLoggedIn">
                                     <li class="dropdown" >
                                         <a target="_self" href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}}<b class="caret"></b></a>
@@ -43,7 +44,7 @@
 
                 <div class="col-md-12">
                     <!--footer -->                     
-                    <div class='navbar navbar-fixed-bottom'>
+                    <div class='navbar'>
                         <div class='footer'>
                             <div class='container'>
                                 <p>Posted by: LR MGMT</p>
@@ -84,7 +85,10 @@
             <script src="scripts/controllers/lrhome.js"></script> 
             <script src="scripts/controllers/user.js"></script>
             <script src="scripts/controllers/header.js"></script>
-            <script src="scripts/controllers/leftnav.js"></script>    
+            <script src="scripts/controllers/leftnav.js"></script> 
+            <script src="scripts/controllers/lr.js"></script>  
+            <script src="scripts/services/lrservice.js"></script>
+            <script src="scripts/controllers/editlr.js"></script> 
             
 
             <!-- endbuild -->
