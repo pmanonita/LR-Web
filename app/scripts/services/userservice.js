@@ -37,6 +37,7 @@ angular.module('lrwebApp')
       if(user.role && user.role == 'admin') {
         user.isAdmin = true;
       }
+      user.isAdmin = false;
     }
     //Notify changes in user data to all listeners
     function _userStatusNotify() {
@@ -168,7 +169,7 @@ angular.module('lrwebApp')
       var ret = _defResult, d = $q.defer(), p = d.promise;
       
       //pre-check      
-      if(user.id == "" && !user.isLoggedIn) {
+      if(user.id == "") {
         d.reject(ret);
         return p;
       }
@@ -275,7 +276,7 @@ angular.module('lrwebApp')
     return {
       isLoggedIn: function() { return user.isLoggedIn; },
       isAdmin: function() { return user.isAdmin; },      
-      getSessionToken: function() { return user.sToken;},
+      getAuthToken: function() { return user.authToken;},
       getUser: function() {return user;},      
       login: _login,
       signup:_signup,
