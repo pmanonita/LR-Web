@@ -24,6 +24,7 @@ angular.module('lrwebApp')
           'role': ''
         },
         user = {},
+        newuser = {},
 
         _defResult = {
           'sts' : false,
@@ -45,10 +46,12 @@ angular.module('lrwebApp')
     }
 
     function _updateLoggedInStatus() {
-      user.isLoggedIn = true;
+      if (user.authToken && user.authToken.length > 0) {
+        user.isLoggedIn = true;
+      }
     }    
 
-	//Update user info from Parse API response
+	  //Update user info from Parse API response
     function _updateUserInfo(u, bNotify) {
       console.log("updaing use details after logged in successful");
        if(angular.isUndefined(bNotify)) {
@@ -106,20 +109,14 @@ angular.module('lrwebApp')
 
       var ret = _defResult, d = $q.defer();
 
-      //input validation
-      //validation as per rule, should be done in the controller. We do
-      //minimum empty check here.
+      //input validation     
       if(!username.length || !password.length) {
         ret.msg = 'Invalid input!';
         d.reject(ret);
       }
 
       //set progress
-      d.notify('Logging in');
-      //var o = {
-      //  'username': username,
-      // 'password': password
-      //}
+      d.notify('Logging in');   
      
       var data = 'username=' + encodeURIComponent(username) + '&password=' +  encodeURIComponent(password);
       console.log(data);
@@ -175,7 +172,6 @@ angular.module('lrwebApp')
       }
 
       //signout the user
-
       console.log("Signout process started")
       var data = {}      
       var config = { 
@@ -204,8 +200,33 @@ angular.module('lrwebApp')
       return p;
     }
 
+    function _updateNewUserInfo(u, bNotify) {
+      console.log("updaing new use details after logged in successful");
+      
+      newuser.email = u.email;
+      newuser.mobile = u.mobile;
+      newuser.name = u.userName;
+      newuser.id = u.id;
+      newuser.firstName = u.firstName
+      newuser.lastName = u.lastName
+      newuser.authToken = u.authToken;
+      newuser.role = u.role; 
+
+      $log.debug('New user :' + JSON.stringify(newuser));
+    }
+    // Admin can call this function. Store the new user data to a diff object
     function _signup(userData) {
       console.log("at createuser")
+      newuser = {
+        'id' : '',
+        'name': '',
+        'email': '',          
+        'mobile': '',          
+        'authToken': '',
+        'firstName': '',
+        'lastName': '',
+        'role': ''
+      };
       //normalize input
       var username = userData.username || '';
       var password = userData.password || '';
@@ -261,7 +282,7 @@ angular.module('lrwebApp')
         }
 
         /*Update all user info*/
-        _updateUserInfo(result.user);
+        _updateNewUserInfo(result.user);
         ret.sts = true;
         d.resolve(ret);        
 
@@ -276,6 +297,7 @@ angular.module('lrwebApp')
     return {
       isLoggedIn: function() { return user.isLoggedIn; },
       isAdmin: function() { return user.isAdmin; },      
+
       getAuthToken: function() { return user.authToken;},
       getUser: function() {return user;},      
       login: _login,
