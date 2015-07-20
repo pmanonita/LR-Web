@@ -8,6 +8,7 @@
  *
  * Main module of the application.
  */
+
 var app = angular.module('lrwebApp', ['ngAnimate','ngCookies','ngMessages','ngResource','ngRoute','ngSanitize','ngTouch']);
 
 app.config(['$routeProvider',function ($routeProvider) {
@@ -36,6 +37,11 @@ app.config(['$routeProvider',function ($routeProvider) {
       templateUrl: 'views/createuser.html',
       controller: 'UserCtrl',
       controllerAs: 'adminuser'
+    })
+    .when('/editlr', {
+      templateUrl: 'views/editlr.html',
+      controller: 'EditLrCtrl',
+      controllerAs: 'editlr'
     })
     .when('/searchuser', {
       templateUrl: 'views/searchuser.html',
