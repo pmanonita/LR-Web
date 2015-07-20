@@ -25,8 +25,7 @@ angular.module('lrwebApp')
       $log.debug('on create user form ' + $scope.user.username);
       adminUserService.createUser($scope.user).then(function(u) {
         //success callback
-        $scope.user = u;
-        $log.debug("User created successfully with id :" + u.id);        
+        $scope.user = u;      
         $scope.msg = "User created successfully with id :" + u.id;
       }, function(res) {
         //error callback & show the error message

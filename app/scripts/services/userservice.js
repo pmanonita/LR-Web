@@ -38,7 +38,6 @@ angular.module('lrwebApp')
       if(user.role && user.role == 'admin') {
         user.isAdmin = true;
       }
-      user.isAdmin = false;
     }
     //Notify changes in user data to all listeners
     function _userStatusNotify() {

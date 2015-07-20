@@ -2,9 +2,7 @@
     .controller('LeftNavCtrl', ['$scope', '$log', '$location', 'userService', function ($scope, $log, $location, userService) {
  
       $scope.isLoggedIn = userService.isLoggedIn();
-      $scope.isAdmin = userService.isAdmin();     
-
-      console.log("LeftNavCtrl isAdmin" + $scope.isAdmin)
+      $scope.isAdmin = userService.isAdmin();
 
       $scope.$on('user:updated', function() {
         var u = userService.getUser();

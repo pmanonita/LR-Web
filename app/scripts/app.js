@@ -30,18 +30,18 @@ app.config(['$routeProvider',function ($routeProvider) {
     })
     .when('/createlr', {
       templateUrl: 'views/createlr.html',
-      controller: 'LrhomeCtrl',
-      controllerAs: 'lrhome'
-    })
-    .when('/createuser', {
-      templateUrl: 'views/createuser.html',
-      controller: 'UserCtrl',
-      controllerAs: 'adminuser'
+      controller: 'LrCtrl',
+      controllerAs: 'lr'
     })
     .when('/editlr', {
       templateUrl: 'views/editlr.html',
       controller: 'EditLrCtrl',
       controllerAs: 'editlr'
+    })
+    .when('/createuser', {
+      templateUrl: 'views/createuser.html',
+      controller: 'UserCtrl',
+      controllerAs: 'adminuser'
     })
     .when('/searchuser', {
       templateUrl: 'views/searchuser.html',
