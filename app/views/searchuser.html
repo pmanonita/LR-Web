@@ -1,0 +1,46 @@
+  <div class="row">
+
+     <!--vertical navigation bar -->
+    <div class="col-md-2">    
+      <div class="cliente"> 
+        <ul class="nav nav-pills nav-stacked" data-ng-controller="LeftNavCtrl">      
+          <li class="active"><a href="/#/searchuser"><i class="fa fa-list-alt fa-fw" ></i>Search User </a></li>
+          <li><a href="/#/createuser"><i class="fa fa-list-alt fa-fw" ></i>New User </a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-5" data-ng-controller="SearchUserCtrl">       
+      <div class="row">    
+        <!-- Blank hight is inserted--> 
+        <div class="col-md-12">       
+          <div style="height: 40px;">      
+          </div>
+        </div>
+       <div class="col-md-12">   
+        <form id="custom-search-form" class="form-search form-horizontal pull-right" data-ng-submit="submitForm()">
+          <label>User Name</label>
+          <select ng-model="user.userName" ng-options="user.id as user.userName for user in userList">        
+            <!--<div class="pull-left">
+              <strong>{{ user.id }}</strong><br />
+              <span>{{ user.name }}</span>
+            </div>
+            <div class="clearfix"></div>
+            </div>-->
+          </select>
+          <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>                    
+        </form> 
+       </div>    
+    </div>
+
+     <div class="col-md-5">
+      <!-- Blank right navigation-->    
+    </div>
+      
+
+  </div>
+
+
+
+
+

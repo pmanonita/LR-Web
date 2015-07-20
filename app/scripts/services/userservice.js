@@ -24,7 +24,7 @@ angular.module('lrwebApp')
           'role': ''
         },
         user = {},
-        newuser = {},
+        //newuser = {},
 
         _defResult = {
           'sts' : false,
@@ -75,8 +75,13 @@ angular.module('lrwebApp')
 
 
 	function _parseErrorResponse(o) {
+
       //parse error response and return in expected format
       var ret = _defResult, err = {};
+
+      if(angular.isUndefined(o) || o === null) {
+        return ret;
+      }    
 
       if(o.code) {
         ret.code = o.code;
@@ -115,42 +120,31 @@ angular.module('lrwebApp')
       }
 
       //set progress
-      d.notify('Logging in');   
+      //d.notify('Logging in');   
      
       var data = 'username=' + encodeURIComponent(username) + '&password=' +  encodeURIComponent(password);
-      console.log(data);
-
+      
       var config = { 
         headers: {
           'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
           'Content-Type': 'application/x-www-form-urlencoded'
         }
-      };    
-
+      };
 
       var $promise = $http.post('http://localhost:8080/LRService/v1/user-service/login', data, config);
 
       //send ajax form submission
       $promise.then(function(data, status, headers, config) {
-        $log.debug('User Info + ' + JSON.stringify(data));
-
-       // var result = data.data.result; // Fix it
-       var result = data.data; 
-
-        $log.debug(result);
-        $log.debug(result.code);
-
+        $log.debug('User Info + ' + JSON.stringify(data));        
+        var result = data.data;
         if(result.code !== 1) {
           //some error
           d.reject(ret);
           return;
         }
-
         /*Update all user info*/
-        _updateUserInfo(result.user);
-        ret.sts = true;
-        d.resolve(ret);        
-
+        _updateUserInfo(result.user);        
+        d.resolve(user);
       }, function(r) {
       	$log.debug('Error Info + ' + JSON.stringify(r.data));
         ret = _parseErrorResponse(r.data);
@@ -199,6 +193,7 @@ angular.module('lrwebApp')
       return p;
     }
 
+    /* Moved to admin user service
     function _updateNewUserInfo(u, bNotify) {
       console.log("updaing new use details after logged in successful");
       
@@ -213,6 +208,7 @@ angular.module('lrwebApp')
 
       $log.debug('New user :' + JSON.stringify(newuser));
     }
+
     // Admin can call this function. Store the new user data to a diff object
     function _signup(userData) {
       console.log("at createuser")
@@ -280,7 +276,7 @@ angular.module('lrwebApp')
           return;
         }
 
-        /*Update all user info*/
+        //Update all user info
         _updateNewUserInfo(result.user);
         ret.sts = true;
         d.resolve(ret);        
@@ -292,15 +288,16 @@ angular.module('lrwebApp')
       });
       //always return deferred object
       return d.promise;
-    }
+    }*/
+
     return {
       isLoggedIn: function() { return user.isLoggedIn; },
       isAdmin: function() { return user.isAdmin; },      
-      getSessionToken: function() { return user.sToken;},
+      getAuthToken: function() { return user.authToken;},
       getUser: function() {return user;},
-      getNewUser: function() {return newuser;},
+      //getNewUser: function() {return newuser;},
       login: _login,
-      signup:_signup,
+      //signup:_signup,
       signout: _signout
     };
 

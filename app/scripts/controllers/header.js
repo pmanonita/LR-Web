@@ -11,7 +11,7 @@
           //signout the user
           userService.signout().finally(function() {            
             $log.debug('After logging out ' + JSON.stringify(userService.getUser()));
-            $location.path('/');
+            $location.path('#/');
           });
           return false;
         };
@@ -20,10 +20,10 @@
           var u = userService.getUser();
           $scope.isLoggedIn = u.isLoggedIn;
           $scope.username = u.firstName || u.name;
-          $scope.profilePic = user.profilePic;
-          $scope.initials = user.initials;          
+          $scope.profilePic = u.profilePic;
+          $scope.initials = u.initials;        
+          $scope.isAdmin = userService.isAdmin();
       });
-
      
     }]);
             

@@ -8,25 +8,27 @@
  * Controller of the lrwebApp
  */
 angular.module('lrwebApp')
-  .controller('LoginCtrl', ['$scope', '$log', '$location', 'userService', function ($scope, $log, $location, userService) {
+  .controller('AdminUserCtrl', ['$scope', '$log', '$location', 'adminUserService', 'userService', function ($scope, $log, $location, adminUserService, userService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
-    $scope.errorMsg = "";
+
     $scope.user = {};
+    $scope.roles = ["admin", "normal"];
+    $scope.user.role = "normal"; //Default role
+    
     $scope.submitForm = function(){
-      //send a request to user service and submit the form
-      $log.debug('on login form ' + $scope.user.username);
-      userService.login($scope.user).then(function(u) {
+      $log.debug('on signup form ' + $scope.user.username);
+      adminUserService.createUser($scope.user).then(function(/*res*/) {
         //success callback
-        $log.debug('Login Sucess');                
+        $log.debug('Signup Sucess');
         $location.path('/lrhome');
       }, function(res) {
         //error callback & show the error message
-        $log.debug('Login failed ' + JSON.stringify(res));
-        $scope.errorMsg = res.msg;        
+        $log.debug('Signup failed ' + JSON.stringify(res));
+        
       });
       return false;
     };

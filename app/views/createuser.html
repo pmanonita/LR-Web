@@ -4,28 +4,29 @@
   <div class="col-md-2">    
     <div class="cliente"> 
     <ul class="nav nav-pills nav-stacked" data-ng-controller="LeftNavCtrl">      
-      <li><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
-      <li><a href="/#/createlr"><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
-      <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>
-      <li class="active" ng-show="isAdmin"><a href="/#/signup"><i class="fa fa-list-alt fa-fw" ></i>New User </a></li>
+      <li><a href="/#/searchuser"><i class="fa fa-list-alt fa-fw" ></i>Search User </a></li>
+      <li class="active"><a href="/#/createuser"><i class="fa fa-list-alt fa-fw" ></i>New User </a></li>
     </ul>
     </div>
   </div>
 
   <!--form design -->
-  <div class="col-md-8">  
+  <div class="col-md-8" data-ng-controller="UserCtrl">
+    <div class="row centered-form" data-ng-show="msg">
+      <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
+    </div>
+    <!-- Blank hight is inserted-->        
+    <div class="col-md-8" style="height: 50px;"> 
+    </div>         
     <div class="row centered-form">
-      <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">User Resistration</h3>
-          </div>
-          <div class="panel-body" data-ng-controller="UserCtrl">
-            <form role="form" data-ng-submit="submitForm()">
+      <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-4">
+        <div class="panel panel-default">          
+          <div class="panel-body">
+            <form role="form" data-ng-submit="submitForm()">              
               <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
                   <div class="form-group">                    
-                    <input id="loginuser" name="user" type="text" placeholder="Username" class="form-control input-sm" required ng-model="user.username"> 
+                    <input id="newuser" name="user" type="text" placeholder="Username" class="form-control input-sm" required ng-model="user.username"> 
                   </div>
                 </div>
               </div>
@@ -35,6 +36,7 @@
                     <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name" required ng-model="user.firstname">
                   </div>
                 </div>
+
                 <div class="col-xs-6 col-sm-6 col-md-6">
                   <div class="form-group">
                     <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name" required ng-model="user.lastname">
@@ -56,14 +58,25 @@
                     <input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password" required ng-model="user.password">
                   </div>
                 </div>
+
                 <div class="col-xs-6 col-sm-6 col-md-6">
                   <div class="form-group">
                     <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password" required ng-model="user.confpassword">
                   </div>
                 </div>
               </div>
-                
+
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group">                    
+                    <select id="role" class="form-control input-sm" ng-model="user.role" ng-options="role for role in user.roles">
+                  </div>
+                </div>
+              </div>              
+
+              <div class="col-md-12" style="height: 10px;"></div>              
               <input type="submit" value="Register" class="btn btn-info btn-block">
+              
               
             </form>
           </div>
