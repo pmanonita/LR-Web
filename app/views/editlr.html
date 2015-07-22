@@ -108,9 +108,9 @@
                     <form class="form-horizontal" name="lrexpendForm" data-ng-submit="submitForm()"> 
                      <div class="row">
                       <div class="form-group">
-                        <label  class="col-sm-2 control-label col-xs-2" for="amount">LR No</label>
+                        <label  class="col-sm-2 control-label col-xs-2" for="lrNo">LR No</label>
                         <div class="col-xs-2">
-                          <input type="text"  class="form-control" id="amount" placeholder="" ng-model="lr.lrNo"/>
+                          <input type="text"  class="form-control" id="lrNo" placeholder="" ng-model="lr.lrNo"/>
                         </div>                       
                       </div>
                     </div>
@@ -220,9 +220,9 @@
                     <form class="form-horizontal" name="lrotherexpendForm" data-ng-submit="submitOtherExpenditureForm()"> 
                     <div class="row">
                       <div class="form-group">
-                        <label  class="col-sm-2 control-label col-xs-2" for="amount">LR No</label>
+                        <label  class="col-sm-2 control-label col-xs-2" for="lrNo">LR No</label>
                         <div class="col-xs-2">
-                          <input type="text"  class="form-control" id="amount" placeholder="" ng-model="lr.lrNo"/>
+                          <input type="text"  class="form-control" id="lrNo" placeholder="" ng-model="lr.lrNo" disabled/>
                         </div>                       
                       </div>
                     </div>
@@ -231,11 +231,11 @@
                       <div class="form-group">                       
                         <label  class="col-sm-2 control-label col-xs-2" for="amount">Amount</label>
                         <div class="col-xs-2">
-                          <input type="text"  class="form-control" id="amount" placeholder="" ng-model="lr.otherAmount"/>
+                          <input type="number"  class="form-control" id="amount" placeholder="" required ng-model="lr.otherAmount"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="remarks" >Remarks</label>
                         <div class="col-xs-2">
-                          <input type="text" class="form-control" id="remarks" placeholder="" ng-model="lr.otherRemarks"/>
+                          <input type="text" class="form-control" id="remarks" placeholder="" required ng-model="lr.otherRemarks"/>
                         </div>
                       </div>
                     </div>
@@ -258,6 +258,37 @@
 
                         </div>
                       </div>
+                    </div>
+
+                    <div class="row">
+                      
+                        <div class="col-xs-12">
+                          <table class="table">
+                            <tr>
+                              <th>SlNo
+                              </th>
+                              <th>LR No
+                              </th>
+                              <th>Other Amount
+                              </th>
+                              <th>Remarks
+                              </th>
+                            </tr>
+                            <tr ng-repeat="lrItem in lrotherList track by $index">
+                              <td>Other{{$index+1}}
+                              </td>
+                              <td>{{lrItem.lrNo}}
+                              </td>
+                              <td>{{lrItem.otherAmount}}
+                              </td>
+                              <td>{{lrItem.otherRemarks}}
+                              </td>
+                            </tr>
+                          </table>
+                         
+                        </div>
+                        
+                      
                     </div>
 
                    

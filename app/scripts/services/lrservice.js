@@ -8,7 +8,7 @@
  * Service in the lrwebApp.
  */
 angular.module('lrwebApp')
-  .service('lrService', ['$rootScope', '$http', '$q', '$log', function ($rootScope, $http, $q, $log) {
+  .service('lrService', ['$rootScope', '$http', '$q', '$log','$cacheFactory','userService', function ($rootScope, $http, $q, $log,$cacheFactory,userService) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
    var _defResult = {
@@ -19,6 +19,7 @@ angular.module('lrwebApp')
 
         
     var lr = {};
+    var cache = $cacheFactory('consignerSearchData')
    
   
 
@@ -80,6 +81,15 @@ angular.module('lrwebApp')
 
  
 
+      
+    }
+
+     function _updateLROtherExpenditureInfo(LR) {
+      console.log("updaing lr other expenditure details after creating in successful"+lr.otherAmount);
+      
+      lr.lrNo = LR.lrNo;
+      lr.otherAmount = LR.amount;
+      lr.otherRemarks = LR.remarks;
       
     }
   
@@ -287,7 +297,7 @@ angular.module('lrwebApp')
 
         
         /*Update all user info*/
-        _updateLRExpenditureInfo(result.lrExpenditure);
+        _updateLROtherExpenditureInfo(result.lrOthers);
         ret.sts = true;
         d.resolve(ret);      
 
@@ -299,10 +309,43 @@ angular.module('lrwebApp')
       //always return deferred object
       return d.promise;
     }
+
+    var _getConsignerList = function(handleSuccess, handleError) {      
+      var searchData = cache.get('consignerSearchData');
+      if(searchData) {
+        $log.debug("Got consigner list from cache");
+        handleSuccess(searchData);
+        return;
+      }
+
+      $http({
+        method: 'GET',
+        url:'http://localhost:8080/LRService/v1/listconsinors',
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' : userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+      }).success(function (data, status){
+        $log.debug("Got consigner list from db");
+        var processedData = data.consigners; //may be we can use a process function
+        console.log("consigner data"+JSON.stringify(processedData));
+        cache.put('consignerSearchData', processedData);
+        handleSuccess(processedData);
+
+      }).error(function (data, status){
+        handleError(data);
+      });
+
+    };
+
+
     return { 
       createLR: _createLR,
       createExpenditure: _createExpenditure,
       createOtherExpenditure: _createOtherExpenditure,
+      getConsignerList: _getConsignerList,
       getLR: function() {return lr;}
     };
 

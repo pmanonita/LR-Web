@@ -14,6 +14,7 @@ angular.module('lrwebApp')
       'AngularJS',
       'Karma'
     ];  
+    $scope.lrotherList = [];
     $scope.lr = lrService.getLR();    
     $scope.lr.freightToBroker="0" ;
     $scope.lr.advance="0" ;
@@ -39,8 +40,15 @@ angular.module('lrwebApp')
       console.log('on add otherexpenditure for lr form ' );
       lrService.createOtherExpenditure($scope.lr,authKey).then(function(/*res*/) {
         //success callback
-        $log.debug('LR Created Sucessfully');        
-        $location.path('/editlr');
+        $log.debug('LR Created Sucessfully'); 
+        $scope.lr = lrService.getLR();    
+        console.log("lr value "+$scope.lr.otherAmount);  
+        $scope.lrotherList.push( {'lrNo':$scope.lr.lrNo, 'otherAmount': $scope.lr.otherAmount, 'otherRemarks':$scope.lr.otherRemarks });
+        //$scope.lrNo='';
+        $scope.lr.otherAmount='';
+        $scope.lr.otherRemarks='';   
+        //$location.path('/editlr');
+
       }, function(res) {
         //error callback & show the error message
         $log.debug('Error In LR Creation ' + JSON.stringify(res));
@@ -48,5 +56,7 @@ angular.module('lrwebApp')
       });
       return false;
     };
+
+   
   
   }]);

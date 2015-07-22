@@ -14,6 +14,28 @@ angular.module('lrwebApp')
       'AngularJS',
       'Karma'
     ];
+    var handleSuccess = function(data) {
+      $scope.consignerList = data;      
+    };
+    var handleError = function(data) {
+      $scope.consignerList = [];
+    };
+    lrService.getConsignerList(handleSuccess, handleError);
+    var options = [];
+
+    $scope.options = $scope.consignerList
+
+     
+  $scope.$watch('text', function(v) {
+    for (var i in $scope.options) {
+      var option = $scope.options[i];
+      if (option.name === v) {
+        $scope.selectedOption = option;
+        break;
+      }
+    }
+  });
+
     var authKey = userService.getAuthToken();
     console.log("authkey is "+authKey);
 

@@ -37,6 +37,9 @@
           <div id="fm2" class="form-group" >             
             <label for="consigner" class="control-label col-xs-2"><small>Consignor Add</small></label>            
             <div class="col-xs-2">
+              <select ng-model="selectedOption" ng-options="option.consignerCode for option in options">
+              </select>
+              {{ selectedOption.value }}
               <input type="text" class="form-control input-sm" id="consigner" placeholder="Consignor Add" ng-model="lr.consignor">
             </div>
             <label for="consignee" class="control-label col-xs-2"><small>Consignee Add</small></label>            
