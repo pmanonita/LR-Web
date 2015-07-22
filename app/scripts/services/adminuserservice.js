@@ -20,7 +20,8 @@ angular.module('lrwebApp')
     var cache = $cacheFactory('userSearchData')
 
 
-	function _parseErrorResponse(o) {
+
+    function _parseErrorResponse(o) {
       var ret = _defResult, err = {};
 
       if(o.code) {

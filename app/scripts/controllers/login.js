@@ -1,4 +1,4 @@
-	'use strict';
+  'use strict';
 
 /**
  * @ngdoc function
@@ -14,17 +14,30 @@ angular.module('lrwebApp')
       'AngularJS',
       'Karma'
     ];
+    $scope.lPromise = null;
+    $scope.lMessage = "";
+    $scope.errorMsg = "";
+    $scope.user = {};
+
     $scope.submitForm = function(){
+      $scope.errorMsg = "";
+      $scope.lMessage = "";
+    
       //send a request to user service and submit the form
       $log.debug('on login form ' + $scope.user.username);
-      userService.login($scope.user).then(function(/*res*/) {
+
+      $scope.lPromise = userService.login($scope.user);
+      $scope.lPromise.then(function(u) {
         //success callback
-        $log.debug('Login Sucess');
+        $log.debug('Login Sucess');                
         $location.path('/lrhome');
       }, function(res) {
         //error callback & show the error message
         $log.debug('Login failed ' + JSON.stringify(res));
-        
+        $scope.errorMsg = res.msg;        
+      }, function(s) {        
+        $log.debug('On progress ' + s);
+        $scope.lMessage = s;    
       });
       return false;
     };
