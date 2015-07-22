@@ -8,7 +8,7 @@
  * Service in the lrwebApp.
  */
 angular.module('lrwebApp')
-  .service('userService', ['$rootScope', '$http', '$q', '$log', function ($rootScope, $http, $q, $log) {
+  .service('userService', ['$rootScope', '$http', '$q', '$log', '$timeout', function ($rootScope, $http, $q, $log, $timeout) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
    var _defUser = { //Default user object
@@ -116,12 +116,18 @@ angular.module('lrwebApp')
       //input validation     
       if(!username.length || !password.length) {
         ret.msg = 'Invalid input!';
-        d.reject(ret);
+        //reject via timeout for indicator to receive rejection
+        $timeout(function() {
+          d.reject(ret);
+        }, 0);
+        return d.promise;
       }
 
       //set progress
-      //d.notify('Logging in');   
-     
+      $timeout(function() {
+        d.notify('Logging in');
+      }, 0);
+           
       var data = 'username=' + encodeURIComponent(username) + '&password=' +  encodeURIComponent(password);
       
       var config = { 
