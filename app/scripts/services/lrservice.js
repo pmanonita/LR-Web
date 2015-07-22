@@ -20,10 +20,10 @@ angular.module('lrwebApp')
         
     var lr = {};
    
-	
+  
 
 
-	function _parseErrorResponse(o) {
+  function _parseErrorResponse(o) {
       //parse error response and return in expected format
       var ret = _defResult, err = {};
 
@@ -221,7 +221,73 @@ angular.module('lrwebApp')
 
         
         /*Update all user info*/
-        _updateLRExpenditureInfo(result.lr);
+        _updateLRExpenditureInfo(result.lrExpenditure);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      //always return deferred object
+      return d.promise;
+    }
+
+     function _createOtherExpenditure(lrData,authKey) {
+      console.log("at createotherexpenditure")
+      //normalize input
+      
+      var lrNo = lrData.lrNo || '';
+      var otherAmount = lrData.otherAmount || '';
+      var otherRemarks = lrData.otherRemarks || '';
+      
+
+      console.log("auth token "+authKey);
+      
+
+      var ret = _defResult, d = $q.defer();
+
+     
+
+      //set progress
+      d.notify('Creating lr');
+      
+      var data = 'lrNo=' +  lrNo +
+                 '&amount=' + otherAmount +
+                 '&remarks=' + otherRemarks ;
+
+
+      console.log(data);
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  authKey,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/addlrothers', data, config);
+
+      //send ajax form submission
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LR Info + ' + JSON.stringify(data));
+
+        var result = data.data; // Fix it
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          //some error
+          d.reject(ret);
+          return;
+        }
+
+        
+        /*Update all user info*/
+        _updateLRExpenditureInfo(result.lrExpenditure);
         ret.sts = true;
         d.resolve(ret);      
 
@@ -236,6 +302,7 @@ angular.module('lrwebApp')
     return { 
       createLR: _createLR,
       createExpenditure: _createExpenditure,
+      createOtherExpenditure: _createOtherExpenditure,
       getLR: function() {return lr;}
     };
 

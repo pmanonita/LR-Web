@@ -7,90 +7,73 @@
         <ul class="nav nav-pills nav-stacked" >
           <li class="active"><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
           <li><a href="/#/createlr"><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
-          <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>   
-          <li ng-show="isAdmin"><a href="/#/signup"><i class="fa fa-list-alt fa-fw" ></i>New User </a></li>
+          <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>          
         </ul>
       </div>
-    </div>
-
- 
-            
+    </div>       
 
   <!--view design -->    
     <div class="col-xs-10" data-ng-controller="EditLrCtrl">
-      <div class="cliente">     
+      
+         <div class="row">                
+                       
+            <div class="col-xs-4" >
+            <table class=   "table table-user-information cliente">
+                <tbody>
+                  <tr>
+                    <td>LR No:</td>
+                    <td>{{lr.lrNo}}</td>
+                  </tr>
+                  <tr>
+                    <td>Vehicle No:</td>
+                    <td>{{lr.vehicleNo}}</td>
+                  </tr>
 
-        <div class="row">                
-            <label for="lrNo" class="control-label col-xs-2"><small>LR NO</small></label>            
-            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="lrNo" placeholder=""
-              ng-model="lr.lrNo" disabled >          
+                   <tr>
+                    <td>Vehicle Owner:</td>
+                    <td>{{lr.vehicleOwner}}</td>
+                  </tr>
+                  <tr>
+                    <td>Consignor Add:</td>
+                    <td>{{lr.consignor}}</td>
+                  </tr>
+                  <tr>
+                    <td>VConsignee Add:</td>
+                    <td>{{lr.consignee}}</td>
+                  </tr>
+                  <tr>
+                    <td>Service Tax No(Consignor):</td>
+                    <td>{{lr.servTaxConsigner}}</td>
+                  </tr>
+                  <tr>
+                    <td>Service Tax No(Consignee):</td>
+                    <td>{{lr.servTaxConsignee}}</td>
+                  </tr>
+                  <tr>
+                    <td>Billing Party:</td>
+                    <td>{{lr.billingParty}}</td>
+                  </tr>
+               </tbody>
+              </table>  
+                     
             </div>                        
-            <div class="col-xs-2">              
-            </div>          
-        </div>
-        
-         <div class="row">
-                 
-            <label for="vehicleno" class="control-label col-xs-2"><small>Vehicle No</small></label>            
-            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="vehicleno" placeholder="Vehicle No"
-               ng-model="lr.vehicleNo" disabled >          
-            </div>
-             <label for="vehicleowner" class="control-label col-xs-2"><small>Vehicle Owner</small></label>            
-            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="vehicleowner" placeholder="Vehicle Owner"
-               ng-model="lr.vehicleOwner" disabled > 
-            </div>
-
-          
-        </div>
-    
-        <div class="row">   
-                      
-            <label for="consigner" class="control-label col-xs-2"><small>Consignor Add</small></label>            
-            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="consigner" placeholder="Consignor Add" ng-model="lr.consignor" disabled>
-            </div>
-            <label for="consignee" class="control-label col-xs-2"><small>Consignee Add</small></label>            
-            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="consignee" placeholder="Consignee Add"  ng-model="lr.consignee" disabled>
-            </div>
-           
-          
-        </div>
-
-        <div class="row">
-          
-            <label for="consignerServTax" class="control-label col-xs-2"><small>Service Tax No(Consignor)</small></label>            
-            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="consignerServTax" placeholder="" ng-model="lr.servTaxConsigner" disabled>
-            </div>            
-            <label for="consigneeServTax" class="control-label col-xs-2"><small>Service Tax No(Consignee)</small></label>            
-            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="consigneeServTax" placeholder="" ng-model="lr.servTaxConsignee" disabled>
-            </div>
             
-          
-        </div>
+        </div>    
+
+       
 
         <div class="row">
           
-            <label for="billingParty" class="control-label col-xs-2"><small>Billing Party</small></label>            
-            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty" disabled>
-            </div>                    
            
-          
-        </div>
+            <div class="col-xs-2"> 
+              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#expenditureModal">
+                    Expenditure
+              </button> 
 
-        <div class="row">
-          
-            <div class="col-xs-2">                              
             </div>
-            <div class="col-xs-8"> 
-              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalHorizontal">
-                    Add Expenditure
+            <div class="col-xs-1"> 
+              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#otherexpenditureModal">
+                    Other Expenditure
               </button> 
 
             </div>
@@ -99,7 +82,7 @@
         <div class="row">
           <div class="col-xs-12">
              <!-- Modal -->
-            <div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog" 
+            <div class="modal fade" id="expenditureModal" tabindex="-1" role="dialog" 
             aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -119,15 +102,23 @@
                   <div class="modal-body">
                 
                     <form class="form-horizontal" name="lrexpendForm" data-ng-submit="submitForm()"> 
+                     <div class="row">
+                      <div class="form-group">
+                        <label  class="col-sm-2 control-label col-xs-2" for="amount">LR No</label>
+                        <div class="col-xs-2">
+                          <input type="text"  class="form-control" id="amount" placeholder="" ng-model="lr.lrNo"/>
+                        </div>                       
+                      </div>
+                    </div>
                     <div class="row">
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="frBroker">Freight To Broker</label>
                         <div class="col-xs-4">
-                          <input type="text" class="form-control" id="frBroker" placeholder="" ng-model="lr.freightToBroker"/>
+                          <input type="text"  class="form-control" id="frBroker" placeholder="" ng-model="lr.freightToBroker"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="exPayBroker" >Extra Pay To Broker</label>
                         <div class="col-xs-3">
-                          <input type="password" class="form-control" id="exPayBroker" placeholder="" ng-model="lr.extraPayToBroker"/>
+                          <input type="text" class="form-control" id="exPayBroker" placeholder="" ng-model="lr.extraPayToBroker"/>
                         </div>
                       </div>
                     </div>
@@ -139,8 +130,9 @@
                           <input type="text" class="form-control" id="advance" placeholder="" ng-model="lr.advance"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="balanceFreight" >Balance Freight</label>
-                        <div class="col-xs-3">
-                          <input type="password" class="form-control" id="balanceFreight" placeholder="" ng-model="lr.balanceFreight"/>
+                        <div class="col-xs-3">                         
+                          <input type="text" class="form-control" id="balanceFreight1" placeholder="" value="{{ (lr.freightToBroker*1) - (lr.advance*1) }}" disabled/>                          
+                          
                         </div>
                       </div>
                     </div>
@@ -166,7 +158,7 @@
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="unloadingDetBroker" >Unloading Det To Broker</label>
                         <div class="col-xs-3">
-                          <input type="password" class="form-control" id="unloadingDetBroker" placeholder="" ng-model="lr.unloadingDetBroker"/>
+                          <input type="text" class="form-control" id="unloadingDetBroker" placeholder="" ng-model="lr.unloadingDetBroker"/>
                         </div>
                       </div>
                     </div>
@@ -199,7 +191,84 @@
       </div>           
     </div> 
 
+     <div class="row">
+          <div class="col-xs-12">
+             <!-- Modal -->
+            <div class="modal fade" id="otherexpenditureModal" tabindex="-1" role="dialog" 
+            aria-labelledby="myModalLabel1" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <button type="button" class="close" 
+                    data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">
+                    Add Other Expediture
+                    </h4>
+                  </div>
+            
+                  <!-- Modal Body -->
+                  <div class="modal-body">
+                
+                    <form class="form-horizontal" name="lrotherexpendForm" data-ng-submit="submitOtherExpenditureForm()"> 
+                    <div class="row">
+                      <div class="form-group">
+                        <label  class="col-sm-2 control-label col-xs-2" for="amount">LR No</label>
+                        <div class="col-xs-2">
+                          <input type="text"  class="form-control" id="amount" placeholder="" ng-model="lr.lrNo"/>
+                        </div>                       
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group">                       
+                        <label  class="col-sm-2 control-label col-xs-2" for="amount">Amount</label>
+                        <div class="col-xs-2">
+                          <input type="text"  class="form-control" id="amount" placeholder="" ng-model="lr.otherAmount"/>
+                        </div>
+                        <label class="col-sm-2 control-label col-xs-2" for="remarks" >Remarks</label>
+                        <div class="col-xs-2">
+                          <input type="text" class="form-control" id="remarks" placeholder="" ng-model="lr.otherRemarks"/>
+                        </div>
+                      </div>
+                    </div>
+
+                    
+
+                    <div class="row modal-footer">
+                      <div class="form-group">
+                        <div class="col-xs-4">
+                          <button type="button" class="btn btn-default"
+                          data-dismiss="modal">
+                              Close
+                          </button>
+                        </div>
+                        <div class="col-xs-4">
+                          <button type="submit" class="btn btn-primary">
+                            Save
+                          </button>
+                           
+
+                        </div>
+                      </div>
+                    </div>
+
+                   
+                  </form>  
+                
+                 </div>
+            
+               
+            </div>
+          </div>
+        </div>
+      </div>           
     </div>
+
+    
   </div>           
 
 </div>

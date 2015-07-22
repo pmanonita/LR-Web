@@ -50,7 +50,7 @@ angular.module('lrwebApp')
       }
     }    
 
-	  //Update user info from Parse API response
+    //Update user info from Parse API response
     function _updateUserInfo(u, bNotify) {
       console.log("updaing use details after logged in successful");
        if(angular.isUndefined(bNotify)) {
@@ -74,7 +74,7 @@ angular.module('lrwebApp')
     }
 
 
-	function _parseErrorResponse(o) {
+  function _parseErrorResponse(o) {
 
       //parse error response and return in expected format
       var ret = _defResult, err = {};
@@ -106,7 +106,7 @@ angular.module('lrwebApp')
       return ret;
     }
     function _login(userData) {
-    	console.log("at login")
+      console.log("at login")
       //normalize input
       var username = userData.username || '';
       var password = userData.password || '';
@@ -152,7 +152,7 @@ angular.module('lrwebApp')
         _updateUserInfo(result.user);        
         d.resolve(user);
       }, function(r) {
-      	$log.debug('Error Info + ' + JSON.stringify(r.data));
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
         ret = _parseErrorResponse(r.data);
         d.reject(ret);
       });
