@@ -10,8 +10,8 @@
 angular.module('lrwebApp')
   .service('adminUserService', ['$rootScope','$cacheFactory', 'userService', '$http', '$q', '$log', function ($rootScope, $cacheFactory, userService, $http, $q, $log) {
 
-   var newuser = {};
-   var _defResult = {
+    var newuser = {};
+    var _defResult = {
           'sts' : false,
           'code': 0,
           'msg': 'Unexpected error.'
@@ -20,7 +20,7 @@ angular.module('lrwebApp')
     var cache = $cacheFactory('userSearchData')
 
 
-	function _parseErrorResponse(o) {
+    function _parseErrorResponse(o) {
       var ret = _defResult, err = {};
 
       if(o.code) {
