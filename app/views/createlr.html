@@ -35,32 +35,68 @@
         
         <div class="row">   
           <div id="fm2" class="form-group" >             
-            <label for="consigner" class="control-label col-xs-2"><small>Consignor Add</small></label>            
+            <label for="consignerCode" class="control-label col-xs-2"><small>Consignor Code</small></label>            
             <div class="col-xs-2">
-              <select ng-model="selectedOption" ng-options="option.consignerCode for option in options">
-              </select>
-              {{ selectedOption.value }}
-              <input type="text" class="form-control input-sm" id="consigner" placeholder="Consignor Add" ng-model="lr.consignor">
+              <select id="consignerCode"  ng-model="lr.consigner" ng-options="consigner.consignerCode for consigner in consignerList" >
+                <option value="" selected="selected">Select</option>
+              </select>           
+              
             </div>
-            <label for="consignee" class="control-label col-xs-2"><small>Consignee Add</small></label>            
-           <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="consignee" placeholder="Consignee Add"  ng-model="lr.consignee">
+             <label for="consignerName" class="control-label col-xs-2"><small>Consigner Name</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="consignerName" placeholder="Consignor Name" value=" {{ lr.consigner.consignerName }}" disabled>
             </div>
+           
            
           </div>
         </div>
 
-        <div class="row">
-          <div class="form-group"> 
-           <label for="consignerServTax" class="control-label col-xs-2"><small>Service Tax No(Consignor)</small></label>            
+        <div class="row">   
+          <div id="fm2" class="form-group" >             
+           
+            <label for="consignerServTax" class="control-label col-xs-2"><small>Service Tax No(Consignor)</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="consignerServTax" placeholder="Consigner Service Tax" value=" {{ lr.consigner.serviceTax}}" disabled>
+            </div>  
+            <label for="consignerAddress" class="control-label col-xs-2"><small>Consigner Add</small></label>            
            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="consignerServTax" placeholder="" ng-model="lr.servTaxConsigner">
-           </div>            
+              <textarea class="form-control input-sm" rows="5" id="consignerAddress" placeholder="Consigner Address" disabled>{{ lr.consigner.address }}</textarea>              
+            </div> 
+           
+          </div>
+        </div>
+
+         <div class="row">   
+          <div id="fm2" class="form-group" >             
+            <label for="consigneeCode" class="control-label col-xs-2"><small>Consignee Code</small></label>            
+            <div class="col-xs-2">
+              <select id="consigneeCode" ng-model="lr.consignee" ng-options="consignee.consigneeCode for consignee in consigneeList" >
+              <option value="" selected="selected">Select</option>
+              </select>         
+                
+              
+            </div>
+             <label for="consigneeName" class="control-label col-xs-2"><small>Consignee Name</small></label>            
+            <div class="col-xs-2">
+              <input type="text" class="form-control input-sm" id="consigneeName" placeholder="Consignee Name" value=" {{ lr.consignee.consigneeName }}" disabled>
+            </div>
+           
+           
+          </div>
+        </div>
+
+        <div class="row">   
+          <div id="fm2" class="form-group" >             
+           
             <label for="consigneeServTax" class="control-label col-xs-2"><small>Service Tax No(Consignee)</small></label>            
             <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="consigneeServTax" placeholder="" ng-model="lr.servTaxConsignee">
-            </div>
-            
+              <input type="text" class="form-control input-sm" id="consigneeServTax" placeholder="Consignee Service Tax" value=" {{ lr.consignee.serviceTax}}" disabled>
+            </div>  
+            <label for="consigneeAddress" class="control-label col-xs-2"><small>Consignee Add</small></label>            
+           <div class="col-xs-2">
+              <textarea class="form-control input-sm" rows="5" id="consigneeAddress" placeholder="Consignee Address" disabled>{{ lr.consignee.address }}</textarea>              
+            </div> 
+           
           </div>
         </div>
 

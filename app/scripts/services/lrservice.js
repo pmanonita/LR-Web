@@ -57,10 +57,8 @@ angular.module('lrwebApp')
       lr.lrNo = LR.id;
       lr.vehileNo = LR.vehileNo;
       lr.vehicleOwner = LR.vehicleOwner;
-      lr.consignor = LR.consignor;
-      lr.consignee = LR.consignee;
-      lr.servTaxConsigner = LR.servTaxConsigner
-      lr.servTaxConsignee = LR.servTaxConsignee
+      lr.consigner = LR.consigner;
+      lr.consignee = LR.consignee;     
       lr.billingParty = LR.billingParty;    
 
       
@@ -94,20 +92,26 @@ angular.module('lrwebApp')
     }
   
 
-    function _createLR(lrData,authKey) {
+    function _createLR(lrData) {
       console.log("at createlr")
+      
       //normalize input
       
       var vehileNo = lrData.vehicleNo || '';
       var vehicleOwner = lrData.vehicleOwner || '';
-      var consignor = lrData.consignor || '';
-      var consignee = lrData.consignee || '';
-      var servTaxConsigner = lrData.servTaxConsigner || '';     
-      var servTaxConsignee = lrData.servTaxConsignee || '';
+      var consignerId =  '';
+      var consigneeId =  '';      
       var billingParty = lrData.billingParty || '';
 
-      console.log("auth token "+authKey);
-      
+      if(angular.isObject(lrData.consigner)){
+        consignerId = lrData.consigner.id || '';
+      }
+
+       if(angular.isObject(lrData.consignee)){
+        consigneeId = lrData.consignee.id || '';  
+      }
+
+           
 
       var ret = _defResult, d = $q.defer();
 
@@ -118,10 +122,8 @@ angular.module('lrwebApp')
       
       var data = 'vehileNo=' +  vehileNo +
                  '&vehicleOwner=' + vehicleOwner +
-                 '&consignor=' + consignor +
-                 '&consignee=' + consignee +
-                 '&servTaxConsigner=' + servTaxConsigner +
-                 '&servTaxConsignee=' + servTaxConsignee +
+                 '&consignerId=' + consignerId +
+                 '&consigneeId=' + consigneeId +                
                  '&billingParty=' + billingParty ;
 
 
@@ -130,7 +132,7 @@ angular.module('lrwebApp')
       var config = { 
         headers: {
           'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
-          'auth_token' :  authKey,
+          'auth_token' :  userService.getAuthToken(),
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       };
@@ -167,7 +169,7 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
-    function _createExpenditure(lrData,authKey) {
+    function _createExpenditure(lrData) {
       console.log("at createexpenditure")
       //normalize input
       
@@ -181,7 +183,6 @@ angular.module('lrwebApp')
       var loadingDetBroker = lrData.loadingDetBroker || '';
       var unloadingDetBroker = lrData.unloadingDetBroker || '';
 
-      console.log("auth token "+authKey);
       
 
       var ret = _defResult, d = $q.defer();
@@ -207,7 +208,7 @@ angular.module('lrwebApp')
       var config = { 
         headers: {
           'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
-          'auth_token' :  authKey,
+          'auth_token' :  userService.getAuthToken(),
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       };
@@ -244,7 +245,7 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
-     function _createOtherExpenditure(lrData,authKey) {
+     function _createOtherExpenditure(lrData) {
       console.log("at createotherexpenditure")
       //normalize input
       
@@ -253,7 +254,7 @@ angular.module('lrwebApp')
       var otherRemarks = lrData.otherRemarks || '';
       
 
-      console.log("auth token "+authKey);
+      
       
 
       var ret = _defResult, d = $q.defer();
@@ -273,7 +274,7 @@ angular.module('lrwebApp')
       var config = { 
         headers: {
           'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
-          'auth_token' :  authKey,
+          'auth_token' :  userService.getAuthToken(),
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       };
@@ -310,11 +311,11 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
-    var _getConsignerList = function(handleSuccess, handleError) {      
+    var _getConsignerList = function(handleConsignerSuccess, handleConsignerError) {      
       var searchData = cache.get('consignerSearchData');
       if(searchData) {
         $log.debug("Got consigner list from cache");
-        handleSuccess(searchData);
+        handleConsignerSuccess(searchData);
         return;
       }
 
@@ -332,10 +333,40 @@ angular.module('lrwebApp')
         var processedData = data.consigners; //may be we can use a process function
         console.log("consigner data"+JSON.stringify(processedData));
         cache.put('consignerSearchData', processedData);
-        handleSuccess(processedData);
+        handleConsignerSuccess(processedData);
 
       }).error(function (data, status){
         handleError(data);
+      });
+
+    };
+
+    var _getConsigneeList = function(handleConsigneeSuccess, handleConsigneeError) {      
+      var searchData = cache.get('consigneeSearchData');
+      if(searchData) {
+        $log.debug("Got consignee list from cache");
+        handleConsigneeSuccess(searchData);
+        return;
+      }
+
+      $http({
+        method: 'GET',
+        url:'http://localhost:8080/LRService/v1/listconsinees',
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' : userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+      }).success(function (data, status){
+        $log.debug("Got consignee list from db");
+        var processedData = data.consignees; //may be we can use a process function
+        console.log("consignee data"+JSON.stringify(processedData));
+        cache.put('consigneeSearchData', processedData);
+        handleConsigneeSuccess(processedData);
+
+      }).error(function (data, status){
+        handleConsigneeError(data);
       });
 
     };
@@ -346,6 +377,7 @@ angular.module('lrwebApp')
       createExpenditure: _createExpenditure,
       createOtherExpenditure: _createOtherExpenditure,
       getConsignerList: _getConsignerList,
+      getConsigneeList: _getConsigneeList,
       getLR: function() {return lr;}
     };
 

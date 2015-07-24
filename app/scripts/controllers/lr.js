@@ -14,35 +14,59 @@ angular.module('lrwebApp')
       'AngularJS',
       'Karma'
     ];
-    var handleSuccess = function(data) {
-      $scope.consignerList = data;      
+    var handleConsignerSuccess = function(data) {
+      $scope.consignerList = data;  
+      console.log("hadling success"); 
+      
     };
-    var handleError = function(data) {
+    var handleConsignerError = function(data) {
       $scope.consignerList = [];
     };
-    lrService.getConsignerList(handleSuccess, handleError);
-    var options = [];
+     var handleConsigneeSuccess = function(data) {
+      $scope.consigneeList = data;  
+      console.log("hadling success"); 
+      
+    };
+    var handleConsigneeError = function(data) {
+      $scope.consigneeList = [];
+    };
+    
+    lrService.getConsignerList(handleConsignerSuccess, handleConsignerError);
+    lrService.getConsigneeList(handleConsigneeSuccess, handleConsigneeError);
+   
+    
 
-    $scope.options = $scope.consignerList
+   
 
      
-  $scope.$watch('text', function(v) {
-    for (var i in $scope.options) {
-      var option = $scope.options[i];
-      if (option.name === v) {
-        $scope.selectedOption = option;
-        break;
+    $scope.$watch('text', function(v) {
+      console.log("inside watch consigner"+v);
+      for (var i in $scope.consignerList) {
+        var option = $scope.consignerList[i];
+        if (option.consignerCode === v) {
+          $scope.lr.consigner = option;
+          break;
+        }
       }
-    }
-  });
+    });
 
-    var authKey = userService.getAuthToken();
-    console.log("authkey is "+authKey);
+     $scope.$watch('text', function(v) {
+      console.log("inside watch consignee"+v);
+      for (var i in $scope.consigneeList) {
+        var option = $scope.consigneeList[i];
+        if (option.consigneeCode === v) {
+          $scope.lr.consignee = option;
+          break;
+        }
+      }
+    });
+
+   
 
     $scope.submitForm = function(){
       //send a request to user service and submit the form
       $log.debug('on lr form ' );
-      lrService.createLR($scope.lr,authKey).then(function(/*res*/) {
+      lrService.createLR($scope.lr).then(function(/*res*/) {
         //success callback
         $log.debug('LR Created Sucessfully');        
         $location.path('/editlr');

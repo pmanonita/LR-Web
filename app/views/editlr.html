@@ -34,20 +34,38 @@
                     <td>{{lr.vehicleOwner}}</td>
                   </tr>
                   <tr>
-                    <td>Consignor Add:</td>
-                    <td>{{lr.consignor}}</td>
+                    <td>Consigner Code:</td>
+                    <td>{{lr.consigner.consignerCode}}</td>
+                    <td>Consigner Name:</td>
+                    <td>{{lr.consigner.consignerName}}</td>
+                    
                   </tr>
                   <tr>
-                    <td>VConsignee Add:</td>
-                    <td>{{lr.consignee}}</td>
+                    <td>Consigner Address:</td>
+                    <td>{{lr.consigner.address}}</td>
+                    <td>Consigner Location:</td>
+                    <td>{{lr.consigner.fromPlace}</td>
                   </tr>
                   <tr>
-                    <td>Service Tax No(Consignor):</td>
-                    <td>{{lr.servTaxConsigner}}</td>
+                    <td>Consignee Code:</td>
+                    <td>{{lr.consignee.consigneeCode}}</td>
+                    <td>Consignee Name:</td>
+                    <td>{{lr.consignee.consigneeName}}</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Consignee Address:</td>
+                    <td>{{lr.consignee.address}}</td>
+                    <td>Consignee Location:</td>
+                    <td>{{lr.consignee.toPlace}}</td>
+                  </tr>
+                  <tr>
+                    <td>Service Tax No(Consigner):</td>
+                    <td>{{lr.consigner.serviceTax}}</td>
                   </tr>
                   <tr>
                     <td>Service Tax No(Consignee):</td>
-                    <td>{{lr.servTaxConsignee}}</td>
+                    <td>{{lr.consignee.serviceTax}}</td>
                   </tr>
                   <tr>
                     <td>Billing Party:</td>
