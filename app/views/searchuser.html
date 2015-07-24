@@ -10,30 +10,95 @@
       </div>
     </div>
 
-    <div class="col-md-5" data-ng-controller="SearchUserCtrl">       
+    <div class="col-md-8" data-ng-controller="SearchUserCtrl">       
       <div class="row">    
         <!-- Blank hight is inserted--> 
-        <div class="col-md-12">       
-          <div style="height: 40px;">      
-          </div>
-        </div>
-       <div class="col-md-12">   
-        <form id="custom-search-form" class="form-search form-horizontal pull-right" data-ng-submit="submitForm()">
-          <label>User Name</label>
-          <select ng-model="user.userName" ng-options="user.id as user.userName for user in userList">        
-            <!--<div class="pull-left">
-              <strong>{{ user.id }}</strong><br />
-              <span>{{ user.name }}</span>
+        <div style="height: 40px;"></div> 
+
+        <div class="col-md-6">   
+          <form id="custom-search-form" class="form-search form-horizontal pull-right" data-ng-submit="submitForm()">
+            <select id="usearch" style="height: 35px;" ng-options="user.id as user.userName for user in userList"
+              ng-model="user.id" 
+              ng-change="getUserData()">
+              <option value="">Select User</option>
+            </select>
+            <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>                    
+          </form>
+        </div>        
+      </div>
+      <div style="height: 40px;"></div> 
+      
+      <div class="row" ng-show="userData">
+        <div class="col-md-offset-3 col-md-4">   
+          <form id="custom-edit-form" class="form-search form-horizontal pull-right" data-ng-submit="submitEditForm()">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12">                
+                <div class="form-group">
+                  <label for="username">User Name</label> 
+                  <input id="newuser" name="user" id="username"type="text" placeholder="Username" class="form-control input-sm" required ng-model="userData.userName"> 
+                </div>
+              </div>
             </div>
-            <div class="clearfix"></div>
-            </div>-->
-          </select>
-          <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>                    
-        </form> 
-       </div>    
+
+
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label for="fname">First Name</label>
+                  <input type="text" name="first_name" id="fname" class="form-control input-sm" placeholder="First Name" required ng-model="userData.firstName">
+                </div>
+              </div>
+
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label for="lname">Last Name</label>
+                  <input type="text" name="last_name" id="lname" class="form-control input-sm" placeholder="Last Name" required ng-model="userData.lastName">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                  <label for="usermailid">Email</label>
+                  <input type="email" name="email" id="usermailid" class="form-control input-sm" placeholder="Email Address" required ng-model="userData.email">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label for="userpass">Password</label>
+                  <input type="password" name="password" id="userpass" class="form-control input-sm" placeholder="Password" required ng-model="userData.password">
+                </div>
+              </div>
+
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label for="confpass">Confirm Password</label>
+                  <input type="password" name="password_confirmation" id="confpass" class="form-control input-sm" placeholder="Confirm Password" required ng-model="userData.confpassword">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group"> 
+                  <label for="urole">Role</label>
+                  <!--<select id="role" class="form-control input-sm" ng-model="userData.role" ng-options="role for role in userData.roles">-->
+                  <input type="text" name="role" id="urole" class="form-control input-sm" placeholder="Role" required ng-model="userData.role">
+                </div>
+              </div>
+            </div>
+          <button type="submit" class="center-block btn btn-block btn-primary btn-lg">Save</button>                    
+          </form>
+        </div>
+      <div>
+      
     </div>
 
-     <div class="col-md-5">
+     <div class="col-md-2">
       <!-- Blank right navigation-->    
     </div>
       

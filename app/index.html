@@ -50,21 +50,27 @@
                  
                 <div class="col-md-12">
                     <!--dynamic pages -->                       
-                    <div data-ng-view=""></div>                
+                    <div class="mainView" data-ng-view=""></div>                
                 </div>
 
                 <div class="col-md-12">
                     <!--footer -->                     
-                    <div class='navbar'>
+                    <nav class="navbar">
                         <div class='footer'>
                             <div class='container'>
-                                <p>Posted by: LR MGMT</p>
-                                <p>Contact information: 
-                                    <a href='mailto:pattanayak.raja@gmail.com'>lrservice@gmail.com</a>.
-                                </p>
+                                <div class="row">
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="post-dot"><a href="mailto:help@lrmgmt.com?subject=Contact Us">Contact</a></li>
+                                        <li class="post-dot"><a href="mailto:help@lrmgmt.com">Help</a></li>
+                                        <li class="post-dot"><a href="#/terms">Terms</a></li>
+                                        <li class="post-dot no-after-xs"><a href="#/privacy">Privacy</a></li>
+
+                                    </ul>
+                                </div>
+                                <div class="row text-center text-muted"><small>&copy; LRMGMT 2015. All rights reserved.</small></div>
                             </div>
                         </div>
-                    </div>
+                    </nav>
                 </div>
             </div>    
 
