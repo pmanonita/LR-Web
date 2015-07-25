@@ -13,29 +13,29 @@
     <div class="col-md-8" data-ng-controller="SearchUserCtrl">       
       <div class="row">    
         <!-- Blank hight is inserted--> 
-        <div style="height: 40px;"></div> 
+        <div style="height: 20px;"></div> 
 
-        <div class="col-md-6">   
-          <form id="custom-search-form" class="form-search form-horizontal pull-right" data-ng-submit="submitForm()">
+        <div class="col-md-offset-4 col-md-6">   
+          <form id="custom-search-form" class="form-search form-horizontal">
+            <span class="glyphicon glyphicon-search"></span>
             <select id="usearch" style="height: 35px;" ng-options="user.id as user.userName for user in userList"
               ng-model="user.id" 
               ng-change="getUserData()">
               <option value="">Select User</option>
-            </select>
-            <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>                    
+            </select>            
           </form>
         </div>        
       </div>
       <div style="height: 40px;"></div> 
       
       <div class="row" ng-show="userData">
-        <div class="col-md-offset-3 col-md-4">   
-          <form id="custom-edit-form" class="form-search form-horizontal pull-right" data-ng-submit="submitEditForm()">
+        <div class="col-md-offset-3 col-md-6">   
+          <form name="SearchUserForm" id="custom-edit-form" class="form-search form-horizontal" data-ng-submit="submitEditForm()">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12">                
                 <div class="form-group">
                   <label for="username">User Name</label> 
-                  <input id="newuser" name="user" id="username"type="text" placeholder="Username" class="form-control input-sm" required ng-model="userData.userName"> 
+                  <input id="newuser" name="user" id="username" disabled type="text" placeholder="Username" class="form-control input-sm" required ng-model="userData.userName"> 
                 </div>
               </div>
             </div>
@@ -45,14 +45,14 @@
               <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                   <label for="fname">First Name</label>
-                  <input type="text" name="first_name" id="fname" class="form-control input-sm" placeholder="First Name" required ng-model="userData.firstName">
+                  <input type="text" name="first_name" id="fname" class="form-control input-sm" placeholder="First Name" ng-model="userData.firstName">
                 </div>
               </div>
 
               <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                   <label for="lname">Last Name</label>
-                  <input type="text" name="last_name" id="lname" class="form-control input-sm" placeholder="Last Name" required ng-model="userData.lastName">
+                  <input type="text" name="last_name" id="lname" class="form-control input-sm" placeholder="Last Name" ng-model="userData.lastName">
                 </div>
               </div>
             </div>
@@ -61,24 +61,51 @@
               <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                   <label for="usermailid">Email</label>
-                  <input type="email" name="email" id="usermailid" class="form-control input-sm" placeholder="Email Address" required ng-model="userData.email">
+                  <input type="email" name="email" id="usermailid" class="form-control input-sm" placeholder="Email Address" ng-model="userData.email">
                 </div>
               </div>
             </div>
 
             <div class="row">
-              <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                  <label for="userpass">Password</label>
-                  <input type="password" name="password" id="userpass" class="form-control input-sm" placeholder="Password" required ng-model="userData.password">
+                  <label for="mobile">Mobile</label>
+                  <input type="mobile" name="mobile" id="mobile" class="form-control input-sm" placeholder="mobile" ng-model="userData.mobile" data-ng-pattern="/^([0-9]+)$/" -minlength="10" ng-maxlength="12">
+
+                  <div data-ng-messages="SearchUserForm.mobile.$error" data-ng-if="createUserForm.mobile.$dirty" role="alert" class="text-danger">
+                    <div data-ng-message="pattern, minlength, maxlength">Mobile number should be numeric between 10 to 12 digit</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12">                
+                <div class="form-group" data-ng-class="SearchUserForm.password.$pristine ? '' : (SearchUserForm.password.$valid ? 'has-success' : 'has-error')">
+
+                  <label for="password">Password</label>
+
+                  <input type="password" name="password" class="form-control input-sm" placeholder="Password" ng-model="userData.password" ng-pattern="/.*(?=.{8,})(?=.*[A-z])(?=.*[!@#$%^&*]).*$/" ng-model-options="{ updateOn: 'blur' }" ng-keyup="cancel($event)" ng-required="password">
+
+                  <div data-ng-messages="SearchUserForm.password.$error" data-ng-if="SearchUserForm.password.$invalid" role="alert" class="text-danger">
+                    <div data-ng-message="pattern">Invalid password. At least 8 characters with a special one.
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="col-xs-12 col-sm-12 col-md-12">            
                 <div class="form-group">
-                  <label for="confpass">Confirm Password</label>
-                  <input type="password" name="password_confirmation" id="confpass" class="form-control input-sm" placeholder="Confirm Password" required ng-model="userData.confpassword">
-                </div>
+                  <label for="confpassword">Confirm Password</label>
+                  <input type="password" name="confpassword" class="form-control input-sm" placeholder="Confirm Password" ng-model="userData.confpassword" required data-compare-to="userData.password">
+
+                  <div data-ng-messages="SearchUserForm.confpassword.$error" role="alert" class="text-danger">
+                    <div data-ng-message="compareTo">New password didn't match.</div>
+                  </div>
+
+                  </div>
+
               </div>
             </div>
 
@@ -86,12 +113,19 @@
               <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group"> 
                   <label for="urole">Role</label>
-                  <!--<select id="role" class="form-control input-sm" ng-model="userData.role" ng-options="role for role in userData.roles">-->
-                  <input type="text" name="role" id="urole" class="form-control input-sm" placeholder="Role" required ng-model="userData.role">
+                  <select id="role" class="form-control input-sm" ng-model="userData.role" ng-options="role for role in roles"/>                  
                 </div>
               </div>
             </div>
-          <button type="submit" class="center-block btn btn-block btn-primary btn-lg">Save</button>                    
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">                    
+                  <input type="submit" value="Update" class="center-block btn btn-block btn-primary btn-lg" ng-disabled="SearchUserForm.$invalid">             
+                </div>
+              </div>
+            </div>
+            
           </form>
         </div>
       <div>
