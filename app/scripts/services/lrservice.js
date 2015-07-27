@@ -16,13 +16,9 @@ angular.module('lrwebApp')
           'code': 0,
           'msg': 'Unexpected error.'
         };
-
         
-    var lr = {};
-    var cache = $cacheFactory('consignerSearchData')
-   
-  
-
+  var lr = {};
+  var cache = $cacheFactory('consignerSearchData')
 
   function _parseErrorResponse(o) {
       //parse error response and return in expected format
@@ -34,7 +30,6 @@ angular.module('lrwebApp')
       if(angular.isUndefined(o.error)){
         return ret;
       }
-
       
       if(angular.isObject(o.error) && o.error.message){
         ret.msg = o.error.message;
@@ -51,35 +46,30 @@ angular.module('lrwebApp')
       return ret;
     }
 
-     function _updateLRInfo(LR) {
+    function _updateLRInfo(LR) {
       console.log("updaing lr details after creating in successful");
       
-      lr.lrNo = LR.id;
-      lr.vehicleNo = LR.vehicleNo;
+      lr.lrNo         = LR.id;
+      lr.vehileNo     = LR.vehileNo;
       lr.vehicleOwner = LR.vehicleOwner;
-      lr.consigner = LR.consigner;
-      lr.consignee = LR.consignee;     
+      lr.consigner    = LR.consigner;
+      lr.consignee    = LR.consignee;     
       lr.billingParty = LR.billingParty;    
 
       
     }
 
-     function _updateLRExpenditureInfo(LR) {
-      console.log("updaing lr details after creating in successful");
-      
-      //lr.lrNo = LR.lrNo;
-      lr.freightToBroker = LR.freightToBroker;
-      lr.extraPayToBroker = LR.extraPayToBroker;
-      lr.advance = LR.advance;
-      lr.balanceFreight = LR.balanceFreight;
-      lr.loadingCharges = LR.loadingCharges;
-      lr.unloadingCharges = LR.unloadingCharges;
-      lr.loadingDetBroker = LR.loadingDetBroker;   
-      lr.unloadingDetBroker = LR.unloadingDetBroker;   
+    function _updateLRExpenditureInfo(LR) {
+      console.log("updaing lr details after creating in successful");  
 
- 
-
-      
+      lr.freightToBroker    = LR.freightToBroker;
+      lr.extraPayToBroker   = LR.extraPayToBroker;
+      lr.advance            = LR.advance;
+      lr.balanceFreight     = LR.balanceFreight;
+      lr.loadingCharges     = LR.loadingCharges;
+      lr.unloadingCharges   = LR.unloadingCharges;
+      lr.loadingDetBroker   = LR.loadingDetBroker;   
+      lr.unloadingDetBroker = LR.unloadingDetBroker;      
     }
 
     function _updateLRIncomeInfo(LR) {
@@ -91,59 +81,42 @@ angular.module('lrwebApp')
       lr.loadingChargesBilling = LR.loadingCharges;
       lr.unloadingChargesBilling = LR.unloadingCharges;
       lr.loadingDetBrokerBilling = LR.loadingDetBroker;   
-      lr.unloadingDetBrokerBilling = LR.unloadingDetBroker;   
-
- 
-
-      
+      lr.unloadingDetBrokerBilling = LR.unloadingDetBroker;       
     }
 
      function _updateLROtherExpenditureInfo(LR) {
       console.log("updaing lr other expenditure details after creating in successful"+lr.otherAmount);
-      
-      //lr.lrNo = LR.lrNo;
+
       lr.otherAmount = LR.amount;
-      lr.otherRemarks = LR.remarks;
-      
+      lr.otherRemarks = LR.remarks;      
     }
   
 
     function _createLR(lrData) {
       console.log("at createlr")
       
-      //normalize input
-      
-      var vehileNo = lrData.vehicleNo || '';
+      //normalize input      
+      var vehileNo     = lrData.vehicleNo || '';
       var vehicleOwner = lrData.vehicleOwner || '';
-      var consignerId =  '';
-      var consigneeId =  '';      
+      var consignerId  =  '';
+      var consigneeId  =  '';      
       var billingParty = lrData.billingParty || '';
 
-      if(angular.isObject(lrData.consigner)){
+      if(angular.isObject(lrData.consigner)) {
         consignerId = lrData.consigner.id || '';
       }
 
-       if(angular.isObject(lrData.consignee)){
+      if(angular.isObject(lrData.consignee)) {
         consigneeId = lrData.consignee.id || '';  
-      }
+      }          
 
-           
-
-      var ret = _defResult, d = $q.defer();
-
-     
-
-      //set progress
-      d.notify('Creating lr');
-      
+      var ret = _defResult, d = $q.defer();    
+    
       var data = 'vehileNo=' +  vehileNo +
                  '&vehicleOwner=' + vehicleOwner +
                  '&consignerId=' + consignerId +
                  '&consigneeId=' + consigneeId +                
                  '&billingParty=' + billingParty ;
-
-
-      console.log(data);
 
       var config = { 
         headers: {
@@ -169,9 +142,8 @@ angular.module('lrwebApp')
           d.reject(ret);
           return;
         }
-
         
-        /*Update all user info*/
+        /*Update LR info*/
         _updateLRInfo(result.lr);
         ret.sts = true;
         d.resolve(ret);      
@@ -187,26 +159,18 @@ angular.module('lrwebApp')
 
     function _createExpenditure(lrData) {
       console.log("at createexpenditure")
-      //normalize input
-      
-      var lrNo = lrData.lrNo || '';
-      var freightToBroker = lrData.freightToBroker || '';
-      var extraPayToBroker = lrData.extraPayToBroker || '';
-      var advance = lrData.advance || '';
-      var balanceFreight = lrData.balanceFreight || '';
-      var loadingCharges = lrData.loadingCharges || '';     
-      var unloadingCharges = lrData.unloadingCharges || '';
-      var loadingDetBroker = lrData.loadingDetBroker || '';
+      //normalize input      
+      var lrNo               = lrData.lrNo || '';
+      var freightToBroker    = lrData.freightToBroker || '';
+      var extraPayToBroker   = lrData.extraPayToBroker || '';
+      var advance            = lrData.advance || '';
+      var balanceFreight     = lrData.balanceFreight || '';
+      var loadingCharges     = lrData.loadingCharges || '';     
+      var unloadingCharges   = lrData.unloadingCharges || '';
+      var loadingDetBroker   = lrData.loadingDetBroker || '';
       var unloadingDetBroker = lrData.unloadingDetBroker || '';
-
       
-
-      var ret = _defResult, d = $q.defer();
-
-     
-
-      //set progress
-      d.notify('Creating lr');
+      var ret = _defResult, d = $q.defer();     
       
       var data = 'lrNo=' +  lrNo +
                  '&freightToBroker=' + freightToBroker +
@@ -217,9 +181,6 @@ angular.module('lrwebApp')
                  '&unloadingCharges=' + unloadingCharges +
                  '&loadingDetBroker=' + loadingDetBroker +
                  '&unloadingDetBroker=' + unloadingDetBroker ;
-
-
-      console.log(data);
 
       var config = { 
         headers: {
@@ -235,7 +196,7 @@ angular.module('lrwebApp')
       $promise.then(function(data, status, headers, config) {
         $log.debug('LR Info + ' + JSON.stringify(data));
 
-        var result = data.data; // Fix it
+        var result = data.data;
 
         $log.debug(result);
         $log.debug(result.code);
@@ -244,10 +205,8 @@ angular.module('lrwebApp')
           //some error
           d.reject(ret);
           return;
-        }
-
+        }        
         
-        /*Update all user info*/
         _updateLRExpenditureInfo(result.lrExpenditure);
         ret.sts = true;
         d.resolve(ret);      
@@ -265,19 +224,16 @@ angular.module('lrwebApp')
       console.log("at createincome")
       //normalize input
       
-      var lrNo = lrData.lrNo || '';
-      var freightToBrokerBilling = lrData.freightToBrokerBilling || '';
-      var extraPayToBrokerBilling = lrData.extraPayToBrokerBilling || '';      
-      var loadingChargesBilling = lrData.loadingChargesBilling || '';     
-      var unloadingChargesBilling = lrData.unloadingChargesBilling || '';
-      var loadingDetBrokerBilling = lrData.loadingDetBrokerBilling || '';
-      var unloadingDetBrokerBilling= lrData.unloadingDetBrokerBilling || '';
-
+      var lrNo                      = lrData.lrNo || '';
+      var freightToBrokerBilling    = lrData.freightToBrokerBilling || '';
+      var extraPayToBrokerBilling   = lrData.extraPayToBrokerBilling || '';      
+      var loadingChargesBilling     = lrData.loadingChargesBilling || '';     
+      var unloadingChargesBilling   = lrData.unloadingChargesBilling || '';
+      var loadingDetBrokerBilling   = lrData.loadingDetBrokerBilling || '';
+      var unloadingDetBrokerBilling = lrData.unloadingDetBrokerBilling || '';
       
 
-      var ret = _defResult, d = $q.defer();
-
-     
+      var ret = _defResult, d = $q.defer();     
 
       //set progress
       d.notify('Creating income');
@@ -333,31 +289,19 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
-     function _createOtherExpenditure(lrData) {
+    function _createOtherExpenditure(lrData) {
       console.log("at createotherexpenditure")
       //normalize input
       
-      var lrNo = lrData.lrNo || '';
-      var otherAmount = lrData.otherAmount || '';
+      var lrNo         = lrData.lrNo || '';
+      var otherAmount  = lrData.otherAmount || '';
       var otherRemarks = lrData.otherRemarks || '';
-      
-
-      
-      
-
+    
       var ret = _defResult, d = $q.defer();
-
-     
-
-      //set progress
-      d.notify('Creating lr');
       
       var data = 'lrNo=' +  lrNo +
                  '&amount=' + otherAmount +
                  '&remarks=' + otherRemarks ;
-
-
-      console.log(data);
 
       var config = { 
         headers: {
@@ -382,10 +326,8 @@ angular.module('lrwebApp')
           //some error
           d.reject(ret);
           return;
-        }
+        }     
 
-        
-        /*Update all user info*/
         _updateLROtherExpenditureInfo(result.lrOthers);
         ret.sts = true;
         d.resolve(ret);      
@@ -395,7 +337,7 @@ angular.module('lrwebApp')
         ret = _parseErrorResponse(r.data);
         d.reject(ret);
       });
-      //always return deferred object
+      
       return d.promise;
     }
 
@@ -417,26 +359,17 @@ angular.module('lrwebApp')
 
        if(angular.isObject(lrData.consignee)){
         consigneeId = lrData.consignee.id || '';  
-      }
+      }           
 
-           
-
-      var ret = _defResult, d = $q.defer();
+      var ret = _defResult, d = $q.defer();    
 
      
-
-      //set progress
-      d.notify('Updating lr');
-      
       var data =  'lrNo=' +  lrNo + 
                   'vehileNo=' +  vehileNo +
                  '&vehicleOwner=' + vehicleOwner +
                  '&consignerId=' + consignerId +
                  '&consigneeId=' + consigneeId +                
                  '&billingParty=' + billingParty ;
-
-
-      console.log(data);
 
       var config = { 
         headers: {
@@ -462,9 +395,7 @@ angular.module('lrwebApp')
           d.reject(ret);
           return;
         }
-
         
-        /*Update all user info*/
         _updateLRInfo(result.lr);
         ret.sts = true;
         d.resolve(ret);      
@@ -535,6 +466,64 @@ angular.module('lrwebApp')
       }).error(function (data, status){
         handleConsigneeError(data);
       });
+
+    };
+
+    function searchLR(lrData) {
+      $log.debug("SearchLR : " + lrData.lrNo)
+      
+      //normalize input      
+      var lrNo = lrData.lrNo || '';      
+      var ret = _defResult, d = $q.defer();
+      
+       //input validation 
+      if(!lrNo.length) {
+        ret.msg = 'Invalid input!';
+        d.reject(ret);
+      }
+
+      var data = 'lrNo=' +  lrNo
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/searchlr', data, config);
+
+      //send ajax form submission
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('Searched LR Data + ' + JSON.stringify(data));
+
+        var result = data.data;
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          //some error
+          d.reject(ret);
+          return;
+        }     
+
+        //To-do : update income
+        _updateLRInfo(result.lr);
+        _updateLRExpenditureInfo(result.lrExpenditure);
+        _updateLROtherExpenditureInfo(result.lrOthers);
+
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
 
     };
 
