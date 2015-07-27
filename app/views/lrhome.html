@@ -1,38 +1,34 @@
-  <div class="row">
+<div class="row">
 
-     <!--vertical navigation bar -->
-     <div class="col-md-2" data-ng-controller="LeftNavCtrl">
-      <div class="cliente"> 
-        <ul class="nav nav-pills nav-stacked" >
-          <li class="active"><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
-          <li><a href="/#/createlr"><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
-          <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>          
-        </ul>
-      </div>
+  <!--vertical navigation bar -->
+  <div class="col-md-2" data-ng-controller="LeftNavCtrl">
+    <div class="cliente"> 
+      <ul class="nav nav-pills nav-stacked" >
+        <li class="active"><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
+        <li><a href="/#/createlr"><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
+        <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>
+      </ul>
     </div>
-
-
-    <div class="col-md-5">       
-      <div class="row">    
-        <!-- Blank hight is inserted--> 
-        <div class="col-md-12">       
-          <div style="height: 40px;">      
-          </div>
-        </div>
-       <div class="col-md-12">   
-        <form id="custom-search-form" class="form-search form-horizontal pull-right">
-          <input type="text" class="search-query" placeholder="LR Search">
-          <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>                    
-        </form> 
-       </div>    
-    </div>
-
-     <div class="col-md-5">
-      <!-- Blank right navigation-->    
-    </div>
-      
-
   </div>
+
+  <div class="col-md-8" data-ng-controller="LrhomeCtrl">       
+    <div class="row">    
+      <!-- Blank hight is inserted--> 
+      <div style="height: 20px;"></div> 
+
+      <div class="col-md-offset-4 col-md-6">   
+        <form id="lr-search-form" class="form-search form-horizontal" data-ng-submit="submitForm()">
+          <input type="text" class="search-query" placeholder="LR Search" ng-model="lr.lrNo">
+          <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>
+        </form>
+      </div>        
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <!-- Blank right navigation-->    
+  </div>
+</div>
 
 
 

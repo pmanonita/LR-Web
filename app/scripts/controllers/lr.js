@@ -33,12 +33,7 @@ angular.module('lrwebApp')
     
     lrService.getConsignerList(handleConsignerSuccess, handleConsignerError);
     lrService.getConsigneeList(handleConsigneeSuccess, handleConsigneeError);
-   
-    
-
-   
-
-     
+        
     $scope.$watch('text', function(v) {
       console.log("inside watch consigner"+v);
       for (var i in $scope.consignerList) {
@@ -61,10 +56,7 @@ angular.module('lrwebApp')
       }
     });
 
-   
-
-    $scope.submitForm = function(){
-      //send a request to user service and submit the form
+    $scope.submitForm = function(){      
       $log.debug('on lr form ' );
       lrService.createLR($scope.lr).then(function(/*res*/) {
         //success callback
