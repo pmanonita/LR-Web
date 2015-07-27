@@ -22,7 +22,7 @@ angular.module('lrwebApp')
 
     $scope.submitForm = function(){
       //send a request to user service and submit the form
-      $log.debug('on create user form ' + $scope.user.username);
+      $log.debug('on create user form ' + $scope.user.userName);
       adminUserService.createUser($scope.user).then(function(u) {
         //success callback
         $scope.user = u;      
