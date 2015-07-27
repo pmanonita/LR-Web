@@ -26,6 +26,7 @@ angular.module('lrwebApp')
 
     //Get individual user data
     $scope.getUserData = function() {
+      $scope.message = "";
       $.each ($scope.userList, function(i, u) {        
         if(u && u.id === $scope.user.id) {
           $log.debug(JSON.stringify(u));
@@ -41,14 +42,19 @@ angular.module('lrwebApp')
       $log.debug("On edit user form");
       
       adminUserService.editUser($scope.userData).then(function(u) {
-        //success callback
+        //success callback        
         $log.debug('User updated'); 
         $scope.userData = u;
-        $scope.message = "User data updated successfully";
+        $scope.userData.confpassword = $scope.userData.password;
+        $scope.message = "User data updated successfully. Refresh user from drop down.";
+
+        //Pull list again from db so that updated user data will be avilable when choosed
+        // from dropdown
+        adminUserService.getUserList(handleSuccess, handleError);
 
       }, function(res) {
         //error callback & show the error message
-        $log.debug('No user found ' + JSON.stringify(res));
+        $log.debug('Issue while updating user data' + JSON.stringify(res));
         $scope.message = res.msg;
       });
       return false;
