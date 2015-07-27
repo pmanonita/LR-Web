@@ -67,7 +67,7 @@ angular.module('lrwebApp')
      function _updateLRExpenditureInfo(LR) {
       console.log("updaing lr details after creating in successful");
       
-      lr.lrNo = LR.lrNo;
+      //lr.lrNo = LR.lrNo;
       lr.freightToBroker = LR.freightToBroker;
       lr.extraPayToBroker = LR.extraPayToBroker;
       lr.advance = LR.advance;
@@ -85,7 +85,7 @@ angular.module('lrwebApp')
      function _updateLROtherExpenditureInfo(LR) {
       console.log("updaing lr other expenditure details after creating in successful"+lr.otherAmount);
       
-      lr.lrNo = LR.lrNo;
+      //lr.lrNo = LR.lrNo;
       lr.otherAmount = LR.amount;
       lr.otherRemarks = LR.remarks;
       
