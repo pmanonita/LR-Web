@@ -9,7 +9,8 @@
  */
 angular.module('lrwebApp')
   .controller('SearchUserCtrl', ['$scope', '$log', '$location', 'adminUserService', function ($scope, $log, $location, adminUserService) {  
-    $scope.errorMsg = "";    
+    $scope.message = "";
+    $scope.roles = ["admin", "normal"];    
     
     console.log("loading Search..")
     var handleSuccess = function(data) {
@@ -20,29 +21,38 @@ angular.module('lrwebApp')
       $scope.userList = [];
     };
 
-    adminUserService.getUserList(handleSuccess, handleError);
+    //Get all users
+    adminUserService.getUserList(handleSuccess, handleError);    
 
-    $scope.submitForm = function(){
-      //send a request to user service and submit the form
-      $log.debug('on search user form ' + $scope.username);
-      adminUserService.search($scope.username).then(function(u) {
-        //success callback
-        $log.debug('User found'); 
-      }, function(res) {
-        //error callback & show the error message
-        $log.debug('No user found ' + JSON.stringify(res));
-        $scope.errorMsg = res.msg;        
-      });
-      return false;
-    };
-
+    //Get individual user data
     $scope.getUserData = function() {
       $.each ($scope.userList, function(i, u) {        
         if(u && u.id === $scope.user.id) {
           $log.debug(JSON.stringify(u));
           $scope.userData = u;
+          //set conf password to password
+          $scope.userData.confpassword = $scope.userData.password;
         }
       });
+    };
+
+    //Edit user
+    $scope.submitEditForm = function() {
+      $log.debug("On edit user form");
+      
+      adminUserService.editUser($scope.userData).then(function(u) {
+        //success callback
+        $log.debug('User updated'); 
+        $scope.userData = u;
+        $scope.message = "User data updated successfully";
+
+      }, function(res) {
+        //error callback & show the error message
+        $log.debug('No user found ' + JSON.stringify(res));
+        $scope.message = res.msg;
+      });
+      return false;
+
     };
 
   }]);

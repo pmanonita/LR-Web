@@ -93,6 +93,7 @@ angular.module('lrwebApp')
       var config = { 
         headers: {
           'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' : userService.getAuthToken(),
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       };

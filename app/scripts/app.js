@@ -40,7 +40,7 @@ app.config(['$routeProvider',function ($routeProvider) {
     })
     .when('/createuser', {
       templateUrl: 'views/createuser.html',
-      controller: 'UserCtrl',
+      controller: 'AdminUserCtrl',
       controllerAs: 'adminuser'
     })
     .when('/searchuser', {
