@@ -72,6 +72,18 @@ angular.module('lrwebApp')
       lr.unloadingDetBroker = LR.unloadingDetBroker;      
     }
 
+    function _updateLRIncomeInfo(LR) {
+      console.log("updaing lr details after creating in successful");
+      
+      //lr.lrNo = LR.lrNo;
+      lr.freightToBrokerBilling = LR.freightToBroker;
+      lr.extraPayToBrokerBilling = LR.extraPayToBroker;
+      lr.loadingChargesBilling = LR.loadingCharges;
+      lr.unloadingChargesBilling = LR.unloadingCharges;
+      lr.loadingDetBrokerBilling = LR.loadingDetBroker;   
+      lr.unloadingDetBrokerBilling = LR.unloadingDetBroker;       
+    }
+
      function _updateLROtherExpenditureInfo(LR) {
       console.log("updaing lr other expenditure details after creating in successful"+lr.otherAmount);
 
@@ -148,14 +160,14 @@ angular.module('lrwebApp')
     function _createExpenditure(lrData) {
       console.log("at createexpenditure")
       //normalize input      
-      var lrNo = lrData.lrNo || '';
-      var freightToBroker = lrData.freightToBroker || '';
-      var extraPayToBroker = lrData.extraPayToBroker || '';
-      var advance = lrData.advance || '';
-      var balanceFreight = lrData.balanceFreight || '';
-      var loadingCharges = lrData.loadingCharges || '';     
-      var unloadingCharges = lrData.unloadingCharges || '';
-      var loadingDetBroker = lrData.loadingDetBroker || '';
+      var lrNo               = lrData.lrNo || '';
+      var freightToBroker    = lrData.freightToBroker || '';
+      var extraPayToBroker   = lrData.extraPayToBroker || '';
+      var advance            = lrData.advance || '';
+      var balanceFreight     = lrData.balanceFreight || '';
+      var loadingCharges     = lrData.loadingCharges || '';     
+      var unloadingCharges   = lrData.unloadingCharges || '';
+      var loadingDetBroker   = lrData.loadingDetBroker || '';
       var unloadingDetBroker = lrData.unloadingDetBroker || '';
       
       var ret = _defResult, d = $q.defer();     
@@ -208,12 +220,81 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
+    function _createIncome(lrData) {
+      console.log("at createincome")
+      //normalize input
+      
+      var lrNo                      = lrData.lrNo || '';
+      var freightToBrokerBilling    = lrData.freightToBrokerBilling || '';
+      var extraPayToBrokerBilling   = lrData.extraPayToBrokerBilling || '';      
+      var loadingChargesBilling     = lrData.loadingChargesBilling || '';     
+      var unloadingChargesBilling   = lrData.unloadingChargesBilling || '';
+      var loadingDetBrokerBilling   = lrData.loadingDetBrokerBilling || '';
+      var unloadingDetBrokerBilling = lrData.unloadingDetBrokerBilling || '';
+      
+
+      var ret = _defResult, d = $q.defer();     
+
+      //set progress
+      d.notify('Creating income');
+      
+      var data = 'lrNo=' +  lrNo +
+                 '&freightToBrokerBilling=' + freightToBrokerBilling +
+                 '&extraPayToBrokerBilling=' + extraPayToBrokerBilling +                 
+                 '&loadingChargesBilling=' + loadingChargesBilling +
+                 '&unloadingChargesBilling=' + unloadingChargesBilling +
+                 '&loadingDetBrokerBilling=' + loadingDetBrokerBilling +
+                 '&unloadingDetBrokerBilling=' + unloadingDetBrokerBilling ;
+
+
+      console.log(data);
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/addlrincome', data, config);
+
+      //send ajax form submission
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LR Info + ' + JSON.stringify(data));
+
+        var result = data.data; // Fix it
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          //some error
+          d.reject(ret);
+          return;
+        }
+
+        
+        /*Update all user info*/
+        _updateLRIncomeInfo(result.lrIncome);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      //always return deferred object
+      return d.promise;
+    }
+
     function _createOtherExpenditure(lrData) {
       console.log("at createotherexpenditure")
       //normalize input
       
-      var lrNo = lrData.lrNo || '';
-      var otherAmount = lrData.otherAmount || '';
+      var lrNo         = lrData.lrNo || '';
+      var otherAmount  = lrData.otherAmount || '';
       var otherRemarks = lrData.otherRemarks || '';
     
       var ret = _defResult, d = $q.defer();
@@ -257,6 +338,74 @@ angular.module('lrwebApp')
         d.reject(ret);
       });
       
+      return d.promise;
+    }
+
+    function _updateLR(lrData) {
+      console.log("at updatelr")
+      
+      //normalize input
+      
+      var lrNo = lrData.lrNo || '';
+      var vehileNo = lrData.vehicleNo || '';
+      var vehicleOwner = lrData.vehicleOwner || '';
+      var consignerId =  '';
+      var consigneeId =  '';      
+      var billingParty = lrData.billingParty || '';
+
+      if(angular.isObject(lrData.consigner)){
+        consignerId = lrData.consigner.id || '';
+      }
+
+       if(angular.isObject(lrData.consignee)){
+        consigneeId = lrData.consignee.id || '';  
+      }           
+
+      var ret = _defResult, d = $q.defer();    
+
+     
+      var data =  'lrNo=' +  lrNo + 
+                  'vehileNo=' +  vehileNo +
+                 '&vehicleOwner=' + vehicleOwner +
+                 '&consignerId=' + consignerId +
+                 '&consigneeId=' + consigneeId +                
+                 '&billingParty=' + billingParty ;
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/updatelr', data, config);
+
+      //send ajax form submission
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LR Info + ' + JSON.stringify(data));
+
+        var result = data.data; // Fix it
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          //some error
+          d.reject(ret);
+          return;
+        }
+        
+        _updateLRInfo(result.lr);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      //always return deferred object
       return d.promise;
     }
 
@@ -383,6 +532,8 @@ angular.module('lrwebApp')
       createLR: _createLR,
       createExpenditure: _createExpenditure,
       createOtherExpenditure: _createOtherExpenditure,
+      updateLR:_updateLR,
+      createIncome:_createIncome,
       getConsignerList: _getConsignerList,
       getConsigneeList: _getConsigneeList,
       getLR: function() {return lr;}
