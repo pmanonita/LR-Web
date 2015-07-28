@@ -462,7 +462,7 @@ angular.module('lrwebApp')
 
     };
 
-    function searchLR(lrData) {
+    function _searchLR(lrData) {
       $log.debug("SearchLR : " + lrData.lrNo)
       
       //normalize input      
@@ -530,7 +530,8 @@ angular.module('lrwebApp')
       createIncome:_createIncome,
       getConsignerList: _getConsignerList,
       getConsigneeList: _getConsigneeList,
-      getLR: function() {return lr;}
+      getLR: function() {return lr;},
+      searchLR: _searchLR
     };
 
   }]);
