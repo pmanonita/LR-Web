@@ -60,7 +60,6 @@ angular.module('lrwebApp')
     }
 
     function _updateLRExpenditureInfo(LR) {
-      console.log("updaing lr details after creating in successful");  
 
       lr.freightToBroker    = LR.freightToBroker;
       lr.extraPayToBroker   = LR.extraPayToBroker;
@@ -72,22 +71,19 @@ angular.module('lrwebApp')
       lr.unloadingDetBroker = LR.unloadingDetBroker;      
     }
 
-    function _updateLRIncomeInfo(LR) {
-      console.log("updaing lr details after creating in successful");
-      
-      //lr.lrNo = LR.lrNo;
-      lr.freightToBrokerBilling = LR.freightToBroker;
-      lr.extraPayToBrokerBilling = LR.extraPayToBroker;
-      lr.loadingChargesBilling = LR.loadingCharges;
-      lr.unloadingChargesBilling = LR.unloadingCharges;
-      lr.loadingDetBrokerBilling = LR.loadingDetBroker;   
+    function _updateLRIncomeInfo(LR) {      
+
+      lr.freightToBrokerBilling    = LR.freightToBroker;
+      lr.extraPayToBrokerBilling   = LR.extraPayToBroker;
+      lr.loadingChargesBilling     = LR.loadingCharges;
+      lr.unloadingChargesBilling   = LR.unloadingCharges;
+      lr.loadingDetBrokerBilling   = LR.loadingDetBroker;   
       lr.unloadingDetBrokerBilling = LR.unloadingDetBroker;       
     }
 
-     function _updateLROtherExpenditureInfo(LR) {
-      console.log("updaing lr other expenditure details after creating in successful"+lr.otherAmount);
+    function _updateLROtherExpenditureInfo(LR) {      
 
-      lr.otherAmount = LR.amount;
+      lr.otherAmount  = LR.amount;
       lr.otherRemarks = LR.remarks;      
     }
   
@@ -272,10 +268,8 @@ angular.module('lrwebApp')
           //some error
           d.reject(ret);
           return;
-        }
+        }        
 
-        
-        /*Update all user info*/
         _updateLRIncomeInfo(result.lrIncome);
         ret.sts = true;
         d.resolve(ret);      
@@ -361,11 +355,10 @@ angular.module('lrwebApp')
         consigneeId = lrData.consignee.id || '';  
       }           
 
-      var ret = _defResult, d = $q.defer();    
-
+      var ret = _defResult, d = $q.defer();
      
-      var data =  'lrNo=' +  lrNo + 
-                  'vehileNo=' +  vehileNo +
+      var data = 'lrNo=' +  lrNo + 
+                 'vehileNo=' +  vehileNo +
                  '&vehicleOwner=' + vehicleOwner +
                  '&consignerId=' + consignerId +
                  '&consigneeId=' + consigneeId +                
@@ -512,7 +505,8 @@ angular.module('lrwebApp')
         //To-do : update income
         _updateLRInfo(result.lr);
         _updateLRExpenditureInfo(result.lrExpenditure);
-        _updateLROtherExpenditureInfo(result.lrOthers);
+        //_updateLROtherExpenditureInfo(result.lrOthers);
+        _updateLRIncomeInfo(result.lrIncome);
 
         ret.sts = true;
         d.resolve(ret);      
