@@ -14,6 +14,7 @@ angular.module('lrwebApp')
       'AngularJS',
       'Karma'
     ];
+    $scope.msg = "";
     var handleConsignerSuccess = function(data) {
       $scope.consignerList = data;  
       console.log("hadling success"); 
@@ -65,6 +66,7 @@ angular.module('lrwebApp')
       }, function(res) {
         //error callback & show the error message
         $log.debug('Error In LR Creation ' + JSON.stringify(res));
+        $scope.msg = res.msg;
         
       });
       return false;

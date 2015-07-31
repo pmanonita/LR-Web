@@ -12,38 +12,85 @@
   </div>
 
   <!--form design -->
-  <div class="col-md-10" data-ng-controller="LrCtrl">
+  <div class="col-md-8" data-ng-controller="LrCtrl">
     <form class="form-horizontal" name="lrForm" data-ng-submit="submitForm()"> 
       
       <div class="col-xs-12">
+       <div class="row centered-form" data-ng-show="msg">
+        <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
+      </div>
       <!--first page -->               
         <div class="row">
           <div class="form-group">        
             <label for="vehicleno" class="control-label col-xs-2"><small>Vehicle No</small></label>            
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="vehicleno" placeholder="Vehicle No"
                ng-model="lr.vehicleNo">          
             </div>
              <label for="vehicleowner" class="control-label col-xs-2"><small>Vehicle Owner</small></label>            
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="vehicleowner" placeholder="Vehicle Owner"
                ng-model="lr.vehicleOwner"> 
             </div>
 
           </div>
-        </div>        
+        </div> 
+
+        <div class="row">
+          <div class="form-group">        
+            <label for="poNo" class="control-label col-xs-2"><small>P.O No</small></label>            
+            <div class="col-xs-4">
+              <input type="text" class="form-control input-sm" id="poNo" placeholder="P.O No"
+               ng-model="lr.poNo">          
+            </div>
+             <label for="doNo" class="control-label col-xs-2"><small>D.O No</small></label>            
+            <div class="col-xs-4">
+              <input type="text" class="form-control input-sm" id="doNo" placeholder="D.O Number"
+               ng-model="lr.doNo"> 
+            </div>
+
+          </div>
+        </div>    
+
+        <div class="row">
+          <div class="form-group"> 
+            <label for="billingParty" class="control-label col-xs-2"><small>Billing Party</small></label>            
+            <div class="col-xs-6">
+              <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty">
+            </div>                    
+           
+          </div>
+        </div> 
+
+         <div class="row bar">   
+          <div id="fm2" class="form-group" >             
+            <label for="names" class="control-label col-xs-2"><small>Billing Name</small></label>            
+            <div class="col-xs-4">
+              <select id="names"  ng-model="lr.billingName" ng-options="billingName.name for billingName in billingNameList" >
+                <option value="" selected="selected">Select</option>
+              </select>           
+              
+            </div>
+             <label for="billingAddress" class="control-label col-xs-2"><small>Billing Address</small></label>            
+            <div class="col-xs-4">
+              <input type="text" class="form-control input-sm" id="billingAddress" placeholder="BillingAddress" value=" {{ lr.billingName.address }}" disabled>
+            </div>
+           
+           
+          </div>
+        </div>   
         
-        <div class="row">   
+        <div class="row bar">   
           <div id="fm2" class="form-group" >             
             <label for="consignerCode" class="control-label col-xs-2"><small>Consignor Code</small></label>            
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <select id="consignerCode"  ng-model="lr.consigner" ng-options="consigner.consignerCode for consigner in consignerList" >
                 <option value="" selected="selected">Select</option>
               </select>           
               
             </div>
              <label for="consignerName" class="control-label col-xs-2"><small>Consigner Name</small></label>            
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="consignerName" placeholder="Consignor Name" value=" {{ lr.consigner.consignerName }}" disabled>
             </div>
            
@@ -55,21 +102,21 @@
           <div id="fm2" class="form-group" >             
            
             <label for="consignerServTax" class="control-label col-xs-2"><small>Service Tax No(Consignor)</small></label>            
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="consignerServTax" placeholder="Consigner Service Tax" value=" {{ lr.consigner.serviceTax}}" disabled>
             </div>  
             <label for="consignerAddress" class="control-label col-xs-2"><small>Consigner Add</small></label>            
-           <div class="col-xs-2">
-              <textarea class="form-control input-sm" rows="5" id="consignerAddress" placeholder="Consigner Address" disabled>{{ lr.consigner.address }}</textarea>              
+           <div class="col-xs-4">
+              <textarea class="form-control input-sm" rows="2" id="consignerAddress" placeholder="Consigner Address" disabled>{{ lr.consigner.address }}</textarea>              
             </div> 
            
           </div>
         </div>
 
-         <div class="row">   
+         <div class="row bar">   
           <div id="fm2" class="form-group" >             
             <label for="consigneeCode" class="control-label col-xs-2"><small>Consignee Code</small></label>            
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <select id="consigneeCode" ng-model="lr.consignee" ng-options="consignee.consigneeCode for consignee in consigneeList" >
               <option value="" selected="selected">Select</option>
               </select>         
@@ -77,7 +124,7 @@
               
             </div>
              <label for="consigneeName" class="control-label col-xs-2"><small>Consignee Name</small></label>            
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="consigneeName" placeholder="Consignee Name" value=" {{ lr.consignee.consigneeName }}" disabled>
             </div>
            
@@ -89,26 +136,17 @@
           <div id="fm2" class="form-group" >             
            
             <label for="consigneeServTax" class="control-label col-xs-2"><small>Service Tax No(Consignee)</small></label>            
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="consigneeServTax" placeholder="Consignee Service Tax" value=" {{ lr.consignee.serviceTax}}" disabled>
             </div>  
             <label for="consigneeAddress" class="control-label col-xs-2"><small>Consignee Add</small></label>            
-           <div class="col-xs-2">
-              <textarea class="form-control input-sm" rows="5" id="consigneeAddress" placeholder="Consignee Address" disabled>{{ lr.consignee.address }}</textarea>              
+           <div class="col-xs-4">
+              <textarea class="form-control input-sm" rows="2" id="consigneeAddress" placeholder="Consignee Address" disabled>{{ lr.consignee.address }}</textarea>              
             </div> 
            
           </div>
         </div>
 
-        <div class="row">
-          <div class="form-group"> 
-            <label for="billingParty" class="control-label col-xs-2"><small>Billing Party</small></label>            
-            <div class="col-xs-2">
-              <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty">
-            </div>                    
-           
-          </div>
-        </div>
 
         <div class="row">
          <div class="form-group">
@@ -122,6 +160,9 @@
 
       </div>
     </form>
+  </div>
+  <div class="col-md-2">
+    <!-- Blank right navigation-->    
   </div>
     
 </div>
