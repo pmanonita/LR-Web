@@ -58,9 +58,10 @@
             <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty">
             </div> 
+            <label class="control-label col-xs-2"><small>MultiLoad:</small></label>   
             <div class="col-xs-4">
-              <label>MultiLoad:
-                <input type="checkbox" ng-model="lr.multiLoad">
+              <label>
+                <input type="checkbox" ng-true-value="yes" ng-false-value="no" ng-model="lr.multiLoad">
               </label>
             </div>                    
            

@@ -120,3 +120,17 @@ background-color: transparent;
 color: blue;
 text-decoration: underline;
 }
+input[type="checkbox"]{
+
+width: 20px;
+height: 20px;
+border-width: 0;
+transition: all .3s linear;
+}
+input[type="checkbox"]:checked{
+  background-color: #2ECC71;
+}
+input[type="checkbox"]:focus{
+  outline: 0 none;
+  box-shadow: none;
+}
