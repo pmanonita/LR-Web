@@ -54,12 +54,15 @@ angular.module('lrwebApp')
       console.log("updaing lr details after creating in successful");
       
       lr.lrNo         = LR.id;
-      lr.vehileNo     = LR.vehileNo;
+      lr.vehicleNo     = LR.vehicleNo;
       lr.vehicleOwner = LR.vehicleOwner;
       lr.consigner    = LR.consigner;
       lr.consignee    = LR.consignee;     
       lr.billingParty = LR.billingParty;    
       lr.lrDate       = LR.lrDate;
+      lr.poNo         = LR.poNo;
+      lr.doNo         = LR.doNo;
+      lr.billingname  = LR.billingname;
 
       
     }
@@ -101,6 +104,12 @@ angular.module('lrwebApp')
 
       lr.LRList  = LRList;      
     }
+
+    function _updateLRChalanDetails(LRChalan) {      
+
+      lr.chalan  = LRChalan;      
+    }
+
   
 
     function _createLR(lrData) {
@@ -112,6 +121,9 @@ angular.module('lrwebApp')
       var consignerId  =  '';
       var consigneeId  =  '';      
       var billingParty = lrData.billingParty || '';
+      var poNo         = lrData.poNo || '';
+      var doNo         = lrData.doNo || '';
+      var billignameId = '';
 
       if(angular.isObject(lrData.consigner)) {
         consignerId = lrData.consigner.id || '';
@@ -119,7 +131,11 @@ angular.module('lrwebApp')
 
       if(angular.isObject(lrData.consignee)) {
         consigneeId = lrData.consignee.id || '';  
-      }          
+      }
+
+      if(angular.isObject(lrData.billingname)) {
+        billignameId = lrData.billingname.id || '';  
+      }            
 
       var ret = _defResult, d = $q.defer();    
     
@@ -127,7 +143,10 @@ angular.module('lrwebApp')
                  '&vehicleOwner=' + vehicleOwner +
                  '&consignerId=' + consignerId +
                  '&consigneeId=' + consigneeId +                
-                 '&billingParty=' + billingParty ;
+                 '&billingParty=' + billingParty +
+                 '&poNo='         + poNo +
+                 '&doNo='         + doNo +
+                 '&billingnameId=' + billignameId ;
 
       var config = { 
         headers: {
@@ -458,6 +477,9 @@ angular.module('lrwebApp')
       var consignerId =  '';
       var consigneeId =  '';      
       var billingParty = lrData.billingParty || '';
+      var poNo         = lrData.poNo || '';
+      var doNo         = lrData.doNo || '';
+      var billingnameId =  '';  
 
       if(angular.isObject(lrData.consigner)){
         consignerId = lrData.consigner.id || '';
@@ -465,7 +487,11 @@ angular.module('lrwebApp')
 
        if(angular.isObject(lrData.consignee)){
         consigneeId = lrData.consignee.id || '';  
-      }           
+      }
+
+      if(angular.isObject(lrData.billingname)){
+        billingnameId = lrData.billingname.id || '';  
+      }             
 
       var ret = _defResult, d = $q.defer();
      
@@ -474,8 +500,11 @@ angular.module('lrwebApp')
                  '&vehicleOwner=' + vehicleOwner +
                  '&consignerId=' + consignerId +
                  '&consigneeId=' + consigneeId +                
-                 '&billingParty=' + billingParty ;
-
+                 '&billingParty=' + billingParty +
+                 '&poNo='         + poNo +
+                 '&doNo='         + doNo +
+                 '&billingnameId='+ billingnameId ;
+ 
       var config = { 
         headers: {
           'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
@@ -574,6 +603,36 @@ angular.module('lrwebApp')
 
     };
 
+    var _getBillingnameList = function(handleBillingnameSuccess, handleBillingnameError) {      
+      var searchData = cache.get('billingnameearchData');
+      if(searchData) {
+        $log.debug("Got billingname list from cache");
+        handleBillingnameSuccess(searchData);
+        return;
+      }
+
+      $http({
+        method: 'GET',
+        url:'http://localhost:8080/LRService/v1/listbillingnames',
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' : userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+      }).success(function (data, status){
+        $log.debug("Got billigname list from db");
+        var processedData = data.billingnames; //may be we can use a process function
+        console.log("billingname data"+JSON.stringify(processedData));
+        cache.put('billingnameSearchData', processedData);
+        handleBillingnameSuccess(processedData);
+
+      }).error(function (data, status){
+        handleBillingnameError(data);
+      });
+
+    };
+
     function _searchLR(lrData) {
       $log.debug("SearchLR : " + lrData.lrNo)
       
@@ -637,15 +696,18 @@ angular.module('lrwebApp')
 
     };
 
-    function _createChalan(chalanArray) {
+    function _createChalan(lrNos,expenditureColumn,otherExpenditureColumn) {
       console.log("at createChalan")
       //normalize input
+      var columns = expenditureColumn.concat(otherExpenditureColumn);
+      var jsonData=angular.toJson(columns);    
       
-      var jsonData=angular.toJson(chalanArray);
-      var objectToSerialize={'chlanDetails':jsonData};
-      console.log("chalan details "+objectToSerialize);
     
       var ret = _defResult, d = $q.defer();
+
+      var data = 'lrNos=' +  lrNos +
+                 '&chalanDetails='  + jsonData;
+      console.log(" data for createdata "+data);
       
       
 
@@ -657,11 +719,11 @@ angular.module('lrwebApp')
         }
       };
 
-      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/createChalan', $.param(objectToSerialize), config);
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/createChalan', data, config);
 
       //send ajax form submission
       $promise.then(function(data, status, headers, config) {
-        $log.debug('LR Info + ' + JSON.stringify(data));
+        $log.debug('LRChalan Info + ' + JSON.stringify(data));
 
         var result = data.data; // Fix it
 
@@ -674,7 +736,7 @@ angular.module('lrwebApp')
           return;
         }     
 
-        _updateLROtherExpenditureList(result.lrOthers);
+        _updateLRChalanDetails(result.lrChalan);
         ret.sts = true;
         d.resolve(ret);      
 
@@ -697,6 +759,7 @@ angular.module('lrwebApp')
       createIncome:_createIncome,
       getConsignerList: _getConsignerList,
       getConsigneeList: _getConsigneeList,
+      getBillingnameList:_getBillingnameList,
       getLR: function() {return lr;},      
       removeOtherExpenditure:_removeOtherExpenditure,
       getLRByDate:_getLRByDate,

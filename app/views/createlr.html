@@ -55,8 +55,13 @@
         <div class="row">
           <div class="form-group"> 
             <label for="billingParty" class="control-label col-xs-2"><small>Billing Party</small></label>            
-            <div class="col-xs-6">
+            <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty">
+            </div> 
+            <div class="col-xs-4">
+              <label>MultiLoad:
+                <input type="checkbox" ng-model="lr.multiLoad">
+              </label>
             </div>                    
            
           </div>
@@ -66,14 +71,14 @@
           <div id="fm2" class="form-group" >             
             <label for="names" class="control-label col-xs-2"><small>Billing Name</small></label>            
             <div class="col-xs-4">
-              <select id="names"  ng-model="lr.billingName" ng-options="billingName.name for billingName in billingNameList" >
+              <select id="names"  ng-model="lr.billingname" ng-options="billingname.name for billingname in billingnameList" >
                 <option value="" selected="selected">Select</option>
               </select>           
               
             </div>
              <label for="billingAddress" class="control-label col-xs-2"><small>Billing Address</small></label>            
             <div class="col-xs-4">
-              <input type="text" class="form-control input-sm" id="billingAddress" placeholder="BillingAddress" value=" {{ lr.billingName.address }}" disabled>
+              <input type="text" class="form-control input-sm" id="billingAddress" placeholder="BillingAddress" value=" {{ lr.billingname.address }}" disabled>
             </div>
            
            

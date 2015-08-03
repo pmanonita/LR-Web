@@ -23,7 +23,7 @@ angular.module('lrwebApp')
     var handleConsignerError = function(data) {
       $scope.consignerList = [];
     };
-     var handleConsigneeSuccess = function(data) {
+    var handleConsigneeSuccess = function(data) {
       $scope.consigneeList = data;  
       console.log("hadling success"); 
       
@@ -31,9 +31,18 @@ angular.module('lrwebApp')
     var handleConsigneeError = function(data) {
       $scope.consigneeList = [];
     };
+    var handleBillingnameSuccess = function(data) {
+      $scope.billingnameList = data;  
+      console.log("hadling success"); 
+      
+    };
+    var handleBillingnameError = function(data) {
+      $scope.billingnameList = [];
+    };
     
     lrService.getConsignerList(handleConsignerSuccess, handleConsignerError);
     lrService.getConsigneeList(handleConsigneeSuccess, handleConsigneeError);
+    lrService.getBillingnameList(handleBillingnameSuccess, handleBillingnameError);
         
     $scope.$watch('text', function(v) {
       console.log("inside watch consigner"+v);
@@ -52,6 +61,17 @@ angular.module('lrwebApp')
         var option = $scope.consigneeList[i];
         if (option.consigneeCode === v) {
           $scope.lr.consignee = option;
+          break;
+        }
+      }
+    });
+
+     $scope.$watch('text', function(v) {
+      console.log("inside watch billingname"+v);
+      for (var i in $scope.billingnameList) {
+        var option = $scope.billingnameList[i];
+        if (option.name === v) {
+          $scope.lr.billingname = option;
           break;
         }
       }

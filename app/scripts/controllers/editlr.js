@@ -31,11 +31,21 @@ angular.module('lrwebApp')
     var handleConsigneeError = function(data) {
       $scope.consigneeList = [];
     };
+    var handleBillingnameSuccess = function(data) {
+      $scope.billingnameList = data;  
+      console.log("hadling success"); 
+      
+    };
+    var handleBillingnameError = function(data) {
+      $scope.billingnameList = [];
+    };
     
     lrService.getConsignerList(handleConsignerSuccess, handleConsignerError);
     lrService.getConsigneeList(handleConsigneeSuccess, handleConsigneeError);
+    lrService.getBillingnameList(handleBillingnameSuccess, handleBillingnameError);
 
     $scope.lrotherList = [];
+    $scope.chalanColumns = [];
     $scope.lr = lrService.getLR(); 
 
 
@@ -134,15 +144,18 @@ angular.module('lrwebApp')
          
     };
 
-     $scope.saveChalana = function(chalanArray){ 
-      console.log("chalandetails "+chalanArray);  
-       lrService.createChalan(chalanArray).then(function(/*res*/) {
+     $scope.saveChalana = function(lrNos,expenditureColumn,otherExpenditureColumn){ 
+      
+       lrService.createChalan(lrNos,expenditureColumn,otherExpenditureColumn).then(function(/*res*/) {
         //success callback
-        $log.debug('LROtherExpenditure Removed Sucessfully');        
+        $log.debug('LRChalan saved Sucessfully'); 
+        $scope.lr = lrService.getLR(); 
+        $scope.chalanColumns = JSON.parse($scope.lr.chalan.chalanDetails);
+
         $location.path('/editlr');
         }, function(res) {
         //error callback & show the error message
-        $log.debug('Error In LR Updation ' + JSON.stringify(res));
+        $log.debug('Error In Chalan Creation ' + JSON.stringify(res));
         $scope.msg = res.msg;
         
         });
@@ -159,7 +172,7 @@ $scope.printDiv = function(divName) {
   popupWin.document.open()
   popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</html>');
   popupWin.document.close();
-  
+
 }
  
 
