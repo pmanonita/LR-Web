@@ -58,6 +58,11 @@ app.config(['$routeProvider',function ($routeProvider) {
       controller: 'SearchUserCtrl',
       controllerAs: 'searchuser'
     })
+    .when('/lrreports', {
+      templateUrl: 'views/lrreport.html',
+      controller: 'LrhomeCtrl',
+      controllerAs: 'lrhome'
+    })
     .when('/login', {
       templateUrl: 'views/login.html',
       controller: 'LoginCtrl',

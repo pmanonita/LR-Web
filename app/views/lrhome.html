@@ -11,7 +11,10 @@
     </div>
   </div>
 
-  <div class="col-md-8" data-ng-controller="LrhomeCtrl">       
+  <div class="col-md-8" data-ng-controller="LrhomeCtrl">  
+    <div class="row centered-form" data-ng-show="msg">
+        <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
+      </div>     
     <div class="row">    
       <!-- Blank hight is inserted--> 
       <div style="height: 20px;"></div> 

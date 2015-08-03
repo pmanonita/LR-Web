@@ -14,6 +14,7 @@ angular.module('lrwebApp')
       'AngularJS',
       'Karma'
     ];
+    $scope.msg = "";
     var handleConsignerSuccess = function(data) {
       $scope.consignerList = data;  
       console.log("hadling success"); 
@@ -22,7 +23,7 @@ angular.module('lrwebApp')
     var handleConsignerError = function(data) {
       $scope.consignerList = [];
     };
-     var handleConsigneeSuccess = function(data) {
+    var handleConsigneeSuccess = function(data) {
       $scope.consigneeList = data;  
       console.log("hadling success"); 
       
@@ -30,9 +31,18 @@ angular.module('lrwebApp')
     var handleConsigneeError = function(data) {
       $scope.consigneeList = [];
     };
+    var handleBillingnameSuccess = function(data) {
+      $scope.billingnameList = data;  
+      console.log("hadling success"); 
+      
+    };
+    var handleBillingnameError = function(data) {
+      $scope.billingnameList = [];
+    };
     
     lrService.getConsignerList(handleConsignerSuccess, handleConsignerError);
     lrService.getConsigneeList(handleConsigneeSuccess, handleConsigneeError);
+    lrService.getBillingnameList(handleBillingnameSuccess, handleBillingnameError);
         
     $scope.$watch('text', function(v) {
       console.log("inside watch consigner"+v);
@@ -56,6 +66,17 @@ angular.module('lrwebApp')
       }
     });
 
+     $scope.$watch('text', function(v) {
+      console.log("inside watch billingname"+v);
+      for (var i in $scope.billingnameList) {
+        var option = $scope.billingnameList[i];
+        if (option.name === v) {
+          $scope.lr.billingname = option;
+          break;
+        }
+      }
+    });
+
     $scope.submitForm = function(){      
       $log.debug('on lr form ' );
       lrService.createLR($scope.lr).then(function(/*res*/) {
@@ -65,6 +86,7 @@ angular.module('lrwebApp')
       }, function(res) {
         //error callback & show the error message
         $log.debug('Error In LR Creation ' + JSON.stringify(res));
+        $scope.msg = res.msg;
         
       });
       return false;

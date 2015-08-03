@@ -15,13 +15,35 @@ angular.module('lrwebApp')
       'Karma'
     ];
 
+     
+
     $scope.submitForm = function() {
       $log.debug("On lr search form");
       
       lrService.searchLR($scope.lr).then(function(u) {
         //success callback        
         $log.debug('Got LR data'); 
+        $scope.lr = lrService.getLR();    
+        console.log("lr value "+$scope.lr.otherExpenditures);  
+        
+       
         $location.path('/editlr');   
+      }, function(res) {
+        //error callback & show the error message
+        $log.debug('Issue while getting LR data' + JSON.stringify(res));        
+      });
+      return false;
+    };
+
+    $scope.getLRByDate = function() {
+      $log.debug("On lr sgetLRByDate");
+      
+      lrService.getLRByDate($scope.lr.lrDate).then(function(u) {
+        //success callback        
+        $log.debug('Got LR By date data'); 
+        $scope.LRList = lrService.getLRList();          
+       
+        
       }, function(res) {
         //error callback & show the error message
         $log.debug('Issue while getting LR data' + JSON.stringify(res));        

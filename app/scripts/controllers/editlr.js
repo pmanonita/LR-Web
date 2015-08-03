@@ -14,6 +14,7 @@ angular.module('lrwebApp')
       'AngularJS',
       'Karma'
     ]; 
+    $scope.msg = "";
      var handleConsignerSuccess = function(data) {
       $scope.consignerList = data;  
       console.log("hadling success"); 
@@ -30,11 +31,21 @@ angular.module('lrwebApp')
     var handleConsigneeError = function(data) {
       $scope.consigneeList = [];
     };
+    var handleBillingnameSuccess = function(data) {
+      $scope.billingnameList = data;  
+      console.log("hadling success"); 
+      
+    };
+    var handleBillingnameError = function(data) {
+      $scope.billingnameList = [];
+    };
     
     lrService.getConsignerList(handleConsignerSuccess, handleConsignerError);
     lrService.getConsigneeList(handleConsigneeSuccess, handleConsigneeError);
+    lrService.getBillingnameList(handleBillingnameSuccess, handleBillingnameError);
 
     $scope.lrotherList = [];
+    $scope.chalanColumns = [];
     $scope.lr = lrService.getLR(); 
 
 
@@ -54,6 +65,7 @@ angular.module('lrwebApp')
       }, function(res) {
         //error callback & show the error message
         $log.debug('Error In LRExpenditure Creation ' + JSON.stringify(res));
+        $scope.msg = res.msg;
         
       });
       return false;
@@ -69,6 +81,7 @@ angular.module('lrwebApp')
       }, function(res) {
         //error callback & show the error message
         $log.debug('Error In LR Income Creation ' + JSON.stringify(res));
+        $scope.msg = res.msg;
         
       });
       return false;
@@ -91,6 +104,7 @@ angular.module('lrwebApp')
       }, function(res) {
         //error callback & show the error message
         $log.debug('Error In LR Other Expenditure Creation ' + JSON.stringify(res));
+        $scope.msg = res.msg;
         
       });
       return false;
@@ -108,10 +122,59 @@ angular.module('lrwebApp')
       }, function(res) {
         //error callback & show the error message
         $log.debug('Error In LR Updation ' + JSON.stringify(res));
+        $scope.msg = res.msg;
         
       });
       return false;
     };
+
+     $scope.removeOtherExpenditure = function(otherExpenditureId,lrNo){ 
+      console.log("removing lrotherexpenditure "+lrNo);  
+       lrService.removeOtherExpenditure(otherExpenditureId,lrNo).then(function(/*res*/) {
+        //success callback
+        $log.debug('LROtherExpenditure Removed Sucessfully');        
+        $location.path('/editlr');
+        }, function(res) {
+        //error callback & show the error message
+        $log.debug('Error In LR Updation ' + JSON.stringify(res));
+        $scope.msg = res.msg;
+        
+        });
+        return false; 
+         
+    };
+
+     $scope.saveChalana = function(lrNos,expenditureColumn,otherExpenditureColumn){ 
+      
+       lrService.createChalan(lrNos,expenditureColumn,otherExpenditureColumn).then(function(/*res*/) {
+        //success callback
+        $log.debug('LRChalan saved Sucessfully'); 
+        $scope.lr = lrService.getLR(); 
+        $scope.chalanColumns = JSON.parse($scope.lr.chalan.chalanDetails);
+
+        $location.path('/editlr');
+        }, function(res) {
+        //error callback & show the error message
+        $log.debug('Error In Chalan Creation ' + JSON.stringify(res));
+        $scope.msg = res.msg;
+        
+        });
+        return false; 
+         
+    };
+
+
+
+ 
+$scope.printDiv = function(divName) {
+  var printContents = document.getElementById(divName).innerHTML;
+  var popupWin = window.open('', '_blank', 'width=300,height=300');
+  popupWin.document.open()
+  popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</html>');
+  popupWin.document.close();
+
+}
+ 
 
 
    
