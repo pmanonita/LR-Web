@@ -35,7 +35,7 @@ angular.module('lrwebApp')
         angular.merge(user, _defUser);
 
     function _updateRoleStatus() {
-      if(user.role && user.role == 'admin') {
+      if(user.role && user.role == 'Admin') {
         user.isAdmin = true;
       }
     }

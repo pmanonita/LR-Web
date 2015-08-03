@@ -23,6 +23,16 @@ app.config(['$routeProvider',function ($routeProvider) {
       controller: 'AboutCtrl',
       controllerAs: 'about'
     })
+    .when('/createexpense', {
+      templateUrl: 'views/createexpense.html',
+      controller: 'GeneralExpenseCtrl',
+      controllerAs: 'generalexpense'
+    })
+    .when('/searchexpense', {
+      templateUrl: 'views/searchexpense.html',
+      controller: 'SearchExpenseCtrl',
+      controllerAs: 'searchexpense'
+    })
     .when('/lrhome', {
       templateUrl: 'views/lrhome.html',
       controller: 'LrhomeCtrl',

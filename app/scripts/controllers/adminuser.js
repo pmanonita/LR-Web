@@ -17,8 +17,8 @@ angular.module('lrwebApp')
 
     $scope.msg = "";
     $scope.user = {};
-    $scope.roles = ["admin", "normal"];
-    $scope.user.role = "normal";
+    $scope.roles = ["Admin", "Normal"];
+    $scope.user.role = "Normal";
 
     $scope.submitForm = function(){
       //send a request to user service and submit the form
