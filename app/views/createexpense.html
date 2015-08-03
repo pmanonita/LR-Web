@@ -1,0 +1,103 @@
+<div class="row">  
+
+  <!--vertical navigation bar -->
+  <div class="col-md-2" data-ng-controller="LeftNavCtrl">
+    <div class="cliente"> 
+    <ul class="nav nav-pills nav-stacked" >                
+      <li ><a href="/#/searchexpense"><i class="fa fa-list-alt fa-fw" ></i>Search Expense<span class="glyphicon glyphicon-search"></span></a></li>
+      <li class="active"><a href="/#/createexpense"><i class="fa fa-file-o fa-fw"></i>New Expense<span class="glyphicon glyphicon-save-file"></span></a></li>
+      <li><a href="/#/expensereports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>      
+    </ul>
+    </div>
+  </div>
+
+  <!--form design -->
+  <div class="col-md-8" data-ng-controller="GeneralExpenseCtrl">
+    <div class="row centered-form" data-ng-show="msg">
+      <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
+    </div>
+    <!-- Blank hight is inserted-->    
+    <div class="col-md-8" style="height: 20px;"></div>
+
+    <form class="form-horizontal" name="createExpenseForm" data-ng-submit="submitForm()">      
+      <div class="col-xs-12 col-md-offset-3 panel-body">
+
+        <div class="row ">
+          <div class="form-group">
+            <label for="amount" class="control-label col-xs-2"><small>Amount</small></label>            
+            <div class="col-xs-2 col-md-3">
+              <input type="text" class="form-control input-sm" name="amount" id="amount" placeholder="Amount" required ng-model="expense.amount" ng-pattern="/^-?\d+(\.\d+)?$/">
+              
+              <div data-ng-messages="createExpenseForm.amount.$error" data-ng-if="createExpenseForm.amount.$dirty" role="alert" class="text-danger">
+                <div data-ng-message="pattern"><small>Amount should be numeric</small></div>                      
+              </div>
+            </div> 
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="name" class="control-label col-xs-2"><small>Account Name</small></label>            
+            <div class="col-xs-2 col-md-3">
+              <select id="name" name="name" required style="height: 30px; width: 100%;" ng-model="expense.accountId" ng-options="account.id as account.accountName for account in accounts" >
+                <option value="" selected="selected">Select</option>
+              </select>
+            </div> 
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="date" class="control-label col-xs-2"><small>Date</small></label>            
+            <div class="col-xs-2 col-md-3">              
+              <input type="text" class="form-control input-sm" id="date" name="date" placeholder="Date (yyyy-MM-dd)" required ng-model="expense.date" data-date-format="yyyy-MM-dd" ng-pattern="/^(\d{4})-(\d{1,2})-(\d{1,2})$/">
+
+              <div data-ng-messages="createExpenseForm.date.$error" data-ng-if="createExpenseForm.date.$dirty" role="alert" class="text-danger">
+                <div data-ng-message="pattern"><small>Date should be yyyy-MM-dd format</small></div>                      
+              </div>
+            </div> 
+          </div>
+        </div>
+
+        <!--
+        <div class="row" ng-show="isAdmin">
+          <div class="form-group">
+            <label for="status" class="control-label col-xs-2"><small>Status</small></label>            
+            <div class="col-xs-2 col-md-3">
+              <select id="status"  name="status" style="height: 30px; width: 100%;" ng-model="expense.status" required ng-options="status for status in statusList" >
+                <option value="" selected="selected">Select</option>
+              </select>
+            </div> 
+          </div>
+        </div>-->
+
+        <div class="row">
+          <div class="form-group">
+            <label for="remark" class="control-label col-xs-2"><small>Remark</small></label>
+            <div class="col-xs-2 col-md-3">
+              <textarea class="form-control input-sm" rows="5" id="remark" name="remark" placeholder="Remarks" ng-model="expense.remark" /> 
+            </div> 
+          </div>
+        </div>
+
+        <div class="row">          
+            <div class="form-group">
+              <label for="button" class="control-label col-xs-2"></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="submit" value="Save" class="center-block btn btn-block btn-primary btn-lg" ng-disabled="createExpenseForm.$invalid">
+              </div>
+            </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+  <div class="col-md-2">
+    <!-- Blank right navigation-->    
+  </div>
+    
+</div>
+
+
+

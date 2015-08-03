@@ -4,7 +4,7 @@
             <title>LR MGMT</title>
 
             <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-            <link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
+            <!--<link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />-->
             <link rel="stylesheet" href="styles/main.css">        
             <!--[if lte IE 8]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -26,9 +26,13 @@
                                     <li role="presentation" ng-show="isLoggedIn" ng-cloak>
                                         <a href="#/lrhome">LR</a>
                                     </li>
+                                    <li role="presentation" ng-show="isLoggedIn" ng-cloak>
+                                        <a href="#/createexpense">EXPENSES</a>
+                                    </li>
                                     <li role="presentation" ng-show="isLoggedIn && isAdmin" ng-cloak>
                                         <a href="#/createuser">USER</a>
                                     </li>
+                                    
                                 </ul>
                             </div>
 
@@ -86,7 +90,7 @@
             <script src="bower_components/angular-route/angular-route.js"></script>
             <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
             <script src="bower_components/angular-touch/angular-touch.js"></script>
-            <script src="bower_components/angular-busy/dist/angular-busy.js"></script>
+            <!--<script src="bower_components/angular-busy/dist/angular-busy.js"></script>-->
 
 
         
@@ -109,7 +113,10 @@
             <script src="scripts/controllers/editlr.js"></script>
             <script src="scripts/services/adminuserservice.js"></script>
             <script src="scripts/controllers/searchuser.js"></script>
-            <script src="scripts/directives/compareto.js"></script>         
+            <script src="scripts/directives/compareto.js"></script>
+            <script src="scripts/controllers/generalexpense.js"></script>
+            <script src="scripts/services/generalexpenseservice.js"></script>
+            <script src="scripts/controllers/searchexpense.js"></script>
 
             <!-- endbuild -->
 

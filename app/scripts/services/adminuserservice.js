@@ -70,7 +70,7 @@ angular.module('lrwebApp')
       var lastName  = userData.lastName || '';
       var email     = userData.email || '';
       var mobile    = userData.mobile || '';
-      var role      = userData.role || 'normal';
+      var role      = userData.role || 'Normal';
 
       var ret = _defResult, d = $q.defer();
 

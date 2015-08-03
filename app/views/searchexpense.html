@@ -1,0 +1,233 @@
+  <div class="row">
+
+     <!--vertical navigation bar -->
+    <div class="col-md-2" data-ng-controller="LeftNavCtrl">
+      <div class="cliente"> 
+        <ul class="nav nav-pills nav-stacked" >                
+          <li class="active"><a href="/#/searchexpense"><i class="fa fa-list-alt fa-fw" ></i>Search Expense<span class="glyphicon glyphicon-search"></span></a></li>
+          <li><a href="/#/createexpense"><i class="fa fa-file-o fa-fw"></i>New Expense<span class="glyphicon glyphicon-save-file"></span></a></li>
+          <li><a href="/#/expensereports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>      
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-8" data-ng-controller="SearchExpenseCtrl">
+      <div class="row centered-form" data-ng-show="msg">
+        <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
+      </div>
+      <!-- Blank hight is inserted-->    
+      <div class="col-md-8" style="height: 20px;"></div>
+
+      <form class="form-horizontal" name="SearchExpenseForm" data-ng-submit="submitForm()">      
+        <div class="col-xs-12 col-md-offset-3 panel-body">           
+
+          <div class="row">
+            <div class="form-group">
+              <label for="name" class="control-label col-xs-2"><small>Account Name</small></label>
+              <div class="col-xs-2 col-md-3">
+                <select id="name" name="name" style="height: 30px; width: 100%;" ng-model="search.accountid" ng-options="account.id as account.accountName for account in accounts" >
+                  <option value="" selected="selected">Select</option>
+                </select>
+              </div> 
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="fdate" class="control-label col-xs-2"><small>From Date</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="fdate" name="fdate" placeholder="From Date (yyyy-MM-dd)" ng-model="search.fromdate" data-date-format="yyyy-MM-dd" required ng-pattern="/^(\d{4})-(\d{1,2})-(\d{1,2})$/">
+                <div data-ng-messages="SearchExpenseForm.fdate.$error" data-ng-if="SearchExpenseForm.fdate.$dirty" role="alert" class="text-danger">
+                  <div data-ng-message="pattern"><small>From Date should be yyyy-MM-dd format</small></div>
+                  <div data-ng-message="required"><small>From Date is required</small></div>
+                </div>
+              </div> 
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="tdate" class="control-label col-xs-2"><small>To Date</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="tdate" name="tdate" placeholder="To Date (yyyy-MM-dd)" ng-model="search.todate" data-date-format="yyyy-MM-dd" required ng-pattern="/^(\d{4})-(\d{1,2})-(\d{1,2})$/">
+
+                <div data-ng-messages="SearchExpenseForm.tdate.$error" data-ng-if="SearchExpenseForm.tdate.$dirty" role="alert" class="text-danger">
+                  <div data-ng-message="pattern"><small>To Date should be yyyy-MM-dd format</small></div>
+                  <div data-ng-message="required"><small>To Date is required</small></div>
+                </div>
+              </div> 
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="status" class="control-label col-xs-2"><small>Status</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <select id="status"  name="status" style="height: 30px; width: 100%;" ng-model="search.status" ng-options="status for status in statusList" >
+                  <option value="" selected="selected">Select</option>
+                </select>
+              </div> 
+            </div>
+          </div>         
+
+          <div class="row">          
+              <div class="form-group">
+                <label for="button" class="control-label col-xs-2"></label>            
+                <div class="col-xs-2 col-md-3">
+                  <input type="submit" value="Search" class="center-block btn btn-block btn-primary btn-lg" ng-disabled="SearchExpenseForm.$invalid">
+                </div>
+              </div>
+          </div>
+
+        </div>
+      </form>
+      <!-- Show data -->
+      <!-- Blank hight is inserted-->    
+      <div class="col-md-8" style="height: 20px;"></div>
+      <div ng-show="expenses">
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+          <tr>
+              <th>Id</th>
+            <th>Amount</th>
+            <th>Account Name</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Remark</th>
+            <th></th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr ng-repeat="expense in expenses">
+            <td>{{expense.id}}</td>            
+            <td>{{expense.amount}}</td>
+            <td>{{expense.account.accountName}}</td>
+            <td>{{expense.date}}</td>
+            <td>{{expense.status}}</td>
+            <td>{{expense.remark}}</td>
+            <td>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{expense.id}}">Edit
+              </button>
+              <div class="modal fade" id="{{expense.id}}" tabindex="-1" role="dialog" 
+              aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                      </button>
+                      <h4 class="modal-title" id="myModalLabel">
+                      Edit Expense
+                      </h4>
+                    </div>
+            
+                    <!-- Modal Body -->
+                    <div class="modal-body">                  
+                      <form class="form-horizontal" name="editExpenseForm{{$index}}" data-ng-submit="editExpense(expense)">
+                        <div class="row">
+                          <div class="row centered-form" data-ng-show="editmessage">
+                            <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{editmessage}}</div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group">                            
+                              <label  class="col-sm-2 control-label col-xs-2" for="eid"><small>Id</small></label>
+                              <div class="col-xs-2">
+                                <input type="text" class="form-control input-sm" name="eid" id="eid" placeholder="id" ng-model="expense.id" disabled />
+                              </div>
+                          </div>
+                        </div>
+                        
+                        <div class="row">                          
+                          <div class="form-group">                            
+                            <label  class="col-sm-2 control-label col-xs-2" for="amount"><small>Amount</small></label>
+                            <div class="col-xs-2">
+                              <input type="text" class="form-control input-sm" name="amount" id="amount" placeholder="Amount" required ng-model="expense.amount" ng-pattern="/^-?\d+(\.\d+)?$/"/>
+              
+                              <div data-ng-messages="editExpenseForm$index.amount.$error" data-ng-if="editExpenseForm$index.amount.$dirty" role="alert" class="text-danger">
+                                <div data-ng-message="pattern"><small>Amount should be numeric</small></div>                      
+                              </div>
+                            </div>
+
+                            <label for="name" class="control-label col-xs-2 col-md-3"><small>Account Name</small></label>            
+                            <div class="col-xs-2 col-md-3">
+                              <select id="name" name="name" required style="height: 30px; width: 100%;" ng-model="expense.account.id" ng-options="account.id as account.accountName for account in accounts" >                                
+                              </select>
+                            </div> 
+
+                          </div>
+                        </div>                       
+
+                        <div class="row">
+                          <div class="form-group">
+                            <label for="date" class="control-label col-xs-2"><small>Date</small></label>            
+                            <div class="col-xs-2 col-md-3">
+                              <input type="text" class="form-control input-sm" id="date" name="date" placeholder="Date (yyyy-MM-dd)" required ng-model="expense.date" data-date-format="yyyy-MM-dd" ng-pattern="/^(\d{4})-(\d{1,2})-(\d{1,2})$/">
+
+                              <div data-ng-messages="editExpenseForm$index.date.$error" data-ng-if="editExpenseForm$index.date.$dirty" role="alert" class="text-danger">
+                                <div data-ng-message="pattern"><small>Date should be yyyy-MM-dd format</small></div>                      
+                              </div>
+                            </div> 
+                          </div>
+                        </div>
+
+                        <div class="row" ng-show="isAdmin">
+                          <div class="form-group">
+                            <label for="status" class="control-label col-xs-2"><small>Status</small></label>            
+                            <div class="col-xs-2 col-md-3">
+                              <select id="status"  name="status" style="height: 30px; width: 100%;" ng-model="expense.status" required ng-options="status for status in statusList" >                       
+                              </select>
+                            </div> 
+
+                            <label for="remark" class="control-label col-xs-2"><small>Remark</small></label>
+                            <div class="col-xs-2 col-md-3">
+                              <textarea class="form-control input-sm" rows="5" id="remark" name="remark" placeholder="Remarks" ng-model="expense.remark" /> 
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div class="row modal-footer">
+                          <div class="form-group">
+                            <div class="col-xs-4">
+                              <button type="button" class="btn btn-default"
+                              data-dismiss="modal">
+                                  Close
+                              </button>
+                            </div>
+                            <div class="col-xs-4">
+                              <button type="submit" class="btn btn-primary" ng-disabled="editExpenseForm$index.$invalid">
+                                Save
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </form>                
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+
+    <div class="col-md-2">
+      <!-- Blank right navigation-->    
+    </div>
+      
+
+  </div>
+
+
+
+
+
