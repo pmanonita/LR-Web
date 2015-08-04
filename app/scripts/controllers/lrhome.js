@@ -38,10 +38,10 @@ angular.module('lrwebApp')
     $scope.getLRByDate = function() {
       $log.debug("On lr sgetLRByDate");
       
-      lrService.getLRByDate($scope.lr.lrDate).then(function(u) {
+      lrService.getLRList($scope.filter).then(function(u) {
         //success callback        
         $log.debug('Got LR By date data'); 
-        $scope.LRList = lrService.getLRList();          
+        $scope.LRList = u;          
        
         
       }, function(res) {

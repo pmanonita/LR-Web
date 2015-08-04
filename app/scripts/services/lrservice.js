@@ -98,12 +98,7 @@ angular.module('lrwebApp')
     function _updateLROtherExpenditureList(LROtherExpenditure) {      
 
       lr.otherExpenditures  = LROtherExpenditure;      
-    }
-
-     function _updateLRList(LRList) {      
-
-      lr.LRList  = LRList;      
-    }
+    }    
 
     function _updateLRChalanDetails(LRChalan) {      
 
@@ -418,15 +413,40 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
-    function _getLRByDate(lrDate) {
+    function _getLRList(filter) {
       console.log("at getLRByDate")
       //normalize input
-      
-      
-    
       var ret = _defResult, d = $q.defer();
+
+      var lrDate = '';
+      var multiLoad = '';
+      var status = '';
+
+      if(filter) {
+        if(filter.date) {
+          lrDate = filter.date;
+        }
+        if(filter.multiload) {
+          multiLoad = filter.multiLoad;  
+        }
+        if(filter.status) {
+          status = filter.status;  
+        }
+      }
       
-      var data = 'lrDate=' +  lrDate;
+      if(lrDate && lrDate.length > 0) {
+        //date = new Date(frmdate.replace(pattern,'$3-$2-$1'));
+        var date = new Date(lrDate);
+        if (isNaN(date.valueOf())) {          
+          ret.msg = 'Date is not valid';
+          d.reject(ret);
+          return d.promise;
+        }
+      }    
+      
+      var data = 'lrDate='     +  lrDate
+                 '&multiLoad=' +  multiLoad
+                 '&status='    +  status ;
 
       var config = { 
         headers: {
@@ -436,11 +456,11 @@ angular.module('lrwebApp')
         }
       };
 
-      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/getLRByDate', data, config);
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/list', data, config);
 
       //send ajax form submission
       $promise.then(function(data, status, headers, config) {
-        $log.debug('LR Info + ' + JSON.stringify(data));
+        $log.debug('LR LIST Info + ' + JSON.stringify(data));
 
         var result = data.data; // Fix it
 
@@ -450,12 +470,10 @@ angular.module('lrwebApp')
         //if(result.code !== 1) {
           //some error
          // d.reject(ret);
-//return;
-       // }     
+        //return;
+       // }
 
-        _updateLRList(result.lrs);
-        ret.sts = true;
-        d.resolve(ret);      
+        d.resolve(result.lrs);      
 
       }, function(r) {
         $log.debug('Error Info + ' + JSON.stringify(r.data));
@@ -762,8 +780,7 @@ angular.module('lrwebApp')
       getBillingnameList:_getBillingnameList,
       getLR: function() {return lr;},      
       removeOtherExpenditure:_removeOtherExpenditure,
-      getLRByDate:_getLRByDate,
-      getLRList: function() {return lr.LRList;},
+      getLRList:_getLRList,      
       createChalan:_createChalan,
       searchLR: _searchLR
     };
