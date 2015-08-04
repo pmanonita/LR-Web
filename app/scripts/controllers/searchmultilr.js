@@ -14,6 +14,8 @@ angular.module('lrwebApp')
     $scope.msg = "";
     $scope.filter = {};
 
+    //on master
+    
     $scope.submitForm = function() {
       
       $log.debug($scope.filter);
