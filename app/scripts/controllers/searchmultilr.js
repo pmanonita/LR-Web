@@ -21,17 +21,20 @@ angular.module('lrwebApp')
       $log.debug($scope.filter);
       $scope.msg = "";
       
-      lrService.getLRList($scope.filter).then(function(u) {
-        $log.debug('Got LR List'); 
-        $scope.LRList = u;      
-        $scope.msg = "Successfully fetched the Data"
+      lrService.getMultiLRs($scope.filter).then(function(u) {
+        $log.debug('Got Multi LR List'); 
+        $scope.MultiLRList = u;      
+        $scope.msg = "Successfully fetched Multi LR  Data"
         
       }, function(res) {        
         $log.debug('Issue while getting LR data' + JSON.stringify(res));
-        $scope.LRList = [];
+        $scope.MultiLRList = [];
         $scope.msg = res.msg;
       });
       return false;
     };
+
+    //On branch test
+    //On bracnh test again
 
   }]);
