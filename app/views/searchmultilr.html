@@ -18,8 +18,7 @@
       <div class="col-md-8" style="height: 20px;"></div>
 
       <form class="form-horizontal" name="SearchMultiLRForm" data-ng-submit="submitForm()">      
-        <div class="col-xs-12 col-md-offset-3 panel-body">         
-
+        <div class="col-xs-12 col-md-offset-3 panel-body">    
           <div class="row">
             <div class="form-group">
               <label for="date" class="control-label col-xs-2"><small>Date</small></label>            
@@ -29,7 +28,8 @@
                   <div data-ng-message="pattern"><small>Date should be yyyy-MM-dd format</small></div>
                   <div data-ng-message="required"><small>Date is required</small></div>
                 </div>
-              </div> 
+              </div>
+              <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>
             </div>
           </div>
         </div>
