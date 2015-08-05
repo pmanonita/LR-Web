@@ -414,7 +414,8 @@ angular.module('lrwebApp')
     }
 
     function _getLRList(filter) {
-      console.log("at getLRByDate")
+      console.log("getLRList service method:")
+      console.log(filter)
       //normalize input
       var ret = _defResult, d = $q.defer();
 
@@ -422,17 +423,19 @@ angular.module('lrwebApp')
       var multiLoad = '';
       var status = '';
 
-      if(filter) {
-        if(filter.date) {
+      if (filter) {
+        if (filter.date && filter.date.length) {
           lrDate = filter.date;
         }
-        if(filter.multiload) {
+        
+        if (filter.multiLoad && filter.multiLoad.length) {
           multiLoad = filter.multiLoad;  
         }
-        if(filter.status) {
+        if (filter.status && filter.status.length)  {
           status = filter.status;  
         }
       }
+
       
       if(lrDate && lrDate.length > 0) {
         //date = new Date(frmdate.replace(pattern,'$3-$2-$1'));
@@ -444,8 +447,8 @@ angular.module('lrwebApp')
         }
       }    
       
-      var data = 'lrDate='     +  lrDate
-                 '&multiLoad=' +  multiLoad
+      var data = 'lrDate='     +  lrDate    +
+                 '&multiLoad=' +  multiLoad +
                  '&status='    +  status ;
 
       var config = { 
@@ -455,6 +458,8 @@ angular.module('lrwebApp')
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       };
+
+      console.log(data);
 
       var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/list', data, config);
 

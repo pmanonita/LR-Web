@@ -15,7 +15,7 @@ angular.module('lrwebApp')
     $scope.filter = {};
 
     $scope.getLRList = function() {
-      filter.multiLoad = true;
+      $scope.filter.multiLoad = "true";
       $log.debug($scope.filter);
       $scope.msg = "";
       
