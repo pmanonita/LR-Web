@@ -253,12 +253,13 @@ angular.module('lrwebApp')
       var ret = _defResult, d = $q.defer();
 
       //input validation. To-do : This should be done in frontend.
-      var pattern = /(\d{2})\-(\d{2})\-(\d{4})/;
+      //var pattern = /(\d{2})\-(\d{2})\-(\d{4})/;
       var fdate   = null;
       var tdate   = null;
 
       if(frmdate && frmdate.length > 0) {
-        fdate = new Date(frmdate.replace(pattern,'$3-$2-$1'));
+        //fdate = new Date(frmdate.replace(pattern,'$3-$2-$1'));
+        fdate = new Date(frmdate);
         if (isNaN(fdate.valueOf())) {
           console.log('From date is not valid');
           ret.msg = 'From date is not valid';
@@ -268,7 +269,8 @@ angular.module('lrwebApp')
       }
 
       if(todate && todate.length > 0) {
-        tdate = new Date(todate.replace(pattern,'$3-$2-$1'));
+        //tdate = new Date(todate.replace(pattern,'$3-$2-$1'));
+        tdate = new Date(todate)
         if (isNaN(tdate.valueOf())) {
           console.log('To date is not valid');
           ret.msg = 'To date is not valid';
