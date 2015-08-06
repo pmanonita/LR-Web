@@ -5,8 +5,8 @@
     <div class="col-md-2" data-ng-controller="LeftNavCtrl">
       <div class="cliente"> 
         <ul class="nav nav-pills nav-stacked" >
-          <li class="active"><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
-          <li><a href="/#/createlr"><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
+          <li><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
+          <li class="active"><a href="/#/createlr"><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
           <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>          
         </ul>
       </div>
@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label for="lrNo" class="control-label col-xs-2"><small>LR NO</small></label>
                 <div class="col-xs-4">
-                  <input type="text"  class="form-control input-sm" id="lrNo" placeholder="" ng-model="lr.lrNo"/>
+                  <input type="text"  class="form-control input-sm" id="lrNo" placeholder="" ng-model="lr.lrNo" disabled />
                 </div> 
                 <div class="col-xs-4">                 
                 </div>                       
@@ -62,15 +62,22 @@
 
           </div>
         </div>   
-          <div class="row">
-            <div class="form-group"> 
-              <label for="billingParty" class="control-label col-xs-2"><small>Billing Party</small></label>            
-              <div class="col-xs-6">
-                <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty">
-              </div>                    
-             
-            </div>
+         
+        <div class="row">
+          <div class="form-group"> 
+            <label for="billingParty" class="control-label col-xs-2"><small>Billing Party</small></label>            
+            <div class="col-xs-4">
+              <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty">
+            </div> 
+            <label class="control-label col-xs-2"><small>MultiLoad:</small></label>   
+            <div class="col-xs-4">
+              <label>
+                <input type="checkbox" ng-false-value="false" ng-model="lr.multiLoad" ng-checked="lr.multiLoad=='true'" disabled="" />
+              </label>
+            </div>                    
+           
           </div>
+        </div> 
 
 
          <div class="row bar">   
@@ -200,8 +207,19 @@
               </div>
               <div class="col-xs-4">                 
                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#incomeModal">
-                    Billing
+                    Income
                 </button>            
+              </div>                  
+          </div> 
+           <div class="row">
+              <div class="col-xs-8">                              
+              </div>           
+              
+              <div class="col-xs-4">  
+
+                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#otherincomeModal">
+                    Other Income
+                </button>           
               </div>                  
           </div> 
           <div class="row">           
@@ -221,7 +239,16 @@
                     Create CHALAN
                 </button>           
             </div>                  
-          </div>   
+          </div>  
+           <div class="row">           
+            <div class="col-xs-8">                              
+            </div>
+            <div class="col-xs-4">                 
+                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#printLRBillModal">
+                    Create BILL
+                </button>           
+            </div>                  
+          </div> 
               
         </div>
        
@@ -253,11 +280,14 @@
                   <div class="modal-body">
                 
                     <form class="form-horizontal" name="lrexpendForm" data-ng-submit="submitExpenditureForm()"> 
+                    <div class="row centered-form" data-ng-show="expmsg">
+                      <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{expmsg}}</div>
+                    </div> 
                      <div class="row">
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="lrNo">LR No</label>
                         <div class="col-xs-2">
-                          <input type="text"  class="form-control" id="lrNo" placeholder="" ng-model="lr.lrNo"/>
+                          <input type="text"  class="form-control" id="lrNo" placeholder="" ng-model="lr.lrNo" disabled />
                         </div>                       
                       </div>
                     </div>
@@ -265,11 +295,11 @@
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="frBroker">Freight To Broker</label>
                         <div class="col-xs-4">
-                          <input type="text"  class="form-control" id="frBroker" placeholder="" ng-model="lr.freightToBroker"/>
+                          <input type="number"  class="form-control" id="frBroker" placeholder="" ng-model="lr.freightToBroker"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="exPayBroker" >Extra Pay To Broker</label>
                         <div class="col-xs-3">
-                          <input type="text" class="form-control" id="exPayBroker" placeholder="" ng-model="lr.extraPayToBroker"/>
+                          <input type="number" class="form-control" id="exPayBroker" placeholder="" ng-model="lr.extraPayToBroker"/>
                         </div>
                       </div>
                     </div>
@@ -278,11 +308,11 @@
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="advance">Advance</label>
                         <div class="col-xs-4">
-                          <input type="text" class="form-control" id="advance" placeholder="" ng-model="lr.advance"/>
+                          <input type="number" class="form-control" id="advance" placeholder="" ng-model="lr.advance"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="balanceFreight" >Balance Freight</label>
                         <div class="col-xs-3">                         
-                          <input type="text" class="form-control" id="balanceFreight1" placeholder="" value="{{ (lr.freightToBroker*1) - (lr.advance*1) }}" disabled/>                          
+                          <input type="text" class="form-control" id="balanceFreight1" placeholder="" value="{{ (lr.freightToBroker*1) - ((lr.advance*1)+(lr.extraPayToBroker*1)) }}" disabled/>                          
                           
                         </div>
                       </div>
@@ -292,11 +322,11 @@
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="loadingCharges">Loading Charges</label>
                         <div class="col-xs-4">
-                          <input type="text" class="form-control" id="loadingCharges" placeholder="" ng-model="lr.loadingCharges"/>
+                          <input type="number" class="form-control" id="loadingCharges" placeholder="" ng-model="lr.loadingCharges"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="unloadigCharges" >Unloading Charges</label>
                         <div class="col-xs-3">
-                          <input type="text" class="form-control" id="unloadingCharges" placeholder="" ng-model="lr.unloadingCharges"/>
+                          <input type="number" class="form-control" id="unloadingCharges" placeholder="" ng-model="lr.unloadingCharges"/>
                         </div>
                       </div>
                     </div>
@@ -305,11 +335,11 @@
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="loadingDetBroker">Loading Det To Broker</label>
                         <div class="col-xs-4">
-                          <input type="text" class="form-control" id="loadingDetBroker" placeholder="" ng-model="lr.loadingDetBroker"/>
+                          <input type="number" class="form-control" id="loadingDetBroker" placeholder="" ng-model="lr.loadingDetBroker"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="unloadingDetBroker" >Unloading Det To Broker</label>
                         <div class="col-xs-3">
-                          <input type="text" class="form-control" id="unloadingDetBroker" placeholder="" ng-model="lr.unloadingDetBroker"/>
+                          <input type="number" class="form-control" id="unloadingDetBroker" placeholder="" ng-model="lr.unloadingDetBroker"/>
                         </div>
                       </div>
                     </div>
@@ -364,12 +394,15 @@
                   <!-- Modal Body -->
                   <div class="modal-body">
                 
-                    <form class="form-horizontal" name="lrexpendForm" data-ng-submit="submitIncomeForm()"> 
+                    <form class="form-horizontal" name="lrexpendForm" data-ng-submit="submitIncomeForm()">
+                     <div class="row centered-form" data-ng-show="incomemsg">
+                      <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{incomemsg}}</div>
+                    </div> 
                      <div class="row">
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="lrNo">LR No</label>
                         <div class="col-xs-2">
-                          <input type="text"  class="form-control" id="lrNo" placeholder="" ng-model="lr.lrNo"/>
+                          <input type="text"  class="form-control" id="lrNo" placeholder="" ng-model="lr.lrNo" disabled />
                         </div>                       
                       </div>
                     </div>
@@ -377,11 +410,11 @@
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="frBroker">Freight To Broker</label>
                         <div class="col-xs-4">
-                          <input type="text"  class="form-control" id="frBroker" placeholder="" ng-model="lr.freightToBrokerBilling"/>
+                          <input type="number"  class="form-control" id="frBroker" placeholder="" ng-model="lr.freightToBrokerBilling"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="exPayBroker" >Extra Pay To Broker</label>
                         <div class="col-xs-3">
-                          <input type="text" class="form-control" id="exPayBroker" placeholder="" ng-model="lr.extraPayToBrokerBilling"/>
+                          <input type="number" class="form-control" id="exPayBroker" placeholder="" ng-model="lr.extraPayToBrokerBilling"/>
                         </div>
                       </div>
                     </div>
@@ -390,11 +423,11 @@
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="loadingCharges">Loading Charges</label>
                         <div class="col-xs-4">
-                          <input type="text" class="form-control" id="loadingCharges" placeholder="" ng-model="lr.loadingChargesBilling"/>
+                          <input type="number" class="form-control" id="loadingCharges" placeholder="" ng-model="lr.loadingChargesBilling"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="unloadigCharges" >Unloading Charges</label>
                         <div class="col-xs-3">
-                          <input type="text" class="form-control" id="unloadingCharges" placeholder="" ng-model="lr.unloadingChargesBilling"/>
+                          <input type="number" class="form-control" id="unloadingCharges" placeholder="" ng-model="lr.unloadingChargesBilling"/>
                         </div>
                       </div>
                     </div>
@@ -403,11 +436,11 @@
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="loadingDetBroker">Loading Det To Broker</label>
                         <div class="col-xs-4">
-                          <input type="text" class="form-control" id="loadingDetBroker" placeholder="" ng-model="lr.loadingDetBrokerBilling"/>
+                          <input type="number" class="form-control" id="loadingDetBroker" placeholder="" ng-model="lr.loadingDetBrokerBilling"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="unloadingDetBroker" >Unloading Det To Broker</label>
                         <div class="col-xs-3">
-                          <input type="text" class="form-control" id="unloadingDetBroker" placeholder="" ng-model="lr.unloadingDetBrokerBilling"/>
+                          <input type="number" class="form-control" id="unloadingDetBroker" placeholder="" ng-model="lr.unloadingDetBrokerBilling"/>
                         </div>
                       </div>
                     </div>
@@ -464,6 +497,9 @@
                   <div class="modal-body">
                 
                     <form class="form-horizontal" name="lrotherexpendForm" data-ng-submit="submitOtherExpenditureForm()"> 
+                    <div class="row centered-form" data-ng-show="otherexpmsg">
+                      <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{otherexpmsg}}</div>
+                    </div>
                     <div class="row">
                       <div class="form-group">
                         <label  class="col-sm-2 control-label col-xs-2" for="lrNo">LR No</label>
@@ -480,8 +516,9 @@
                           <input type="number"  class="form-control" id="amount" placeholder="" required ng-model="lr.otherAmount"/>
                         </div>
                         <label class="col-sm-2 control-label col-xs-2" for="remarks" >Remarks</label>
-                        <div class="col-xs-2">
-                          <input type="text" class="form-control" id="remarks" placeholder="" required ng-model="lr.otherRemarks"/>
+                        <div class="col-xs-4">
+                        <textarea class="form-control input-sm" rows="2" id="remarks" placeholder="" ng-model="lr.otherRemarks" required ></textarea>
+                          
                         </div>
                       </div>
                     </div>
@@ -532,6 +569,122 @@
                              
                               <td>
                                 <input type="button" value="Remove" class="btn btn-primary" ng-click="removeOtherExpenditure(lrItem.id,lrItem.lrId)"/>
+                              </td>
+                            </tr>
+                          </table>
+                         
+                        </div>
+                        
+                      
+                    </div>
+
+                   
+                  </form>  
+                
+                 </div>
+            
+               
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+         <div class="row">
+          <div class="col-xs-12">
+             <!-- Modal -->
+            <div class="modal fade" id="otherincomeModal" tabindex="-1" role="dialog" 
+            aria-labelledby="myModalLabel1" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <button type="button" class="close" 
+                    data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">
+                    Add Other Income
+                    </h4>
+                  </div>
+            
+                  <!-- Modal Body -->
+                  <div class="modal-body">
+                
+                    <form class="form-horizontal" name="lrotherexpendForm" data-ng-submit="submitOtherIncomeForm()"> 
+                    <div class="row centered-form" data-ng-show="otherincomemsg">
+                      <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{otherincomemsg}}</div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group">
+                        <label  class="col-sm-2 control-label col-xs-2" for="lrNo">LR No</label>
+                        <div class="col-xs-2">
+                          <input type="text"  class="form-control" id="lrNo" placeholder="" ng-model="lr.lrNo" disabled/>
+                        </div>                       
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group">                       
+                        <label  class="col-sm-2 control-label col-xs-2" for="amount">Amount</label>
+                        <div class="col-xs-2">
+                          <input type="number"  class="form-control" id="amount" placeholder="" required ng-model="lr.otherAmountBilling"/>
+                        </div>
+                        <label class="col-sm-2 control-label col-xs-2" for="remarks" >Remarks</label>
+                        <div class="col-xs-2">
+                          <textarea class="form-control input-sm" rows="2" id="remarks" placeholder="" ng-model="lr.otherRemarksBilling" required ></textarea>
+                          
+                        </div>
+                      </div>
+                    </div>
+
+                    
+
+                    <div class="row modal-footer">
+                      <div class="form-group">
+                        <div class="col-xs-4">
+                          <button type="button" class="btn btn-default"
+                          data-dismiss="modal">
+                              Close
+                          </button>
+                        </div>
+                        <div class="col-xs-4">
+                          <button type="submit" class="btn btn-primary">
+                            Save
+                          </button>
+                           
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      
+                        <div class="col-xs-12">
+                          <table class="table">
+                            <tr>
+                              <th>SlNo
+                              </th>
+                              <th>LR No
+                              </th>
+                              <th>Other Amount
+                              </th>
+                              <th>Remarks
+                              </th>
+                            </tr>
+                            <tr ng-repeat="lrItem in lr.otherIncomes track by $index">
+                              <td>Other{{$index+1}}
+                              </td>
+                              <td>{{lrItem.lrId}}
+                              </td>
+                              <td>{{lrItem.amount}}
+                              </td>
+                              <td>{{lrItem.remarks}}
+                              </td>
+                             
+                              <td>
+                                <input type="button" value="Remove" class="btn btn-primary" ng-click="removeOtherIncome(lrItem.id,lrItem.lrId)"/>
                               </td>
                             </tr>
                           </table>
@@ -985,6 +1138,9 @@
                            
 
             </div>
+            <div class="row centered-form" data-ng-show="chalanmsg">
+              <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{chalanmsg}}</div>
+            </div>
            <div class="col-md-8">
            </div>
               <div id="printlrchalan" class="well col-xs-8 col-sm-8 col-md-8 col-xs-offset-1 col-sm-offset-1 col-md-offset-3" style="overflow-y: scroll; max-height:85%;  margin-top: 50px; margin-bottom:50px;">
@@ -1038,12 +1194,12 @@
                 <div class="bar row">
                   <div class="col-md-12"> 
                     <table class="table">                            
-                      <tr ng-repeat="column in chalanColumns track by $index">                              
+                      <tr ng-repeat="column in lr.chalan.chalanDetails track by $index">                              
                         <td>{{column}}
                         </td>                             
                       </tr>
                       <th>
-                        <strong>Total Cost: </strong>{{lr.chalan.lrIds}}
+                        <strong>Total Cost: </strong>{{lr.chalan.totalCost}}
                       </th>
                     </table>
                   </div>                  
@@ -1072,121 +1228,153 @@
           
 
 
-    <!-- create chalan -- >
-   <div class="row">
-          <div class="col-xs-12">
-             <!-- Modal -->
-            <div class="modal fade" id="printChalanModal" tabindex="-1" role="dialog" 
-            aria-labelledby="myModalLabel1" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <!-- Modal Header -->
-                  <div class="modal-header">
-                    <button type="button" class="close" 
-                    data-dismiss="modal">
-                       <span aria-hidden="true">&times;</span>
-                       <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel1">
-                        Create Chalan
-                    </h4>
-                  </div>
+    <!-- start of create billing -->
+
+     <div  class="row">
+        <div class="col-md-8">
+          <div class="well row modal fade" id="printLRBillModal" tabindex="-1" role="dialog" 
+            aria-labelledby="myModalLabel" aria-hidden="true"> 
             
-                  <!-- Modal Body -->
-                  <div class="modal-body">
-                
-                    <form class="form-horizontal" name="lrotherexpendForm" data-ng-submit="submitOtherExpenditureForm()"> 
-                    <div class="row">
-                      <div class="form-group">
-                         <label  class="col-sm-12 control-label col-md-12" for="columns">Select Expenditures Columns</label>
+            <form class="form-horizontal" name="printbilllForm" >     
+                   
+              <div class="col-md-2">
+                <button type="button" class="btn btn-success btn-lg btn-block"  ng-click="printDiv('lrbill');">
+                    Print Bill  <span class="glyphicon glyphicon-chevron-right"></span>
+                </button>
+            </div>
+           <div class="col-md-2">
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                              Close
+              </button>
+           </div>
+           <div class="col-md-4">
+           <div class="row">
+           <div class="form-group">
+                         <label  class="col-sm-4 control-label col-md-4" for="billingColumns">Select Billing Columns</label>
                          <div class="col-md-8">
-                            <select multiple ng-model="expenditureColumns" class="form-control" id="columns">
-                              <option value="FREIGHT TO BROKER- {{lr.freightToBroker}}">FREIGHT TO BROKER</option>
-                              <option value="EXTRA PAY TO BROKER - {{lr.extraPayToBroker}}">EXTRA PAY TO BROKER</option>
-                              <option value="ADVANCE - {{lr.advance}}">ADVANCE</option>
-                              <option value="BALANCE FREIGHT - {{lr.balanceFreight}}">BALANCE FREIGHT</option>
-                              <option value="LOADING CHARGES - {{lr.loadingCharges}}">LOADING CHARGES</option>
-                              <option value="UNLOADING CHARGES - {{lr.unloadingCharges}}">UNLOADING CHARGES</option>
-                              <option  value="LOADING DET BROKER - {{lr.loadingdetBroker}}">LOADING DET BROKER</option>
-                              <option value="UNLOADING DET BROKER - {{lr.unloadingdetBroker}}">UNLOADING DET BROKER</option>
-                            </select>   
+                            
+                            <select multiple ng-model="billingColumns" class="form-control" id="billingColumns">
+                              <option value="FREIGHT TO BROKER- {{lr.freightToBrokerBilling}}">FREIGHT TO BROKER</option>
+                              <option value="EXTRA PAY TO BROKER - {{lr.extraPayToBrokerBilling}}">EXTRA PAY TO BROKER</option>
+                              <option value="ADVANCE - {{lr.advanceBilling}}">ADVANCE</option>
+                              <option value="BALANCE FREIGHT - {{lr.balanceFreightBilling}}">BALANCE FREIGHT</option>
+                              <option value="LOADING CHARGES - {{lr.loadingChargesBilling}}">LOADING CHARGES</option>
+                              <option value="UNLOADING CHARGES - {{lr.unloadingChargesBilling}}">UNLOADING CHARGES</option>
+                              <option  value="LOADING DET BROKER - {{lr.loadingdetBrokerBilling}}">LOADING DET BROKER</option>
+                              <option value="UNLOADING DET BROKER - {{lr.unloadingdetBrokerBilling}}">UNLOADING DET BROKER</option>
+                            </select>
+
                           </div>                    
                       </div>
                     </div>
+            </div>
+            <div class="col-md-4">
+           
+            
 
-                    <div class="row">
-                      <div class="form-group">
-                          
-                         <label  class="col-sm-2 control-label col-md-2" for="columns">Select Other Expenditures To Generate Chalan</label>
-                         <div class="col-md-10">
-                          </div>
+           <div class="row">
+           <div class="form-group">
+                         <label  class="col-sm-4 control-label col-md-4" for="columns">Select Other Incomes</label>
                          <div class="col-md-8">
-                            <select multiple class="form-control" id="columns">
-                              <option>FREIGHT TO BROKER</option>
-                              <option>EXTRA PAY TO BROKER</option>
-                              <option>ADVANCE</option>
-                              <option>BALANCE FREIGHT</option>
-                              <option>LOADING CHARGES</option>
-                              <option>UNLOADING CHARGES</option>
-                              <option>LOADING DET BROKER</option>
-                              <option>UNLOADING DET BROKER</option>
-                            </select>   
+                         
+                <select multiple name="otherIncomeColumn" id="otherIncomeColumn"  ng-model="otherincomecolumns">    
+                  <option ng-repeat="lrotherincome in lr.otherIncomes track by $index" value="Other{{$index+1}}-{{lrotherincome.amount}}">Other{{$index+1}}-{{lrotherincome.remarks}}</option>
+                </select>
+                  
                           </div>                    
                       </div>
-                    </div>                   
-
-                    
-
-                    <div class="row modal-footer">
-                      <div class="form-group">
-                        <div class="col-xs-4">
-                          <button type="button" class="btn btn-default"
-                          data-dismiss="modal">
-                              Close
-                          </button>
-                        </div>
-                        <div class="col-xs-4">
-                          <button type="submit" class="btn btn-primary" ng-click="saveChalana(lr.lrNo,expenditureColumns)">
+                    </div>
+              </div>
+             <div class="col-xs-4">
+                          <button type="submit" class="btn btn-primary" ng-click="saveBill(lr.lrNo,billingColumns,otherincomecolumns)">
                             Save
                           </button>
                            
 
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <div class="row">
-                      
-                        <div id="printchalan" class="col-xs-12">
-                       
-                          <table class="table">
-                            
-                            <tr ng-repeat="column in chalanColumns track by $index">                              
-                              <td>{{column}}
-                              </td>                             
-                            </tr>
-                          </table>
-                         
-                        </div>
-                         <button type="button" class="btn btn-success btn-lg btn-block"  ng-click="printDiv('printchalan');">
-                          Print CHALAN  <span class="glyphicon glyphicon-chevron-right"></span>
-                        </button>
-                      
-                    </div>
-
-                   
-                  </form>  
-                
-                 </div>
-            
-               
-                </div>
-              </div>
             </div>
-          </div>
-    </div>
-    <!-- end of create chalan -->
+            <div class="row centered-form" data-ng-show="billmsg">
+              <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{billmsg}}</div>
+            </div>
+           <div class="col-md-8">
+           </div>
+              <div id="lrbill" class="well col-xs-8 col-sm-8 col-md-8 col-xs-offset-1 col-sm-offset-1 col-md-offset-3" style="overflow-y: scroll; max-height:85%;  margin-top: 50px; margin-bottom:50px;">
+                <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <address>
+                        <strong>NATIONAL ROADWAYS</strong>
+                        <br>
+                        Shop No7,H.No. 8-59/4, Beside Reliable Ready Mix
+                        <br>
+                        Bauchupally 'X' Road,
+                        <br>
+                        Hyderabad-5000 090.
+                        <br>
+                        <abbr title="Phone">Cell:</abbr> 93911 88488, 93460 10458
+                        <br>
+                        <abbr title="Phone">Email:</abbr> sanjaysinghrathore90@gmail.com
+                    </address>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                    <p>
+                        <em>Date: {{lr.lrDate}}</em>
+                    </p>
+                    <p>
+                        <em>Bill No #: {{lr.bill.id}}</em>
+                    </p>
+                    <p>
+                        <em>LR No #: {{lr.bill.lrIds}}</em>
+                    </p>
+                  </div>
+                </div>
+              <div class="row">
+               <div class="col-xs-12 col-sm-12 col-md-12">
+               <div class="row">
+                  <address>
+                        <strong>M/S- {{lr.billingname.name}},</strong>
+                        <br>
+                        {{lr.billingname.address}}
+                        
+                    </address>
+                  
+               </div>
+               <div class="bar row">
+                  <div class="col-md-2">PO No :</div>
+                  <div class="col-md-10">{{lr.vehicleNo}}</div>
+                </div>
+                 <div class="row">
+                  <div class="col-md-2">DO No :</div>
+                  <div class="col-md-10">{{lr.vehicleNo}}</div>
+                </div>
+                <div class="bar row">
+                  <div class="col-md-12"> 
+                    <table class="table">                            
+                      <tr ng-repeat="column in lr.bill.billDetails track by $index">                              
+                        <td>{{column}}
+                        </td>                             
+                      </tr>
+                      <th>
+                        <strong>Total Cost: </strong>{{lr.bill.totalCost}}
+                      </th>
+                    </table>
+                  </div>                  
+                </div>
+                
+                 <div class="row bar">
+                  <div class="col-md-2">Total Cost In Words :</div>
+                  <div class="col-md-10"><input type="text" style="WIDTH: 100%"/></div>
+                </div>    
+                
+                
+                
+                </div>               
+            </div>
+            </div>
+            </form>
+            </div>
+            </div>
+            </div>
+
+            <!--- end of billing -->
     
   
                

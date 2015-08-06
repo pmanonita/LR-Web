@@ -81,7 +81,8 @@ angular.module('lrwebApp')
       $log.debug('on lr form ' );
       lrService.createLR($scope.lr).then(function(/*res*/) {
         //success callback
-        $log.debug('LR Created Sucessfully');        
+        $log.debug('LR Created Sucessfully'); 
+        $scope.msg = "LR Created Succesfully";    
         $location.path('/editlr');
       }, function(res) {
         //error callback & show the error message
