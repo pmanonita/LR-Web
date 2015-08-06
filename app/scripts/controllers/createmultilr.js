@@ -13,6 +13,7 @@ angular.module('lrwebApp')
 
     $scope.msg = "";
     $scope.filter = {};
+    $scope.checkedLRIdList = [];
 
     $scope.getLRList = function() {
       $scope.filter.multiLoad = "true";
@@ -32,6 +33,19 @@ angular.module('lrwebApp')
       });
       return false;
     };
+
+    $scope.toggleCheck = function (lrId) {
+      if ($scope.checkedLRIdList.indexOf(lrId) === -1) {
+          $scope.checkedLRIdList.push(lrId);
+      } else {
+          $scope.checkedLRIdList.splice($scope.checkedLRIdList.indexOf(lrId), 1);
+      }
+    };
+
+    $scope.attachLRs = function() {
+      console.log($scope.checkedLRIdList);
+    }
+
 
     //On master
 
