@@ -54,7 +54,8 @@ angular.module('lrwebApp')
       console.log("updaing lr details after creating in successful");
       
       lr.lrNo         = LR.id;
-      lr.vehicleNo     = LR.vehicleNo;
+      lr.transNo      = LR.transid;
+      lr.vehicleNo    = LR.vehicleNo;
       lr.vehicleOwner = LR.vehicleOwner;
       lr.consigner    = LR.consigner;
       lr.consignee    = LR.consignee;     
@@ -63,6 +64,7 @@ angular.module('lrwebApp')
       lr.poNo         = LR.poNo;
       lr.doNo         = LR.doNo;
       lr.billingname  = LR.billingname;
+      lr.multiLoad    = LR.multiLoad;
 
       
     }
@@ -89,20 +91,32 @@ angular.module('lrwebApp')
       lr.unloadingDetBrokerBilling = LR.unloadingDetBroker;       
     }
 
-    function _updateLROtherExpenditureInfo(LR) {      
-
-      lr.otherAmount  = LR.amount;
-      lr.otherRemarks = LR.remarks;      
-    }
-
-    function _updateLROtherExpenditureList(LROtherExpenditure) {      
+     function _updateLROtherExpenditureList(LROtherExpenditure) {      
 
       lr.otherExpenditures  = LROtherExpenditure;      
-    }    
+    }
+
+     function _updateLROtherIncomeList(LROtherIncome) {      
+
+      lr.otherIncomes  = LROtherIncome;      
+    }
+
+
+     function _updateLRList(LRList) {      
+
+      lr.LRList  = LRList;      
+    }
 
     function _updateLRChalanDetails(LRChalan) {      
 
-      lr.chalan  = LRChalan;      
+      lr.chalan  = LRChalan; 
+      lr.chalan.chalanDetails  =  JSON.parse(LRChalan.chalanDetails);   
+    }
+
+    function _updateLRBillDetails(LRBill) {      
+
+      lr.bill  = LRBill; 
+      lr.bill.billDetails =   JSON.parse(LRBill.billDetails);     
     }
 
   
@@ -119,6 +133,8 @@ angular.module('lrwebApp')
       var poNo         = lrData.poNo || '';
       var doNo         = lrData.doNo || '';
       var billignameId = '';
+      var multiLoad      = lrData.multiLoad || '';
+
 
       if(angular.isObject(lrData.consigner)) {
         consignerId = lrData.consigner.id || '';
@@ -141,7 +157,11 @@ angular.module('lrwebApp')
                  '&billingParty=' + billingParty +
                  '&poNo='         + poNo +
                  '&doNo='         + doNo +
-                 '&billingnameId=' + billignameId ;
+                 '&billingnameId=' + billignameId +
+                 '&multiLoad='     + multiLoad +
+                 '&userName='      + userService.getUser().name;
+
+      console.log("data for create LR "+data);
 
       var config = { 
         headers: {
@@ -413,9 +433,113 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
+
+    function _createOtherIncome(lrData) {
+      console.log("at createotherincome")
+      //normalize input
+      
+      var lrNo         = lrData.lrNo || '';
+      var otherAmount  = lrData.otherAmountBilling || '';
+      var otherRemarks = lrData.otherRemarksBilling || '';
+    
+      var ret = _defResult, d = $q.defer();
+      
+      var data = 'lrNo=' +  lrNo +
+                 '&amount=' + otherAmount +
+                 '&remarks=' + otherRemarks ;
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/addlrotherincome', data, config);
+
+      //send ajax form submission
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LRIncome Info + ' + JSON.stringify(data));
+
+        var result = data.data; // Fix it
+
+        $log.debug(result.lrOtherIncome);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          //some error
+          d.reject(ret);
+          return;
+        }     
+
+        _updateLROtherIncomeList(result.lrOtherIncome);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
+    function _removeOtherIncome(lrOtherIncomeId,lrNo) {
+      console.log("at removeotherincome")
+      //normalize input
+      
+      
+    
+      var ret = _defResult, d = $q.defer();
+      
+      var data = 'lrOtherIncomeId=' +  lrOtherIncomeId +
+                 '&lrNo=' + lrNo;
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/removelrotherincome', data, config);
+
+      //send ajax form submission
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LR Info + ' + JSON.stringify(data));
+
+        var result = data.data; // Fix it
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          //some error
+          d.reject(ret);
+          return;
+        }     
+
+        _updateLROtherIncomeList(result.lrOtherIncome);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
+  
     function _getLRList(filter) {
       console.log("getLRList service method:")
       console.log(filter)
+
       //normalize input
       var ret = _defResult, d = $q.defer();
 
@@ -507,7 +631,8 @@ angular.module('lrwebApp')
       var billingParty = lrData.billingParty || '';
       var poNo         = lrData.poNo || '';
       var doNo         = lrData.doNo || '';
-      var billingnameId =  '';  
+      var billingnameId =  ''; 
+      var multiLoad     = lrData.multiLoad || ''; 
 
       if(angular.isObject(lrData.consigner)){
         consignerId = lrData.consigner.id || '';
@@ -531,7 +656,8 @@ angular.module('lrwebApp')
                  '&billingParty=' + billingParty +
                  '&poNo='         + poNo +
                  '&doNo='         + doNo +
-                 '&billingnameId='+ billingnameId ;
+                 '&billingnameId='+ billingnameId +
+                 '&multiLoad='    + multiLoad;
  
       var config = { 
         headers: {
@@ -708,7 +834,10 @@ angular.module('lrwebApp')
         if(!angular.isUndefined(result.lrOthers) && result.lrOthers != null ) {  _updateLROtherExpenditureList(result.lrOthers); }
        
         if(!angular.isUndefined(result.lrIncome) && result.lrIncome != null) {  _updateLRIncomeInfo(result.lrIncome); }
-
+        if(!angular.isUndefined(result.lrOtherIncome) && result.lrOtherIncome != null) {  _updateLROtherIncomeList(result.lrOtherIncome); }
+        if(!angular.isUndefined(result.lrChalan) && result.lrChalan != null) {  _updateLRChalanDetails(result.lrChalan); }
+        if(!angular.isUndefined(result.lrBill) && result.lrBill != null) {  _updateLRBillDetails(result.lrBill); }
+        
 
 
         ret.sts = true;
@@ -727,7 +856,11 @@ angular.module('lrwebApp')
     function _createChalan(lrNos,expenditureColumn,otherExpenditureColumn) {
       console.log("at createChalan")
       //normalize input
-      var columns = expenditureColumn.concat(otherExpenditureColumn);
+      var columns = expenditureColumn;
+      if(!angular.isUndefined(otherExpenditureColumn) && otherExpenditureColumn != null) {
+        columns = columns.concat(otherExpenditureColumn);
+      }
+      
       var jsonData=angular.toJson(columns);    
       
     
@@ -777,12 +910,70 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
+    function _createBill(lrNos,billingColumn,otherBillingColumn) {
+      console.log("at createBill")
+      //normalize input     
+      var columns = billingColumn;
+      if(!angular.isUndefined(otherBillingColumn) && otherBillingColumn != null) {
+        columns = columns.concat(otherBillingColumn);
+      } 
+      
+      var jsonData=angular.toJson(columns);    
+      
+    
+      var ret = _defResult, d = $q.defer();
+
+      var data = 'lrNos=' +  lrNos +
+                 '&billDetails='  + jsonData;
+      console.log(" data for createBill "+data);
+      
+      
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/createBill', data, config);
+
+      //send ajax form submission
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LRBill Info + ' + JSON.stringify(data));
+
+        var result = data.data; // Fix it
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          //some error
+          d.reject(ret);
+          return;
+        }     
+
+        _updateLRBillDetails(result.lrBill);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
 
 
     return { 
       createLR: _createLR,
       createExpenditure: _createExpenditure,
       createOtherExpenditure: _createOtherExpenditure,
+      createOtherIncome:_createOtherIncome,
       updateLR:_updateLR,
       createIncome:_createIncome,
       getConsignerList: _getConsignerList,
@@ -790,8 +981,10 @@ angular.module('lrwebApp')
       getBillingnameList:_getBillingnameList,
       getLR: function() {return lr;},      
       removeOtherExpenditure:_removeOtherExpenditure,
-      getLRList:_getLRList,      
+      removeOtherIncome:_removeOtherIncome,      
+      getLRList:_getLRList, 
       createChalan:_createChalan,
+      createBill:_createBill,
       searchLR: _searchLR
     };
 
