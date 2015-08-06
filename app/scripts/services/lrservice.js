@@ -422,6 +422,7 @@ angular.module('lrwebApp')
       var lrDate = '';
       var multiLoad = '';
       var status = '';
+      var isLRAttached = '';
 
       if (filter) {
         if (filter.date && filter.date.length) {
@@ -434,6 +435,9 @@ angular.module('lrwebApp')
         if (filter.status && filter.status.length)  {
           status = filter.status;  
         }
+        if (filter.isLRAttached && filter.isLRAttached.length)  {
+          isLRAttached = filter.isLRAttached;  
+        }        
       }
 
       
@@ -449,7 +453,8 @@ angular.module('lrwebApp')
       
       var data = 'lrDate='     +  lrDate    +
                  '&multiLoad=' +  multiLoad +
-                 '&status='    +  status ;
+                 '&status='    +  status    +
+                 '&isLRAttached='   +  isLRAttached ;
 
       var config = { 
         headers: {
