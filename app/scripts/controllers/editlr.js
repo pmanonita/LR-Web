@@ -49,9 +49,9 @@ angular.module('lrwebApp')
     $scope.lr = lrService.getLR(); 
 
 
-    $scope.lr.extraPayToBroker="0" ;
-    $scope.lr.freightToBroker="0" ;
-    $scope.lr.advance="0" ;
+    $scope.lr.extraPayToBroker=0 ;
+    $scope.lr.freightToBroker=0 ;
+    $scope.lr.advance=0 ;
     
 
 

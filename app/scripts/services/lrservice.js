@@ -629,6 +629,7 @@ angular.module('lrwebApp')
       var billingnameId =  ''; 
       var multiLoad     = lrData.multiLoad || ''; 
 
+
       if(angular.isObject(lrData.consigner)){
         consignerId = lrData.consigner.id || '';
       }
@@ -652,7 +653,8 @@ angular.module('lrwebApp')
                  '&poNo='         + poNo +
                  '&doNo='         + doNo +
                  '&billingnameId='+ billingnameId +
-                 '&multiLoad='    + multiLoad;
+                 '&multiLoad='    + multiLoad +
+                 '&userName='      + userService.getUser().name;
  
       var config = { 
         headers: {
@@ -848,6 +850,19 @@ angular.module('lrwebApp')
 
     };
 
+    function _showLR(lrData) {
+      $log.debug("_showLR : " + lrData.id) ;
+      lrData.lrNo = lrData.id;      
+      lr = lrData;
+      if(!angular.isUndefined(lrData.chalan) && lrData.chalan != null) {  _updateLRChalanDetails(lrData.chalan); }
+      if(!angular.isUndefined(lrData.bill) && lrData.bill != null) {  _updateLRBillDetails(lrData.bill); }
+      if(!angular.isUndefined(lrData.lrOthers) && lrData.lrOthers != null) {  _updateLROtherExpenditureList(lrData.lrOthers); }
+      if(!angular.isUndefined(lrData.lrOtherIncome) && lrData.lrOtherIncome != null) {  _updateLROtherIncomeList(lrData.lrOtherIncome); }
+
+
+    };
+
+
     function _createChalan(lrNos,expenditureColumn,otherExpenditureColumn) {
       console.log("at createChalan")
       //normalize input
@@ -980,6 +995,7 @@ angular.module('lrwebApp')
       getLRList:_getLRList, 
       createChalan:_createChalan,
       createBill:_createBill,
+      showLR:_showLR,
       searchLR: _searchLR
     };
 

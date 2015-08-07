@@ -17,6 +17,8 @@ angular.module('lrwebApp')
 
      
 
+    $scope.filter = {};
+
     $scope.submitForm = function() {
       $log.debug("On lr search form");
       
@@ -35,8 +37,20 @@ angular.module('lrwebApp')
       return false;
     };
 
+
+    $scope.searchLR = function(lrData) {
+      $log.debug("On lr search formehicleno "+lrData.vehicleNo);
+      
+      lrService.showLR(lrData);
+      $location.path('/editlr');   
+      return false;
+    };
+
+   
+
     $scope.getLRByDate = function() {
-      $log.debug("On lr sgetLRByDate");
+      $log.debug("On lr getLRByDate");
+      $scope.filter.multiLoad = "true";
       
       lrService.getLRList($scope.filter).then(function(u) {
         //success callback        
