@@ -50,8 +50,7 @@ angular.module('lrwebApp')
       return ret;
     }
 
-    function _updateLRInfo(LR) {
-      console.log("updaing lr details after creating in successful");
+    function _updateLRInfo(LR) {      
       
       lr.lrNo         = LR.id;
       lr.transNo      = LR.transid;
@@ -91,30 +90,25 @@ angular.module('lrwebApp')
       lr.unloadingDetBrokerBilling = LR.unloadingDetBroker;       
     }
 
-     function _updateLROtherExpenditureList(LROtherExpenditure) {      
+     function _updateLROtherExpenditureList(LROtherExpenditure) { 
+    	 lr.otherExpenditures  = LROtherExpenditure;      
+    `}
 
-      lr.otherExpenditures  = LROtherExpenditure;      
-    }
-
-     function _updateLROtherIncomeList(LROtherIncome) {      
-
-      lr.otherIncomes  = LROtherIncome;      
-    }
+     function _updateLROtherIncomeList(LROtherIncome) { 
+    	 lr.otherIncomes  = LROtherIncome;      
+     }
 
 
-     function _updateLRList(LRList) {      
+     function _updateLRList(LRList) {
+    	 lr.LRList  = LRList;      
+     }
 
-      lr.LRList  = LRList;      
-    }
-
-    function _updateLRChalanDetails(LRChalan) {      
-
+    function _updateLRChalanDetails(LRChalan) {
       lr.chalan  = LRChalan; 
       lr.chalan.chalanDetails  =  JSON.parse(LRChalan.chalanDetails);   
     }
 
-    function _updateLRBillDetails(LRBill) {      
-
+    function _updateLRBillDetails(LRBill) { 
       lr.bill  = LRBill; 
       lr.bill.billDetails =   JSON.parse(LRBill.billDetails);     
     }
@@ -122,8 +116,6 @@ angular.module('lrwebApp')
   
 
     function _createLR(lrData) {
-      console.log("at createlr")
-      
       //normalize input      
       var vehileNo     = lrData.vehicleNo || '';
       var vehicleOwner = lrData.vehicleOwner || '';
