@@ -15,13 +15,13 @@
     <form id="lr-report-form" class="form-search form-horizontal" data-ng-submit="getLRByDate()">
       <div class="row centered-form" data-ng-show="msg">
           <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
-      </div>
+      </div> 
 
       <div class="row">    
         <!-- Blank hight is inserted--> 
         <div style="height: 20px;"></div> 
         <div class="col-md-offset-4 col-md-6">        
-          <input type="text" class="search-query" placeholder="YYYY-MM-DD" ng-model="filter.date">
+          <input type="text" class="search-query" required placeholder="YYYY-MM-DD" ng-model="filter.date">
           <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>        
         </div>
       </div>
