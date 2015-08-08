@@ -133,20 +133,26 @@ angular.module('lrwebApp')
 
       if(angular.isObject(lrData.billingname)) {
         billignameId = lrData.billingname.id || '';  
-      }            
+      }
+
+      if(!multiLoad.length) {
+        multiLoad = "false";
+      }
+
 
       var ret = _defResult, d = $q.defer();    
-    
-      var data = 'vehileNo=' +  vehileNo +
-                 '&vehicleOwner=' + vehicleOwner +
-                 '&consignerId=' + consignerId +
-                 '&consigneeId=' + consigneeId +                
-                 '&billingParty=' + billingParty +
-                 '&poNo='         + poNo +
-                 '&doNo='         + doNo +
-                 '&billingnameId=' + billignameId +
-                 '&multiLoad='     + multiLoad +
-                 '&userName='      + userService.getUser().name;
+      
+      var data = 'vehileNo='       +  vehileNo                    +
+                 '&vehicleOwner='  +  vehicleOwner                +
+                 '&consignerId='   +  consignerId                 +
+                 '&consigneeId='   +  consigneeId                 +                 
+                 '&billingParty='  +  billingParty                +
+                 '&poNo='          +  poNo                        +
+                 '&doNo='          +  doNo                        +
+                 '&billingnameId=' +  billignameId                +
+                 '&multiLoad='     +  multiLoad                   +
+                 '&userName='      +  userService.getUser().name  +
+                 '&status='        +  'Open'                      ;
 
       console.log("data for create LR "+data);
 
@@ -870,7 +876,8 @@ angular.module('lrwebApp')
         d.reject(ret);
       }
 
-      var data = 'lrIds=' +  checkedLRIdList.join();
+      var data = 'lrIds='   +  checkedLRIdList.join() + 
+                 'status='  +  'Open';
       console.log(data);
 
       var config = { 

@@ -16,8 +16,10 @@ angular.module('lrwebApp')
     $scope.checkedLRIdList = [];
 
     $scope.getLRList = function() {
-      $scope.filter.multiLoad = "true";
+      /* Default filter status to get LR that can be attached  */
+      $scope.filter.multiLoad    = "true";
       $scope.filter.isLRAttached = "false";
+      $scope.filter.status       = "Open";
       $log.debug($scope.filter);
       $scope.msg = "";
       
