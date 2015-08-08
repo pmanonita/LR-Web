@@ -924,7 +924,8 @@ angular.module('lrwebApp')
       createChalan:_createChalan,
       createBill:_createBill,
       searchLR: _searchLR,
-      createTransaction: _createTransaction
+      createTransaction: _createTransaction,
+      showLR: _showLR
     };
 
   }]);
