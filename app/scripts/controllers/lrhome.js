@@ -13,56 +13,51 @@ angular.module('lrwebApp')
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
-    ];
+    ];    
 
-     
-
+    $scope.msg = "";
     $scope.filter = {};
 
     $scope.submitForm = function() {
-      $log.debug("On lr search form");
-      
+
       lrService.searchLR($scope.lr).then(function(u) {
-        //success callback        
-        $log.debug('Got LR data'); 
         $scope.lr = lrService.getLR();    
-        console.log("lr value "+$scope.lr.otherExpenditures);  
-        
-       
-        $location.path('/editlr');   
-      }, function(res) {
-        //error callback & show the error message
+        console.log("lr value "+$scope.lr.otherExpenditures);       
+        $location.path('/editlr');
+
+      }, function(res) {      
         $log.debug('Issue while getting LR data' + JSON.stringify(res));        
       });
+
       return false;
     };
-
-
-    $scope.searchLR = function(lrData) {
-      $log.debug("On lr search formehicleno "+lrData.vehicleNo);
-      
-      lrService.showLR(lrData);
-      $location.path('/editlr');   
-      return false;
-    };
-
-   
 
     $scope.getLRByDate = function() {
-      $log.debug("On lr getLRByDate");
-      $scope.filter.multiLoad = "true";
-      
+      $scope.filter.multiLoad = "false";
+      $scope.filter.isLRAttached = "false";
+
       lrService.getLRList($scope.filter).then(function(u) {
-        //success callback        
-        $log.debug('Got LR By date data'); 
-        $scope.LRList = u;          
-       
+        if(u && u.length > 0) {
+          $log.debug('Got LR List');
+          $scope.msg = "";
+          $scope.LRList = u;          
+        } else {
+          $scope.msg = "No data found"
+        }
         
       }, function(res) {
-        //error callback & show the error message
-        $log.debug('Issue while getting LR data' + JSON.stringify(res));        
+        $log.debug('Issue while getting LR data' + JSON.stringify(res));
+        $scope.msg = res.msg;    
       });
+
       return false;
     };
+    
+    $scope.searchLR = function(lrData) {        
+        lrService.showLR(lrData);
+        $location.path('/editlr');   
+        return false;
+     };
 
   }]);
+

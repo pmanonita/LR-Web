@@ -21,14 +21,15 @@ angular.module('lrwebApp')
       $log.debug($scope.filter);
       $scope.msg = "";
       
-      lrService.getLRList($scope.filter).then(function(u) {
-        $log.debug('Got LR List'); 
-        $scope.LRList = u;      
-        $scope.msg = "Successfully fetched the Data"
-        
+      lrService.getLRList($scope.filter).then(function(u) {        
+        if(u && u.length > 0) {
+          $log.debug('Got LR List');
+          $scope.LRList = u;          
+        } else {
+          $scope.msg = "No data found"
+        }        
       }, function(res) {        
         $log.debug('Issue while getting LR data' + JSON.stringify(res));
-        $scope.LRList = [];
         $scope.msg = res.msg;
       });
       return false;
@@ -43,10 +44,14 @@ angular.module('lrwebApp')
     };
 
     $scope.attachLRs = function() {
-      console.log($scope.checkedLRIdList);
+      lrService.createTransaction($scope.checkedLRIdList).then(function(u) {
+        $log.debug('Attached LR successfully'); 
+        $scope.transaction = u;      
+        $scope.msg = "Successfully Created Multi LR with transaction id";        
+      }, function(res) {        
+        $log.debug('Issue while attaching LR data' + JSON.stringify(res));        
+        $scope.msg = res.msg;
+      });
+      return false;
     }
-
-
-    //On master
-
   }]);
