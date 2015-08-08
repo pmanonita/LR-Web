@@ -12,13 +12,13 @@
   </div>
 
   <div class="col-md-8" data-ng-controller="LrhomeCtrl">  
-   
+    <form id="LRReportForm" name="LRReportForm" class="form-search form-horizontal" data-ng-submit="getLRByDate()">
       <div class="row centered-form" data-ng-show="msg">
           <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
       </div> 
        <!-- Blank hight is inserted-->    
       <div class="col-md-8" style="height: 20px;"></div>    
-       <form id="LRReportForm" name="LRReportForm" class="form-search form-horizontal" data-ng-submit="getLRByDate()">
+       
        
         <div class="col-xs-12 col-md-offset-3 panel-body">   
           <div class="row">
@@ -55,7 +55,7 @@
               </div>
           </div>
         </div>
-        </form>  
+        
         <!-- Show data -->
         <!-- Blank hight is inserted-->    
         <div class="col-md-8" style="height: 20px;"></div>      
@@ -71,23 +71,41 @@
                 <th>Vehicle Owner</th>
                 <th>Date</th>
                 <th>MultiLoad</th>
+                <th>Status</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="lrItem in LRList track by $index">
-                <td>Other{{$index+1}}</td>
+                <td><input type='checkbox'  ng-checked="LRList.indexOf(lrItem.id) != -1" ng-click="toggleCheck(lrItem.id)" />{{$index+1}}</td>
                 <td>{{lrItem.id}}</td>
                 <td>{{lrItem.vehicleNo}}</td>
                 <td>{{lrItem.vehicleOwner}}</td>
                 <td>{{lrItem.lrDate}}</td>
-                <td>{{lrItem.multiLoad}}</td>              
+                <td>{{lrItem.multiLoad}}</td> 
+                <td>{{lrItem.status}}</td>              
                 <td>
                   <input type="button" value="Edit" class="btn btn-primary" ng-click="searchLR(lrItem)"/>
                 </td>
-              </tr>
+              </tr>{{array}}
             </tbody>
-          </table>       
-        </div>   
+          </table> 
+                    
+              <div class="form-group">    
+                                
+                <div class="col-xs-2 col-md-2">             
+                  <input type="button" value="Approve" class="btn btn-primary" ng-click="updateStatus('Approved')"/>                 
+                </div>
+
+                <div class="col-xs-1 col-md-1"> 
+                 <input type="button" value="Reject" class="btn btn-primary" ng-click="updateStatus('Rejected')"/>
+                 </div>
+               
+            
+            </div>      
+        </div> 
+       
+        </form>    
       </div>
       <div class="col-md-2">
         <!-- Blank right navigation-->    
