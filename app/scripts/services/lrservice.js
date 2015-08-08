@@ -17,7 +17,8 @@ angular.module('lrwebApp')
            'msg': 'Unexpected error.'
     };
 
-    var lr = {};
+    var lr          = {};
+    var transaction = {};
     var cache = $cacheFactory('consignerSearchData')
 
     function _parseErrorResponse(o) {
@@ -120,7 +121,12 @@ angular.module('lrwebApp')
       var poNo         = lrData.poNo || '';
       var doNo         = lrData.doNo || '';
       var billignameId = '';
-      var multiLoad      = lrData.multiLoad || '';
+      var status       = 'Open';
+
+      var multiLoad = 'false';
+      if(lrData.multiLoad) {
+        multiLoad = 'true';
+      }
 
 
       if(angular.isObject(lrData.consigner)) {
@@ -133,11 +139,8 @@ angular.module('lrwebApp')
 
       if(angular.isObject(lrData.billingname)) {
         billignameId = lrData.billingname.id || '';  
-      }
+      }     
 
-      if(!multiLoad.length) {
-        multiLoad = "false";
-      }
 
 
       var ret = _defResult, d = $q.defer();    
@@ -152,7 +155,7 @@ angular.module('lrwebApp')
                  '&billingnameId=' +  billignameId                +
                  '&multiLoad='     +  multiLoad                   +
                  '&userName='      +  userService.getUser().name  +
-                 '&status='        +  'Open'                      ;
+                 '&status='        +  status                      ;
 
       console.log("data for create LR "+data);
 
@@ -865,8 +868,12 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
+
+    function updateTransaction(trans) {
+      transaction = trans;
+    }
+
     function _createTransaction(checkedLRIdList) {      
-      $log.debug("checkedLRIdList : " + checkedLRIdList)
       var ret = _defResult, d = $q.defer();      
             
       //input validation       
@@ -877,7 +884,7 @@ angular.module('lrwebApp')
       }
 
       var data = 'lrIds='   +  checkedLRIdList.join() + 
-                 'status='  +  'Open';
+                 '&status='  +  'Open';
       console.log(data);
 
       var config = { 
@@ -888,13 +895,12 @@ angular.module('lrwebApp')
         }
       };
 
-      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/createTransaction', data, config);
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/createtransaction', data, config);
 
       $promise.then(function(data, status, headers, config) {
         $log.debug('Transaction Data + ' + JSON.stringify(data));
 
-        var result = data.data;       
-        
+        var result = data.data;        
 
         if(result.code !== 1) {
           //some error
@@ -902,7 +908,9 @@ angular.module('lrwebApp')
           return;
         }
         
-        d.resolve(result);
+        updateTransaction(result.transaction);
+        d.resolve(result.transaction);
+
 
       }, function(r) {
         $log.debug('Error Info + ' + JSON.stringify(r.data));
@@ -911,6 +919,14 @@ angular.module('lrwebApp')
       });
       
       return d.promise;
+
+    };
+
+    function editTransaction(transaction) {
+
+    };
+
+    function getTransactions(filter) {
 
     };
 
@@ -924,7 +940,7 @@ angular.module('lrwebApp')
       getConsignerList: _getConsignerList,
       getConsigneeList: _getConsigneeList,
       getBillingnameList:_getBillingnameList,
-      getLR: function() {return lr;},      
+      getLR: function() {return lr;},
       removeOtherExpenditure:_removeOtherExpenditure,
       removeOtherIncome:_removeOtherIncome,      
       getLRList:_getLRList, 
@@ -932,6 +948,7 @@ angular.module('lrwebApp')
       createBill:_createBill,
       searchLR: _searchLR,
       createTransaction: _createTransaction,
+      getTransaction: function() {return transaction;},
       showLR: _showLR
     };
 

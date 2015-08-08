@@ -14,6 +14,7 @@ angular.module('lrwebApp')
     $scope.msg = "";
     $scope.filter = {};
     $scope.checkedLRIdList = [];
+    $scope.LRList = null;
 
     $scope.getLRList = function() {
       /* Default filter status to get LR that can be attached  */
@@ -27,11 +28,13 @@ angular.module('lrwebApp')
         if(u && u.length > 0) {
           $log.debug('Got LR List');
           $scope.LRList = u;          
-        } else {
+        } else {          
+          $scope.LRList = null;
           $scope.msg = "No data found"
         }        
       }, function(res) {        
         $log.debug('Issue while getting LR data' + JSON.stringify(res));
+        $scope.LRList = null;
         $scope.msg = res.msg;
       });
       return false;
@@ -48,8 +51,10 @@ angular.module('lrwebApp')
     $scope.attachLRs = function() {
       lrService.createTransaction($scope.checkedLRIdList).then(function(u) {
         $log.debug('Attached LR successfully'); 
-        $scope.transaction = u;      
-        $scope.msg = "Successfully Created Multi LR with transaction id";        
+        //$scope.transaction = u;      
+        //$scope.msg = "Successfully Created Multi LR with transaction id : " + u.id;
+        $location.path('/editmultilr');
+
       }, function(res) {        
         $log.debug('Issue while attaching LR data' + JSON.stringify(res));        
         $scope.msg = res.msg;

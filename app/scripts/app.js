@@ -58,6 +58,11 @@ app.config(['$routeProvider',function ($routeProvider) {
       controller: 'SearchMultiLRCtrl',
       controllerAs: 'searchmultilr'
     })
+    .when('/editmultilr', {
+      templateUrl: 'views/editmultilr.html',
+      controller: 'EditMultiLRCtrl',
+      controllerAs: 'editmultilr'
+    })
     .when('/createuser', {
       templateUrl: 'views/createuser.html',
       controller: 'AdminUserCtrl',

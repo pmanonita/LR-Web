@@ -13,28 +13,18 @@ angular.module('lrwebApp')
 
     $scope.msg = "";
     $scope.filter = {};
-
-    //on master
     
-    $scope.submitForm = function() {
-      
-      $log.debug($scope.filter);
-      $scope.msg = "";
-      
-      lrService.getMultiLRs($scope.filter).then(function(u) {
+    $scope.submitForm = function() {      
+      lrService.getTransactions($scope.filter).then(function(u) {
         $log.debug('Got Multi LR List'); 
-        $scope.MultiLRList = u;      
-        $scope.msg = "Successfully fetched Multi LR  Data"
+        $scope.TransactionsList = u;      
+        $scope.msg = "Successfully fetched Multi LR List"
         
       }, function(res) {        
-        $log.debug('Issue while getting LR data' + JSON.stringify(res));
-        $scope.MultiLRList = [];
+        $log.debug('Issue while getting Multi LR data' + JSON.stringify(res));
         $scope.msg = res.msg;
       });
       return false;
     };
-
-    //On branch test
-    //On bracnh test again
 
   }]);
