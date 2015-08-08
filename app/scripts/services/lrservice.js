@@ -581,7 +581,8 @@ angular.module('lrwebApp')
                  '&poNo='         + poNo +
                  '&doNo='         + doNo +
                  '&billingnameId='+ billingnameId +
-                 '&multiLoad='    + multiLoad;
+                 '&multiLoad='    + multiLoad+
+                 '&userName='     + userService.getUser().name;
  
       var config = { 
         headers: {
@@ -750,6 +751,16 @@ angular.module('lrwebApp')
       return d.promise;
 
     };
+    
+    function _showLR(lrData) {       
+        lrData.lrNo = lrData.id;      
+        lr = lrData;
+        if(!angular.isUndefined(lrData.chalan) && lrData.chalan != null) {  _updateLRChalanDetails(lrData.chalan); }
+        if(!angular.isUndefined(lrData.bill) && lrData.bill != null) {  _updateLRBillDetails(lrData.bill); }
+        if(!angular.isUndefined(lrData.lrOthers) && lrData.lrOthers != null) {  _updateLROtherExpenditureList(lrData.lrOthers); }
+        if(!angular.isUndefined(lrData.lrOtherIncome) && lrData.lrOtherIncome != null) {  _updateLROtherIncomeList(lrData.lrOtherIncome); }
+
+     };
 
     function _createChalan(lrNos,expenditureColumn,otherExpenditureColumn) {
       var columns = expenditureColumn;
@@ -917,3 +928,4 @@ angular.module('lrwebApp')
     };
 
   }]);
+

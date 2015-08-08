@@ -52,5 +52,12 @@ angular.module('lrwebApp')
 
       return false;
     };
+    
+    $scope.searchLR = function(lrData) {        
+        lrService.showLR(lrData);
+        $location.path('/editlr');   
+        return false;
+     };
 
   }]);
+

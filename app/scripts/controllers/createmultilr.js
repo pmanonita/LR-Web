@@ -54,5 +54,4 @@ angular.module('lrwebApp')
       });
       return false;
     }
-
   }]);
