@@ -960,7 +960,7 @@ angular.module('lrwebApp')
                  '&freightToBrokerBilling='   + freightToBrokerBilling  +
                  '&loadingChargesBilling='    + loadingChargesBilling   +
                  '&unloadingChargesBilling='  + unloadingChargesBilling +
-                 '&loadingDetBrokerBilling='  + loadingDetBrokerBilling +;
+                 '&loadingDetBrokerBilling='  + loadingDetBrokerBilling;
 
       var config = { 
         headers: {
@@ -970,7 +970,7 @@ angular.module('lrwebApp')
         }
       };
 
-      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/editTransaction', data, config);
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/edittransaction', data, config);
 
       $promise.then(function(data, status, headers, config) {        
 
