@@ -1001,7 +1001,7 @@ angular.module('lrwebApp')
 
     };
 
-	function _updateStatus(checkedLRIdList,status,filter) {      
+	function _updateStatusInLRList(checkedLRIdList,status,filter) {      
 	  $log.debug("checkedLRIdList : " + checkedLRIdList)
 	  var ret = _defResult, d = $q.defer();      
 	        
@@ -1057,7 +1057,7 @@ angular.module('lrwebApp')
 	    }
 	  };
 	
-	  var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/updateStatus', data, config);
+	  var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/updateStatusInLRList', data, config);
 	
 	  $promise.then(function(data, status, headers, config) {
 	    $log.debug('LRList data after update status + ' + JSON.stringify(data));
@@ -1102,7 +1102,7 @@ angular.module('lrwebApp')
       searchLR: _searchLR,
       createTransaction: _createTransaction,
       editTransaction: _editTransaction,
-      updateStatus:_updateStatus,
+      updateStatusInLRList:_updateStatusInLRList,
       getTransaction: function() {return transaction;},
       showLR: _showLR
     };
