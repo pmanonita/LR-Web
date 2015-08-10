@@ -902,11 +902,11 @@ angular.module('lrwebApp')
 
         var result = data.data;        
 
-        if(result.code !== 1) {
+        /*if(result.code !== 1) {
           //some error
           d.reject(ret);
           return;
-        }
+        }*/
         
         updateTransaction(result.transaction);
         d.resolve(result.transaction);
