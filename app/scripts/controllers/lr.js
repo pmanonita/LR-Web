@@ -55,7 +55,7 @@ angular.module('lrwebApp')
       }
     });
 
-     $scope.$watch('text', function(v) {
+    $scope.$watch('text', function(v) {
       console.log("inside watch consignee"+v);
       for (var i in $scope.consigneeList) {
         var option = $scope.consigneeList[i];
@@ -66,7 +66,7 @@ angular.module('lrwebApp')
       }
     });
 
-     $scope.$watch('text', function(v) {
+    $scope.$watch('text', function(v) {
       console.log("inside watch billingname"+v);
       for (var i in $scope.billingnameList) {
         var option = $scope.billingnameList[i];

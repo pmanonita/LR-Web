@@ -46,9 +46,11 @@ angular.module('lrwebApp')
 
     $scope.lrotherList = [];
     $scope.chalanColumns = [];
-    $scope.lr = lrService.getLR(); 
+    $scope.lr = lrService.getLR();
 
-
+    $log.debug("loadig edit controller again.")
+    $log.debug($scope.lr);
+    
     $scope.lr.extraPayToBroker=0 ;
     $scope.lr.freightToBroker=0 ;
     $scope.lr.advance=0 ;
@@ -130,16 +132,16 @@ angular.module('lrwebApp')
         
       });
       return false;
-    };
-
-
+    };   
 
     $scope.updateLR = function(){
       //send a request to user service and submit the form
       $log.debug('update LR ' );
+      $scope.msg = "";
       lrService.updateLR($scope.lr).then(function(/*res*/) {
         //success callback
-        $log.debug('LR Updated Sucessfully');        
+        $log.debug('LR Updated Sucessfully');
+        $scope.lr = lrService.getLR();      
         $scope.msg = "LR Record Updated Successfully";
       }, function(res) {
         //error callback & show the error message
@@ -222,21 +224,14 @@ angular.module('lrwebApp')
          
     };
 
-
-
-
  
-$scope.printDiv = function(divName) {
-  var printContents = document.getElementById(divName).innerHTML;
-  var popupWin = window.open('', '_blank', 'width=300,height=300');
-  popupWin.document.open()
-  popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</html>');
-  popupWin.document.close();
+    $scope.printDiv = function(divName) {
+      var printContents = document.getElementById(divName).innerHTML;
+      var popupWin = window.open('', '_blank', 'width=300,height=300');
+      popupWin.document.open()
+      popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</html>');
+      popupWin.document.close();
 
-}
- 
-
-
-   
+    }   
   
   }]);

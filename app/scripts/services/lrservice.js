@@ -17,7 +17,8 @@ angular.module('lrwebApp')
            'msg': 'Unexpected error.'
     };
 
-    var lr = {};
+    var lr          = {};
+    var transaction = {};
     var cache = $cacheFactory('consignerSearchData')
 
     function _parseErrorResponse(o) {
@@ -120,7 +121,12 @@ angular.module('lrwebApp')
       var poNo         = lrData.poNo || '';
       var doNo         = lrData.doNo || '';
       var billignameId = '';
-      var multiLoad      = lrData.multiLoad || '';
+      var status       = 'Open';
+
+      var multiLoad = 'false';
+      if(lrData.multiLoad) {
+        multiLoad = 'true';
+      }
 
 
       if(angular.isObject(lrData.consigner)) {
@@ -133,11 +139,8 @@ angular.module('lrwebApp')
 
       if(angular.isObject(lrData.billingname)) {
         billignameId = lrData.billingname.id || '';  
-      }
+      }     
 
-      if(!multiLoad.length) {
-        multiLoad = "false";
-      }
 
 
       var ret = _defResult, d = $q.defer();    
@@ -152,7 +155,7 @@ angular.module('lrwebApp')
                  '&billingnameId=' +  billignameId                +
                  '&multiLoad='     +  multiLoad                   +
                  '&userName='      +  userService.getUser().name  +
-                 '&status='        +  'Open'                      ;
+                 '&status='        +  status                      ;
 
       console.log("data for create LR "+data);
 
@@ -562,7 +565,11 @@ angular.module('lrwebApp')
       var poNo         = lrData.poNo || '';
       var doNo         = lrData.doNo || '';
       var billingnameId =  ''; 
-      var multiLoad     = lrData.multiLoad || ''; 
+      var multiLoad = 'false';
+
+      if(lrData.multiLoad.length && lrData.multiLoad === "true") {
+        multiLoad = 'true';
+      }
 
       if(angular.isObject(lrData.consigner)) {
         consignerId = lrData.consigner.id || '';
@@ -589,7 +596,7 @@ angular.module('lrwebApp')
                  '&billingnameId='+ billingnameId +
                  '&multiLoad='    + multiLoad+
                  '&userName='     + userService.getUser().name;
- 
+      console.log(data);
       var config = { 
         headers: {
           'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
@@ -865,8 +872,12 @@ angular.module('lrwebApp')
       return d.promise;
     }
 
+
+    function updateTransaction(trans) {
+      transaction = trans;
+    }
+
     function _createTransaction(checkedLRIdList) {      
-      $log.debug("checkedLRIdList : " + checkedLRIdList)
       var ret = _defResult, d = $q.defer();      
             
       //input validation       
@@ -877,7 +888,7 @@ angular.module('lrwebApp')
       }
 
       var data = 'lrIds='   +  checkedLRIdList.join() + 
-                 'status='  +  'Open';
+                 '&status='  +  'Open';
       console.log(data);
 
       var config = { 
@@ -888,13 +899,12 @@ angular.module('lrwebApp')
         }
       };
 
-      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/createTransaction', data, config);
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/createtransaction', data, config);
 
       $promise.then(function(data, status, headers, config) {
         $log.debug('Transaction Data + ' + JSON.stringify(data));
 
-        var result = data.data;       
-        
+        var result = data.data;        
 
         if(result.code !== 1) {
           //some error
@@ -902,7 +912,9 @@ angular.module('lrwebApp')
           return;
         }
         
-        d.resolve(result);
+        updateTransaction(result.transaction);
+        d.resolve(result.transaction);
+
 
       }, function(r) {
         $log.debug('Error Info + ' + JSON.stringify(r.data));
@@ -914,87 +926,95 @@ angular.module('lrwebApp')
 
     };
 
-      function _updateStatus(checkedLRIdList,status,filter) {      
-      $log.debug("checkedLRIdList : " + checkedLRIdList)
-      var ret = _defResult, d = $q.defer();      
-            
-      //input validation       
-      if (!checkedLRIdList || checkedLRIdList.length <= 0) 
-      {
-        ret.msg = 'Please select at least 1 lr id to update status';
-        d.reject(ret);
-      }
-
-      var lrDate       = '';
-      var multiLoad    = '';      
-      var isLRAttached = '';
-
-      if (filter) {
-        if (filter.date && filter.date.length) {
-          lrDate = filter.date;
-        }
-        
-        if (filter.multiLoad && filter.multiLoad.length) {
-          multiLoad = filter.multiLoad;  
-        }        
-        if (filter.isLRAttached && filter.isLRAttached.length)  {
-          isLRAttached = filter.isLRAttached;  
-        }        
-      }
-
-      
-      if(lrDate && lrDate.length > 0) {
-        //date = new Date(frmdate.replace(pattern,'$3-$2-$1'));
-        var date = new Date(lrDate);
-        if (isNaN(date.valueOf())) {          
-          ret.msg = 'Date is not valid';
-          d.reject(ret);
-          return d.promise;
-        }
-      }    
-      
-      var data = 'lrDate='     +  lrDate    +
-                 '&multiLoad=' +  multiLoad +
-                 '&status='    +  status    +
-                 '&isLRAttached='   +  isLRAttached +
-                 '&lrIds='   +  checkedLRIdList.join(); 
-                 
-
-      console.log(data);
-
-      var config = { 
-        headers: {
-          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
-          'auth_token' :  userService.getAuthToken(),
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      };
-
-      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/updateStatus', data, config);
-
-      $promise.then(function(data, status, headers, config) {
-        $log.debug('Transaction Data + ' + JSON.stringify(data));
-
-        var result = data.data;       
-        
-
-        if(result.code !== 1) {
-          //some error
-          d.reject(ret);
-          return;
-        }
-        
-        d.resolve(result);
-
-      }, function(r) {
-        $log.debug('Error Info + ' + JSON.stringify(r.data));
-        ret = _parseErrorResponse(r.data);
-        d.reject(ret);
-      });
-      
-      return d.promise;
+    function editTransaction(transaction) {
 
     };
+
+    function getTransactions(filter) {
+
+    };
+
+	function _updateStatus(checkedLRIdList,status,filter) {      
+	  $log.debug("checkedLRIdList : " + checkedLRIdList)
+	  var ret = _defResult, d = $q.defer();      
+	        
+	  //input validation       
+	  if (!checkedLRIdList || checkedLRIdList.length <= 0) 
+	  {
+	    ret.msg = 'Please select at least 1 lr id to update status';
+	    d.reject(ret);
+	  }
+	
+	  var lrDate       = '';
+	  var multiLoad    = '';      
+	  var isLRAttached = '';
+	
+	  if (filter) {
+	    if (filter.date && filter.date.length) {
+	      lrDate = filter.date;
+	    }
+	    
+	    if (filter.multiLoad && filter.multiLoad.length) {
+	      multiLoad = filter.multiLoad;  
+	    }        
+	    if (filter.isLRAttached && filter.isLRAttached.length)  {
+	      isLRAttached = filter.isLRAttached;  
+	    }        
+	  }
+	
+	  
+	  if(lrDate && lrDate.length > 0) {
+	    //date = new Date(frmdate.replace(pattern,'$3-$2-$1'));
+	    var date = new Date(lrDate);
+	    if (isNaN(date.valueOf())) {          
+	      ret.msg = 'Date is not valid';
+	      d.reject(ret);
+	      return d.promise;
+	    }
+	  }    
+	  
+	  var data = 'lrDate='     +  lrDate    +
+	             '&multiLoad=' +  multiLoad +
+	             '&status='    +  status    +
+	             '&isLRAttached='   +  isLRAttached +
+	             '&lrIds='   +  checkedLRIdList.join(); 
+	             
+	
+	  console.log(data);
+	
+	  var config = { 
+	    headers: {
+	      'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+	      'auth_token' :  userService.getAuthToken(),
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	  };
+	
+	  var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/updateStatus', data, config);
+	
+	  $promise.then(function(data, status, headers, config) {
+	    $log.debug('LRList data after update status + ' + JSON.stringify(data));
+	
+	    var result = data.data;       
+	    
+	
+	    /*if(result.code !== 1) {
+	      //some error
+	      d.reject(ret);
+	      return;
+	    }*/
+	    
+	    d.resolve(result.lrs);
+	
+	  }, function(r) {
+	    $log.debug('Error Info + ' + JSON.stringify(r.data));
+	    ret = _parseErrorResponse(r.data);
+	    d.reject(ret);
+	  });
+	  
+	  return d.promise;
+	
+	};
 
     return { 
       createLR: _createLR,
@@ -1006,7 +1026,7 @@ angular.module('lrwebApp')
       getConsignerList: _getConsignerList,
       getConsigneeList: _getConsigneeList,
       getBillingnameList:_getBillingnameList,
-      getLR: function() {return lr;},      
+      getLR: function() {return lr;},
       removeOtherExpenditure:_removeOtherExpenditure,
       removeOtherIncome:_removeOtherIncome,      
       getLRList:_getLRList, 
@@ -1015,6 +1035,7 @@ angular.module('lrwebApp')
       searchLR: _searchLR,
       createTransaction: _createTransaction,
       updateStatus:_updateStatus,
+      getTransaction: function() {return transaction;},
       showLR: _showLR
     };
 

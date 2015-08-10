@@ -56,7 +56,7 @@ angular.module('lrwebApp')
       return false;
     };
     
-    $scope.searchLR = function(lrData) {        
+    $scope.searchLR = function(lrData) {          
         lrService.showLR(lrData);
         $location.path('/editlr');   
         return false;
@@ -69,8 +69,12 @@ angular.module('lrwebApp')
       lrService.updateStatus($scope.checkedLRIdList,status,$scope.filter).then(function(u) {
         if(u && u.length > 0) {
           $log.debug('Got LR List');
+          
+          $scope.msg = "";
           $scope.msg = u.message;
-          $scope.LRList = u;          
+          $scope.LRList = u;   
+          $scope.$apply();
+           
         } else {
           $scope.msg = "No data found"
         }
