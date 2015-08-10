@@ -869,7 +869,7 @@ angular.module('lrwebApp')
     }
 
 
-    function updateTransaction(trans) {
+    function _updateTransaction(trans) {
       transaction = trans;
     }
 
@@ -908,9 +908,8 @@ angular.module('lrwebApp')
           return;
         }*/
         
-        updateTransaction(result.transaction);
+        _updateTransaction(result.transaction);
         d.resolve(result.transaction);
-
 
       }, function(r) {
         $log.debug('Error Info + ' + JSON.stringify(r.data));
@@ -922,8 +921,76 @@ angular.module('lrwebApp')
 
     };
 
-    function editTransaction(transaction) {
+    function _editTransaction(transaction) {
+      var id                        = transaction.id                        || '';
+      var multiLoadCharge           = transaction.multiLoadCharge           || '';
+      var freightToBroker           = transaction.freightToBroker           || '';
+      var extraPayToBroker          = transaction.extraPayToBroker          || '';
+      var advance                   = transaction.advance                   || '';
+      var loadingCharges            = transaction.balanceFreight            || '';
+      var loadingCharges            = transaction.loadingCharges            || '';     
+      var unloadingCharges          = transaction.unloadingCharges          || '';
+      var loadingDetBroker          = transaction.loadingDetBroker          || '';
+      var unloadingDetBroker        = transaction.unloadingDetBroker        || '';
+      var multiLoadChargeBilling    = transaction.multiLoadChargeBilling    || '';
+      var freightToBrokerBilling    = transaction.freightToBrokerBilling    || '';
+      var loadingChargesBilling     = transaction.loadingChargesBilling     || '';
+      var unloadingChargesBilling   = transaction.unloadingChargesBilling   || '';
+      var loadingDetBrokerBilling   = transaction.loadingDetBrokerBilling   || '';
+      var unloadingDetBrokerBilling = transaction.unloadingDetBrokerBilling || '';     
+      
+      
+      var ret = _defResult, d = $q.defer();     
+      
+      var data = 'id=' +  id +
+                 '&multiLoadCharge='          + multiLoadCharge         +
+                 '&freightToBroker='          + freightToBroker         +
+                 '&extraPayToBroker='         + extraPayToBroker        +
+                 '&advance='                  + advance                 +
+                 '&balanceFreight='           + balanceFreight          +
+                 '&loadingCharges='           + loadingCharges          +
+                 '&unloadingCharges='         + unloadingCharges        +
+                 '&loadingDetBroker='         + loadingDetBroker        +
+                 '&unloadingDetBroker='       + unloadingDetBroker      +
+                 '&multiLoadChargeBilling='   + multiLoadChargeBilling  +
+                 '&freightToBrokerBilling='   + freightToBrokerBilling  +
+                 '&loadingChargesBilling='    + loadingChargesBilling   +
+                 '&unloadingChargesBilling='  + unloadingChargesBilling +
+                 '&loadingDetBrokerBilling='  + loadingDetBrokerBilling +;
 
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/editTransaction', data, config);
+
+      $promise.then(function(data, status, headers, config) {        
+
+        var result = data.data;
+
+        /*
+        if(result.code !== 1) {
+          d.reject(ret);
+          return;
+        }*/
+
+        $log.debug('Edit Transaction info + ' + JSON.stringify(result));
+        
+
+       _updateTransaction(result.transaction);
+        d.resolve(result.transaction);
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+
+      return d.promise;
     };
 
     function getTransactions(filter) {
@@ -948,6 +1015,7 @@ angular.module('lrwebApp')
       createBill:_createBill,
       searchLR: _searchLR,
       createTransaction: _createTransaction,
+      editTransaction: _editTransaction,
       getTransaction: function() {return transaction;},
       showLR: _showLR
     };
