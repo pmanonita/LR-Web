@@ -10,7 +10,7 @@
 angular.module('lrwebApp')
   .controller('SearchUserCtrl', ['$scope', '$log', '$location', 'adminUserService', function ($scope, $log, $location, adminUserService) {  
     $scope.message = "";
-    $scope.roles = ["admin", "normal"];    
+    $scope.roles = ["Admin", "Normal"];    
     
     console.log("loading Search..")
     var handleSuccess = function(data) {

@@ -19,7 +19,7 @@
         $scope.$on('user:updated', function() {
           var u = userService.getUser();
           $scope.isLoggedIn = u.isLoggedIn;
-          $scope.username = u.firstName || u.name;
+          $scope.username = u.name || u.firstName;
           $scope.profilePic = u.profilePic;
           $scope.initials = u.initials;        
           $scope.isAdmin = userService.isAdmin();
