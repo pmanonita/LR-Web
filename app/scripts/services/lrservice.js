@@ -947,20 +947,21 @@ angular.module('lrwebApp')
       var ret = _defResult, d = $q.defer();     
       
       var data = 'id=' +  id +
-                 '&multiLoadCharge='          + multiLoadCharge         +
-                 '&freightToBroker='          + freightToBroker         +
-                 '&extraPayToBroker='         + extraPayToBroker        +
-                 '&advance='                  + advance                 +
-                 '&balanceFreight='           + balanceFreight          +
-                 '&loadingCharges='           + loadingCharges          +
-                 '&unloadingCharges='         + unloadingCharges        +
-                 '&loadingDetBroker='         + loadingDetBroker        +
-                 '&unloadingDetBroker='       + unloadingDetBroker      +
-                 '&multiLoadChargeBilling='   + multiLoadChargeBilling  +
-                 '&freightToBrokerBilling='   + freightToBrokerBilling  +
-                 '&loadingChargesBilling='    + loadingChargesBilling   +
-                 '&unloadingChargesBilling='  + unloadingChargesBilling +
-                 '&loadingDetBrokerBilling='  + loadingDetBrokerBilling;
+                 '&multiLoadCharge='           + multiLoadCharge         +
+                 '&freightToBroker='           + freightToBroker         +
+                 '&extraPayToBroker='          + extraPayToBroker        +
+                 '&advance='                   + advance                 +
+                 '&balanceFreight='            + balanceFreight          +
+                 '&loadingCharges='            + loadingCharges          +
+                 '&unloadingCharges='          + unloadingCharges        +
+                 '&loadingDetBroker='          + loadingDetBroker        +
+                 '&unloadingDetBroker='        + unloadingDetBroker      +
+                 '&multiLoadChargeBilling='    + multiLoadChargeBilling  +
+                 '&freightToBrokerBilling='    + freightToBrokerBilling  +
+                 '&loadingChargesBilling='     + loadingChargesBilling   +
+                 '&unloadingChargesBilling='   + unloadingChargesBilling +
+                 '&loadingDetBrokerBilling='   + loadingDetBrokerBilling +
+                 '&unloadingDetBrokerBilling=' + unloadingDetBrokerBilling ;
 
       var config = { 
         headers: {

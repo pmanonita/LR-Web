@@ -1,21 +1,19 @@
-<div class="row">
-    <div data-cg-busy="{promise: lPromise, message: lMessage + '...'}"></div>
+<div class="row">    
     <div style="background: url('/images/truck.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;width:100%;height:700px">
       <!-- Blank hight is inserted-->
       <div class="row">     
         <div class="col-md-12">       
-        <div style="height: 400px;">      
-        </div>
+          <div style="height: 400px;"></div>
         </div>
       </div>
 
-      <div class="row" data-ng-controller="LoginCtrl">
+      <div class="row" data-ng-controller="LoginCtrl">        
         <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-5" data-ng-show="errorMsg">
           <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{errorMsg}}</div>
         </div>        
         <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-5">
-          <form class="form-horizontal" name="loginForm" data-ng-submit="submitForm()"> 
-
+          <div data-cg-busy="{promise: lPromise, message: lMessage + '...'}"></div>
+          <form class="form-horizontal" name="loginForm" data-ng-submit="submitForm()">
           <div class="form-group">            
             <label class="col-md-4 control-label" for="loginuser" style="color: aliceblue;font-family: inherit;
             font-size: larger;">Username</label>

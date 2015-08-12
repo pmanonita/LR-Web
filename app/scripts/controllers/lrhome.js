@@ -22,20 +22,22 @@ angular.module('lrwebApp')
 
 
     $scope.submitForm = function() {
-
+      $scope.msg = "";
       lrService.searchLR($scope.lr).then(function(u) {
         $scope.lr = lrService.getLR();    
         console.log("lr value "+$scope.lr.otherExpenditures);       
         $location.path('/editlr');
 
       }, function(res) {      
-        $log.debug('Issue while getting LR data' + JSON.stringify(res));        
+        $log.debug('Issue while getting LR data' + JSON.stringify(res));
+        $scope.msg = res.msg;
       });
 
       return false;
     };
 
     $scope.getLRByDate = function() {
+      $scope.msg = "";
       $scope.filter.multiLoad = "false";
       $scope.filter.isLRAttached = "false";
 
@@ -50,7 +52,7 @@ angular.module('lrwebApp')
         
       }, function(res) {
         $log.debug('Issue while getting LR data' + JSON.stringify(res));
-        $scope.msg = res.msg;    
+        $scope.msg = res.msg;
       });
 
       return false;
@@ -63,6 +65,7 @@ angular.module('lrwebApp')
      };
 
      $scope.updateStatus = function(status) {
+      $scope.msg = "";
       $scope.filter.multiLoad = "false";
       $scope.filter.isLRAttached = "false";
 

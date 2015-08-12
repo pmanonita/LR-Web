@@ -26,6 +26,7 @@ angular.module('lrwebApp')
     $scope.user = {};
 
     $scope.submitForm = function(){
+      //Clear error msg
       $scope.errorMsg = "";
       $scope.lMessage = "";
     
