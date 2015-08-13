@@ -15,10 +15,11 @@ angular.module('lrwebApp')
       'Karma'
     ];
     $scope.msg = "";
+    $scope.lPromise = null;
+    $scope.lMessage = "";
+
     var handleConsignerSuccess = function(data) {
-      $scope.consignerList = data;  
-      console.log("hadling success"); 
-      
+      $scope.consignerList = data;        
     };
     var handleConsignerError = function(data) {
       $scope.consignerList = [];
@@ -45,7 +46,6 @@ angular.module('lrwebApp')
     lrService.getBillingnameList(handleBillingnameSuccess, handleBillingnameError);
         
     $scope.$watch('text', function(v) {
-      console.log("inside watch consigner"+v);
       for (var i in $scope.consignerList) {
         var option = $scope.consignerList[i];
         if (option.consignerCode === v) {
@@ -56,7 +56,6 @@ angular.module('lrwebApp')
     });
 
     $scope.$watch('text', function(v) {
-      console.log("inside watch consignee"+v);
       for (var i in $scope.consigneeList) {
         var option = $scope.consigneeList[i];
         if (option.consigneeCode === v) {
@@ -67,7 +66,6 @@ angular.module('lrwebApp')
     });
 
     $scope.$watch('text', function(v) {
-      console.log("inside watch billingname"+v);
       for (var i in $scope.billingnameList) {
         var option = $scope.billingnameList[i];
         if (option.name === v) {
@@ -77,18 +75,19 @@ angular.module('lrwebApp')
       }
     });
 
-    $scope.submitForm = function(){      
-      $log.debug('on lr form ' );
+    $scope.createLR = function() {
+      $scope.msg = "";
       lrService.createLR($scope.lr).then(function(/*res*/) {
         //success callback
         $log.debug('LR Created Sucessfully'); 
-        $scope.msg = "LR Created Succesfully";    
         $location.path('/editlr');
       }, function(res) {
         //error callback & show the error message
         $log.debug('Error In LR Creation ' + JSON.stringify(res));
-        $scope.msg = res.msg;
-        
+        $scope.msg = res.msg;        
+      }, function(s) {        
+        $log.debug('On progress..');
+        $scope.lMessage = s;  
       });
       return false;
     };

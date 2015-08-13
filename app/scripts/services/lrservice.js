@@ -8,7 +8,7 @@
  * Service in the lrwebApp.
  */
 angular.module('lrwebApp')
-  .service('lrService', ['$rootScope', '$http', '$q', '$log','$cacheFactory','userService', function ($rootScope, $http, $q, $log,$cacheFactory,userService) {
+  .service('lrService', ['$rootScope', '$http', '$q', '$log', '$timeout', '$cacheFactory','userService', function ($rootScope, $http, $q, $log, $timeout, $cacheFactory, userService) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
     var _defResult = {
@@ -139,11 +139,14 @@ angular.module('lrwebApp')
 
       if(angular.isObject(lrData.billingname)) {
         billignameId = lrData.billingname.id || '';  
-      }     
+      }
 
+      var ret = _defResult, d = $q.defer();
 
-
-      var ret = _defResult, d = $q.defer();    
+      //set progress
+      $timeout(function() {
+        d.notify('On progress..');
+      }, 0);
       
       var data = 'vehileNo='       +  vehileNo                    +
                  '&vehicleOwner='  +  vehicleOwner                +

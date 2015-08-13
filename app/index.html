@@ -18,7 +18,7 @@
             <div class="row" ng-controller="HeaderCtrl" ng-cloak>
                 <div class="col-md-12" ng-show="isLoggedIn">
                     <!--header -->
-                    <nav class="navbar navbar-sw navbar-default" role="navigation"> 
+                    <nav class="navbar navbar-sw navbar-default navbar-inverse" role="navigation"> 
                         <div class="container-fluid">
                             <div class="navbar-header pull-left">
                                 <a class="navbar-brand" href="#/lrhome">LR MGMT</a>
@@ -32,12 +32,11 @@
                                         <a href="#/searchmultilr">MULTILR</a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#/createexpense">EXPENSES</a>
+                                        <a href="#/searchexpense">EXPENSES</a>
                                     </li>
                                     <li role="presentation" ng-show="isAdmin">
-                                        <a href="#/createuser">USER</a>
-                                    </li>
-                                    
+                                        <a href="#/searchuser">USER</a>
+                                    </li>                                    
                                 </ul>
                             </div>
 

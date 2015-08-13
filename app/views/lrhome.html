@@ -2,30 +2,43 @@
 
   <!--vertical navigation bar -->
   <div class="col-md-2" data-ng-controller="LeftNavCtrl">
-    <div class="cliente"> 
-      <ul class="nav nav-pills nav-stacked" >
-        <li class="active"><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
-        <li><a href="/#/createlr"><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
-        <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>
+    <div class="leftNav"> 
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" >Search LR</i></a></li>
+        <li><a href="/#/createlr"><i class="fa fa-file-o fa-fw">New LR</i></a></li>
+        <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw">Reports</i></span></a></li>
       </ul>
     </div>
   </div>
 
   <div class="col-md-8" data-ng-controller="LrhomeCtrl">  
     <div class="row centered-form" data-ng-show="msg">
-        <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
-      </div>     
+        <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}
+        </div>
+    </div>     
+    
     <div class="row">    
       <!-- Blank hight is inserted--> 
       <div style="height: 20px;"></div> 
-
-      <div class="col-md-offset-4 col-md-6">   
-        <form id="lr-search-form" class="form-search form-horizontal" data-ng-submit="submitForm()">
-          <input type="text" class="search-query" placeholder="LR Search" ng-model="lr.lrNo">
-          <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>
+      
+      <div class="col-md-offset-5 col-md-8">   
+        <form name="lrSearchForm" id="lrSearchForm" class="form-search form-horizontal" data-ng-submit="searchLR()">          
+          <div class="row">
+            <div class="form-group panel-body">              
+              <div class="col-xs-2 col-md-4">
+                <input type="text" class="form-control" id="lrid" name="lrid" placeholder="LR Number" ng-model="lr.lrNo"  required data-ng-pattern="/^([0-9]+)$/">
+                <div data-ng-messages="lrSearchForm.lrid.$error" data-ng-if="lrSearchForm.lrid.$dirty" role="alert" class="text-danger">
+                  <div data-ng-message="pattern"><small>LR id should be numeric</small></div>
+                  <div data-ng-message="required"><small>LR id is required</small></div>
+                </div>
+              </div> 
+              <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>
+            </div>
+          </div>          
         </form>
-      </div>        
+      </div>      
     </div>
+
   </div>
 
   <div class="col-md-2">

@@ -2,25 +2,31 @@
 
   <!--vertical navigation bar -->
   <div class="col-md-2" data-ng-controller="LeftNavCtrl">
-    <div class="cliente"> 
-    <ul class="nav nav-pills nav-stacked" >                
-      <li ><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" ></i>Search LR <span class="glyphicon glyphicon-search"></span></a></li>
-      <li class="active"><a href="/#/createlr"><i class="fa fa-file-o fa-fw"></i>New LR <span class="glyphicon glyphicon-save-file"></span></a></li>
-      <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw"></i>Reports <span class="glyphicon glyphicon-save-file"></span></a></li>      
-    </ul>
+    <div class="leftNav">   
+      <ul class="nav nav-pills nav-stacked" >                
+        <li ><a href="/#/lrhome"><i class="fa fa-list-alt fa-fw" >Search LR</i></a></li>
+        <li class="active"><a href="/#/createlr"><i class="fa fa-file-o fa-fw">New LR</i></a></li>
+        <li><a href="/#/lrreports"><i class="fa fa-file-o fa-fw">Reports</i></span></a></li>      
+      </ul>
     </div>
   </div>
 
   <!--form design -->
   <div class="col-md-8" data-ng-controller="LrCtrl">
-    <form class="form-horizontal" name="lrForm" data-ng-submit="submitForm()"> 
+    <form class="form-horizontal" name="lrForm" data-ng-submit="createLR()"> 
       
-      <div class="col-xs-12">
-       <div class="row centered-form" data-ng-show="msg">
-        <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
-      </div>
-      <!--first page -->               
+      <div class="col-xs-12">        
+        <div class="row centered-form" data-ng-show="msg">
+          <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}
+          </div>
+        </div>
+        <!-- Blank hight is inserted-->
         <div class="row">
+          <div style="height: 20px;"></div>
+        </div>
+        <!--first page -->               
+        <div class="row">
+          <div data-cg-busy="{promise: lPromise, message: lMessage + '...'}"></div>
           <div class="form-group">        
             <label for="vehicleno" class="control-label col-xs-2"><small>Vehicle No</small></label>            
             <div class="col-xs-4">
@@ -68,7 +74,7 @@
           </div>
         </div> 
 
-         <div class="row bar">   
+         <div class="row">   
           <div id="fm2" class="form-group" >             
             <label for="names" class="control-label col-xs-2"><small>Billing Name</small></label>            
             <div class="col-xs-4">
@@ -86,7 +92,7 @@
           </div>
         </div>   
         
-        <div class="row bar">   
+        <div class="row">   
           <div id="fm2" class="form-group" >             
             <label for="consignerCode" class="control-label col-xs-2"><small>Consignor Code</small></label>            
             <div class="col-xs-4">
@@ -119,7 +125,7 @@
           </div>
         </div>
 
-         <div class="row bar">   
+         <div class="row">   
           <div id="fm2" class="form-group" >             
             <label for="consigneeCode" class="control-label col-xs-2"><small>Consignee Code</small></label>            
             <div class="col-xs-4">

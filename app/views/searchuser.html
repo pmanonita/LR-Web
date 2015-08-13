@@ -2,10 +2,10 @@
 
      <!--vertical navigation bar -->
     <div class="col-md-2">    
-      <div class="cliente"> 
+      <div class="leftNav"> 
         <ul class="nav nav-pills nav-stacked" data-ng-controller="LeftNavCtrl">      
-          <li class="active"><a href="/#/searchuser"><i class="fa fa-list-alt fa-fw" ></i>Search User </a></li>
-          <li><a href="/#/createuser"><i class="fa fa-list-alt fa-fw" ></i>New User </a></li>
+          <li class="active"><a href="/#/searchuser"><i class="fa fa-list-alt fa-fw">Search User</i></a></li>
+          <li><a href="/#/createuser"><i class="fa fa-list-alt fa-fw">New User</i></a></li>
         </ul>
       </div>
     </div>
@@ -16,13 +16,12 @@
         <div style="height: 20px;"></div> 
 
         <div class="col-md-offset-4 col-md-6">   
-          <form id="custom-search-form" class="form-search form-horizontal">
-            <span class="glyphicon glyphicon-search"></span>
-            <select id="usearch" style="height: 35px;" ng-options="user.id as user.userName for user in userList"
+          <form id="custom-search-form" class="form-search form-horizontal" style="width:100%;">            
+            <select id="usearch" style="height: 35px; width:50%;" ng-options="user.id as user.userName for user in userList"
               ng-model="user.id" 
               ng-change="getUserData()">
-              <option value="">Select User</option>
-            </select>            
+              <option value="">Select User</option>              
+            </select>
           </form>
         </div>        
       </div>
@@ -75,7 +74,7 @@
                   <label for="mobile">Mobile</label>
                   <input type="mobile" name="mobile" id="mobile" class="form-control input-sm" placeholder="mobile" ng-model="userData.mobile" data-ng-pattern="/^([0-9]+)$/" -minlength="10" ng-maxlength="12">
 
-                  <div data-ng-messages="SearchUserForm.mobile.$error" data-ng-if="createUserForm.mobile.$dirty" role="alert" class="text-danger">
+                  <div data-ng-messages="SearchUserForm.mobile.$error" data-ng-if="SearchUserForm.mobile.$dirty" role="alert" class="text-danger">
                     <div data-ng-message="pattern, minlength, maxlength">Mobile number should be numeric between 10 to 12 digit</div>
                   </div>
 
