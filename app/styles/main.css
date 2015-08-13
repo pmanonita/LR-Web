@@ -7,9 +7,19 @@
 
 html,
 body {
+  /*background-color:#f5f5f5;*/
   padding: 0;
   height: 100%;
 }
+/*
+body { 
+ background: url('/images/truck.jpg') no-repeat center center fixed; 
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover;
+ background-size: cover;
+}*/
+
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
@@ -71,6 +81,24 @@ body {
   height: 500px;
 }
 
+.leftNav {
+  height: 500px;
+  border-right: 1px solid;
+  border-right-color: brown;
+  background-color: lightcyan;
+}
+.loginbackgorund { 
+  background: url('/images/truck.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width:100%;
+  height:700px
+}
+
+
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
@@ -94,8 +122,8 @@ body {
   }
   .cliente {
   margin-top:10px;
-  border: #00FF7F medium solid;
-  border-radius: 10px;
+  border: rgb(11, 81, 241) solid;
+  border-radius: 5px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
 }
@@ -138,3 +166,5 @@ input[type="checkbox"]:focus{
   outline: 0 none;
   box-shadow: none;
 }
+
+

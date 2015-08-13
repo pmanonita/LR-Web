@@ -9,7 +9,15 @@
  * Main module of the application.
  */
 
-var app = angular.module('lrwebApp', ['ngAnimate','ngCookies','ngMessages','ngResource','ngRoute','ngSanitize','ngTouch']);
+var app = angular.module('lrwebApp', [
+  'ngAnimate',
+  'ngCookies',
+  'ngMessages',
+  'ngResource',
+  'ngRoute',
+  'ngSanitize',
+  'cgBusy',
+  'ngTouch']);
 
 app.config(['$routeProvider',function ($routeProvider) {
   $routeProvider

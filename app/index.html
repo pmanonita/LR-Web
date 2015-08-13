@@ -4,43 +4,44 @@
             <title>LR MGMT</title>
 
             <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-            <!--<link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />-->
-            <link rel="stylesheet" href="styles/main.css">        
+            <link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
+            <link rel="stylesheet" href="styles/main.css"> 
+            
+            <!-- prefetch partials -->
+            <link rel="prefetch" href="/views/login.html">           
+        </head>
+
+        <body data-ng-app="lrwebApp">
             <!--[if lte IE 8]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
-           
-        </head>
-
-        <body data-ng-app="lrwebApp" style="">
-            <div class="row">
-                <div class="col-md-12">
+            <div class="row" ng-controller="HeaderCtrl" ng-cloak>
+                <div class="col-md-12" ng-show="isLoggedIn">
                     <!--header -->
-                    <nav class="navbar navbar-sw navbar-default" role="navigation"> 
-                        <div class="container-fluid" ng-controller="HeaderCtrl">
+                    <nav class="navbar navbar-sw navbar-default navbar-inverse" role="navigation"> 
+                        <div class="container-fluid">
                             <div class="navbar-header pull-left">
                                 <a class="navbar-brand" href="#/lrhome">LR MGMT</a>
                             </div>
                             <div class="collapse navbar-collapse pull-left">
                                 <ul class="nav navbar-nav pull-left">
-                                    <li role="presentation" ng-show="isLoggedIn" ng-cloak>
+                                    <li role="presentation"  ng-cloak>
                                         <a href="#/lrhome">LR</a>
                                     </li>
-                                    <li role="presentation" ng-show="isLoggedIn" ng-cloak>
+                                    <li role="presentation">
                                         <a href="#/searchmultilr">MULTILR</a>
                                     </li>
-                                    <li role="presentation" ng-show="isLoggedIn" ng-cloak>
-                                        <a href="#/createexpense">EXPENSES</a>
+                                    <li role="presentation">
+                                        <a href="#/searchexpense">EXPENSES</a>
                                     </li>
-                                    <li role="presentation" ng-show="isLoggedIn && isAdmin" ng-cloak>
-                                        <a href="#/createuser">USER</a>
-                                    </li>
-                                    
+                                    <li role="presentation" ng-show="isAdmin">
+                                        <a href="#/searchuser">USER</a>
+                                    </li>                                    
                                 </ul>
                             </div>
 
                             <div class="collapse navbar-collapse navbar-right" >
-                                <ul class="nav navbar-nav" ng-show="isLoggedIn" ng-cloak>
+                                <ul class="nav navbar-nav" ng-show="isLoggedIn">
                                     <li class="dropdown" >
                                         <a target="_self" href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}}<b class="caret"></b></a>
                                         <ul class="dropdown-menu" >
@@ -57,12 +58,12 @@
                  
                 <div class="col-md-12">
                     <!--dynamic pages -->                       
-                    <div class="mainView" data-ng-view=""></div>                
+                    <div class="mainView" data-ng-view="" ></div>                
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-12" ng-controller="HeaderCtrl" ng-cloak>
                     <!--footer -->                     
-                    <nav class="navbar">
+                    <nav class="navbar" ng-show="isLoggedIn">
                         <div class='footer'>
                             <div class='container'>
                                 <div class="row">
@@ -93,7 +94,7 @@
             <script src="bower_components/angular-route/angular-route.js"></script>
             <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
             <script src="bower_components/angular-touch/angular-touch.js"></script>
-            <!--<script src="bower_components/angular-busy/dist/angular-busy.js"></script>-->
+            <script src="bower_components/angular-busy/dist/angular-busy.js"></script>
 
 
         

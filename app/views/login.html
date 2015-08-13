@@ -1,35 +1,24 @@
-  <div class="row">
-    <div data-cg-busy="{promise: lPromise, message: lMessage + '...'}"></div>
-    <div class="col-md-3">
-    <!-- Blank left navigation-->  
-    </div>
-
-    <div class="col-md-6">
+<div class="row">    
+    <div class="loginbackgorund">
       <!-- Blank hight is inserted-->
       <div class="row">     
         <div class="col-md-12">       
-        <div style="height: 100px;">      
-        </div>
+          <div style="height: 400px;"></div>
         </div>
       </div>
 
-      <div class="row" data-ng-controller="LoginCtrl"> 
-        <div class="row" data-ng-show="errorMsg">
+      <div class="row" data-ng-controller="LoginCtrl">        
+        <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-5" data-ng-show="errorMsg">
           <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{errorMsg}}</div>
-        </div>
-        <!-- Blank hight is inserted-->        
-        <div class="col-md-12" style="height: 50px;"> 
         </div>        
-         
-        <div class="">
-          <form class="form-horizontal" name="loginForm" data-ng-submit="submitForm()"> 
-
-          <div class="form-group">
-            <label for="loginuser" class="sr-only"></label>
-            <label class="col-md-4 control-label" for="loginuser">Username</label>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-5">
+          <div data-cg-busy="{promise: lPromise, message: lMessage + '...'}"></div>
+          <form class="form-horizontal" name="loginForm" data-ng-submit="submitForm()">
+          <div class="form-group">            
+            <label class="col-md-4 control-label" for="loginuser" style="color: aliceblue;font-family: inherit;
+            font-size: larger;">Username</label>
             <div class="col-md-4">
-              <input id="loginuser" name="user" type="text" placeholder="Username" class="form-control input-md" required ng-model="user.username">    
-              <span id="loginuserStatus" class="sr-only">(success)</span>   
+              <input id="loginuser" name="user" type="text" placeholder="Username" class="form-control input-md" required ng-model="user.username">                 
               <div data-ng-messages="loginform.user.$error" data-ng-if="loginform.user.$dirty" role="alert" class="text-danger">
                 <div data-ng-message="required">Please fill out this field.</div>            
               </div>
@@ -39,7 +28,8 @@
           <!-- Password input-->
           <div class="form-group">
             <label for="loginpassword" class="sr-only"></label>
-            <label class="col-md-4 control-label" for="loginpassword">Password</label>
+            <label class="col-md-4 control-label" for="loginpassword" style="color: aliceblue;font-family: inherit;
+            font-size: larger;">Password</label>
             <div class="col-md-4">
               <input id="loginpassword" name="password" type="password" placeholder="Password" class="form-control input-md" required ng-model="user.password">
               <div data-ng-messages="loginform.password.$error" data-ng-if="loginform.password.$dirty" role="alert" class="text-danger">
@@ -49,10 +39,9 @@
           </div>
 
               <!-- Button -->
-          <div class="form-group">  
-            <label class="col-md-4 control-label" for="loginbutton"></label>      
-            <div class="col-md-8">        
-              <button id="loginbutton" class="btn btn-primary btn-lg btn-lg-sw" type="submit" data-ng-disabled="loginForm.$invalid">Login</button>    
+          <div class="form-group">                  
+            <div class="col-md-4 col-md-offset-4">        
+              <button id="loginbutton" class="btn btn-primary btn-lg btn-lg-sw" type="submit" data-ng-disabled="loginForm.$invalid" style="width: 100%;">Login</button>    
             </div> 
           </div>
 
@@ -61,11 +50,6 @@
       </div>
       </div>
       
-    </div>
-
-    <div class="col-md-3">
-      <!-- Blank right navigation-->    
-    </div>
-      
-  </div>
+    </div>      
+</div>
 

@@ -14,12 +14,19 @@ angular.module('lrwebApp')
       'AngularJS',
       'Karma'
     ];
+
+    var isLoggedIn = userService.isLoggedIn();
+    if(isLoggedIn){
+      userService.signout();
+    }
+
     $scope.lPromise = null;
     $scope.lMessage = "";
     $scope.errorMsg = "";
     $scope.user = {};
 
     $scope.submitForm = function(){
+      //Clear error msg
       $scope.errorMsg = "";
       $scope.lMessage = "";
     

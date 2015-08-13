@@ -21,21 +21,21 @@ angular.module('lrwebApp')
     $scope.checkedLRIdList = [];
 
 
-    $scope.submitForm = function() {
-
+    $scope.searchLR = function() {
+      $scope.msg = "";
       lrService.searchLR($scope.lr).then(function(u) {
-        $scope.lr = lrService.getLR();    
-        console.log("lr value "+$scope.lr.otherExpenditures);       
+        $scope.lr = lrService.getLR();       
         $location.path('/editlr');
-
       }, function(res) {      
-        $log.debug('Issue while getting LR data' + JSON.stringify(res));        
+        $log.debug('Issue while getting LR data' + JSON.stringify(res));
+        $scope.msg = res.msg;
       });
 
       return false;
     };
 
     $scope.getLRByDate = function() {
+      $scope.msg = "";
       $scope.filter.multiLoad = "false";
       $scope.filter.isLRAttached = "false";
 
@@ -50,19 +50,20 @@ angular.module('lrwebApp')
         
       }, function(res) {
         $log.debug('Issue while getting LR data' + JSON.stringify(res));
-        $scope.msg = res.msg;    
+        $scope.msg = res.msg;
       });
 
       return false;
     };
     
-    $scope.searchLR = function(lrData) {          
+    $scope.setLR = function(lrData) {          
         lrService.showLR(lrData);
         $location.path('/editlr');   
         return false;
      };
 
      $scope.updateStatusInLRList = function(status) {
+      $scope.msg = "";
       $scope.filter.multiLoad = "false";
       $scope.filter.isLRAttached = "false";
 

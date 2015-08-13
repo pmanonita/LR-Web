@@ -8,7 +8,7 @@
  * Service in the lrwebApp.
  */
 angular.module('lrwebApp')
-  .service('lrService', ['$rootScope', '$http', '$q', '$log','$cacheFactory','userService', function ($rootScope, $http, $q, $log,$cacheFactory,userService) {
+  .service('lrService', ['$rootScope', '$http', '$q', '$log', '$timeout', '$cacheFactory','userService', function ($rootScope, $http, $q, $log, $timeout, $cacheFactory, userService) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
     var _defResult = {
@@ -139,11 +139,14 @@ angular.module('lrwebApp')
 
       if(angular.isObject(lrData.billingname)) {
         billignameId = lrData.billingname.id || '';  
-      }     
+      }
 
+      var ret = _defResult, d = $q.defer();
 
-
-      var ret = _defResult, d = $q.defer();    
+      //set progress
+      $timeout(function() {
+        d.notify('On progress..');
+      }, 0);
       
       var data = 'vehileNo='       +  vehileNo                    +
                  '&vehicleOwner='  +  vehicleOwner                +
@@ -975,20 +978,21 @@ angular.module('lrwebApp')
       var ret = _defResult, d = $q.defer();     
       
       var data = 'id=' +  id +
-                 '&multiLoadCharge='          + multiLoadCharge         +
-                 '&freightToBroker='          + freightToBroker         +
-                 '&extraPayToBroker='         + extraPayToBroker        +
-                 '&advance='                  + advance                 +
-                 '&balanceFreight='           + balanceFreight          +
-                 '&loadingCharges='           + loadingCharges          +
-                 '&unloadingCharges='         + unloadingCharges        +
-                 '&loadingDetBroker='         + loadingDetBroker        +
-                 '&unloadingDetBroker='       + unloadingDetBroker      +
-                 '&multiLoadChargeBilling='   + multiLoadChargeBilling  +
-                 '&freightToBrokerBilling='   + freightToBrokerBilling  +
-                 '&loadingChargesBilling='    + loadingChargesBilling   +
-                 '&unloadingChargesBilling='  + unloadingChargesBilling +
-                 '&loadingDetBrokerBilling='  + loadingDetBrokerBilling;
+                 '&multiLoadCharge='           + multiLoadCharge         +
+                 '&freightToBroker='           + freightToBroker         +
+                 '&extraPayToBroker='          + extraPayToBroker        +
+                 '&advance='                   + advance                 +
+                 '&balanceFreight='            + balanceFreight          +
+                 '&loadingCharges='            + loadingCharges          +
+                 '&unloadingCharges='          + unloadingCharges        +
+                 '&loadingDetBroker='          + loadingDetBroker        +
+                 '&unloadingDetBroker='        + unloadingDetBroker      +
+                 '&multiLoadChargeBilling='    + multiLoadChargeBilling  +
+                 '&freightToBrokerBilling='    + freightToBrokerBilling  +
+                 '&loadingChargesBilling='     + loadingChargesBilling   +
+                 '&unloadingChargesBilling='   + unloadingChargesBilling +
+                 '&loadingDetBrokerBilling='   + loadingDetBrokerBilling +
+                 '&unloadingDetBrokerBilling=' + unloadingDetBrokerBilling ;
 
       var config = { 
         headers: {
