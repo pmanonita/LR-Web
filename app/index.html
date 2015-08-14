@@ -1,131 +1,124 @@
-    <!doctype html>
-    <html>
-        <head>    
-            <title>LR MGMT</title>
+<!doctype html>
+<html>
+  <head>
+    <title>LR MGMT</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- prefetch partials -->
+    <link rel="prefetch" href="/views/login.html">           
+  </head>
 
-            <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-            <link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
-            <link rel="stylesheet" href="styles/main.css"> 
-            
-            <!-- prefetch partials -->
-            <link rel="prefetch" href="/views/login.html">           
-        </head>
+  <body data-ng-app="lrwebApp">
+    <!--[if lte IE 8]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div class="row" ng-controller="HeaderCtrl" ng-cloak>
+      <div class="col-md-12" ng-show="isLoggedIn">
+        <!--header -->
+        <nav class="navbar navbar-sw navbar-default navbar-inverse" role="navigation"> 
+          <div class="container-fluid">
+            <div class="navbar-header pull-left">
+              <a class="navbar-brand" href="#/lrhome">LR MGMT</a>
+            </div>
 
-        <body data-ng-app="lrwebApp">
-            <!--[if lte IE 8]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-            <![endif]-->
-            <div class="row" ng-controller="HeaderCtrl" ng-cloak>
-                <div class="col-md-12" ng-show="isLoggedIn">
-                    <!--header -->
-                    <nav class="navbar navbar-sw navbar-default navbar-inverse" role="navigation"> 
-                        <div class="container-fluid">
-                            <div class="navbar-header pull-left">
-                                <a class="navbar-brand" href="#/lrhome">LR MGMT</a>
-                            </div>
-                            <div class="collapse navbar-collapse pull-left">
-                                <ul class="nav navbar-nav pull-left">
-                                    <li role="presentation"  ng-cloak>
-                                        <a href="#/lrhome">LR</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#/searchmultilr">MULTILR</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#/searchexpense">EXPENSES</a>
-                                    </li>
-                                    <li role="presentation" ng-show="isAdmin">
-                                        <a href="#/searchuser">USER</a>
-                                    </li>                                    
-                                </ul>
-                            </div>
+            <div class="collapse navbar-collapse pull-left">
+              <ul class="nav navbar-nav pull-left">
+                <li role="presentation"><a href="#/lrhome">LR</a></li>
+                <li role="presentation"><a href="#/searchmultilr">MULTILR</a></li>
+                <li role="presentation"><a href="#/searchexpense">EXPENSES</a></li>
+                <li role="presentation" ng-show="isAdmin"><a href="#/searchuser">USER</a></li>
+              </ul>
+            </div>
 
-                            <div class="collapse navbar-collapse navbar-right" >
-                                <ul class="nav navbar-nav" ng-show="isLoggedIn">
-                                    <li class="dropdown" >
-                                        <a target="_self" href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}}<b class="caret"></b></a>
-                                        <ul class="dropdown-menu" >
-                                            <li><a href="#/editprofile">Profile</a>
-                                            </li>
-                                            <li><a href="" data-ng-click="signout()">Log out</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-                 
-                <div class="col-md-12">
-                    <!--dynamic pages -->                       
-                    <div class="mainView" data-ng-view="" ></div>                
-                </div>
+            <div class="collapse navbar-collapse navbar-right" >
+              <ul class="nav navbar-nav" ng-show="isLoggedIn">
+                <li class="dropdown" >
+                  <a target="_self" href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}}<b class="caret"></b></a>
+                  <ul class="dropdown-menu" >
+                    <li><a href="#/editprofile">Profile</a></li>
+                    <li><a href="" data-ng-click="signout()">Log out</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
 
-                <div class="col-md-12" ng-controller="HeaderCtrl" ng-cloak>
-                    <!--footer -->                     
-                    <nav class="navbar" ng-show="isLoggedIn">
-                        <div class='footer'>
-                            <div class='container'>
-                                <div class="row">
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <li class="post-dot"><a href="mailto:help@lrmgmt.com?subject=Contact Us">Contact</a></li>
-                                        <li class="post-dot"><a href="mailto:help@lrmgmt.com">Help</a></li>
-                                        <li class="post-dot"><a href="#/terms">Terms</a></li>
-                                        <li class="post-dot no-after-xs"><a href="#/privacy">Privacy</a></li>
+    <div class="row">
+      <div class="col-md-12">
+        <!--dynamic pages -->                       
+        <div class="mainView" data-ng-view="" ></div>                
+      </div>
+    </div>
 
-                                    </ul>
-                                </div>
-                                <div class="row text-center text-muted"><small>&copy; LRMGMT 2015. All rights reserved.</small></div>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>    
-
-       
-
-            <script src="bower_components/jquery/dist/jquery.js"></script>
-            <script src="bower_components/angular/angular.js"></script>
-            <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="bower_components/angular-animate/angular-animate.js"></script>
-            <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-            <script src="bower_components/angular-messages/angular-messages.js"></script>
-            <script src="bower_components/angular-resource/angular-resource.js"></script>
-            <script src="bower_components/angular-route/angular-route.js"></script>
-            <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-            <script src="bower_components/angular-touch/angular-touch.js"></script>
-            <script src="bower_components/angular-busy/dist/angular-busy.js"></script>
+    <div class="row">
+      <div class="col-md-12" ng-controller="HeaderCtrl" ng-cloak>
+        <!--footer -->                     
+        <nav class="navbar" ng-show="isLoggedIn">
+          <div class='footer'>
+            <div class='container'>
+              <div class="row">
+                <ul class="nav navbar-nav navbar-right">
+                  <li class="post-dot"><a href="mailto:help@lrmgmt.com?subject=Contact Us">Contact</a></li>
+                  <li class="post-dot"><a href="mailto:help@lrmgmt.com">Help</a></li>
+                  <li class="post-dot"><a href="#/terms">Terms</a></li>
+                  <li class="post-dot no-after-xs"><a href="#/privacy">Privacy</a></li>
+                </ul>
+              </div>
+              <div class="row text-center text-muted"><small>&copy; LRMGMT 2015. All rights reserved.</small></div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>    
 
 
-        
 
-            <!-- endbower -->
-            <!-- endbuild -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-busy/dist/angular-busy.js"></script>
 
-            <!-- build:js({.tmp,app}) scripts/scripts.js -->
-            <script src="scripts/app.js"></script>
-            <script src="scripts/controllers/main.js"></script>
-            <script src="scripts/controllers/about.js"></script>
-            <script src="scripts/controllers/login.js"></script>
-            <script src="scripts/services/userservice.js"></script>
-            <script src="scripts/controllers/lrhome.js"></script> 
-            <script src="scripts/controllers/adminuser.js"></script>
-            <script src="scripts/controllers/header.js"></script>
-            <script src="scripts/controllers/leftnav.js"></script>
-            <script src="scripts/controllers/lr.js"></script>
-            <script src="scripts/services/lrservice.js"></script>
-            <script src="scripts/controllers/editlr.js"></script>
-            <script src="scripts/services/adminuserservice.js"></script>
-            <script src="scripts/controllers/searchuser.js"></script>
-            <script src="scripts/directives/compareto.js"></script>
-            <script src="scripts/controllers/generalexpense.js"></script>
-            <script src="scripts/services/generalexpenseservice.js"></script>
-            <script src="scripts/controllers/searchexpense.js"></script>
-            <script src="scripts/controllers/createmultilr.js"></script>
-            <script src="scripts/controllers/searchmultilr.js"></script>
-            <script src="scripts/controllers/editmultilr.js"></script>
 
-            <!-- endbuild -->
 
-    </body>
-    </html>
+
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/about.js"></script>
+    <script src="scripts/controllers/login.js"></script>
+    <script src="scripts/services/userservice.js"></script>
+    <script src="scripts/controllers/lrhome.js"></script> 
+    <script src="scripts/controllers/adminuser.js"></script>
+    <script src="scripts/controllers/header.js"></script>
+    <script src="scripts/controllers/leftnav.js"></script>
+    <script src="scripts/controllers/lr.js"></script>
+    <script src="scripts/services/lrservice.js"></script>
+    <script src="scripts/controllers/editlr.js"></script>
+    <script src="scripts/services/adminuserservice.js"></script>
+    <script src="scripts/controllers/searchuser.js"></script>
+    <script src="scripts/directives/compareto.js"></script>
+    <script src="scripts/controllers/generalexpense.js"></script>
+    <script src="scripts/services/generalexpenseservice.js"></script>
+    <script src="scripts/controllers/searchexpense.js"></script>
+    <script src="scripts/controllers/createmultilr.js"></script>
+    <script src="scripts/controllers/searchmultilr.js"></script>
+    <script src="scripts/controllers/editmultilr.js"></script>
+
+    <!-- endbuild -->
+
+</body>
+</html>

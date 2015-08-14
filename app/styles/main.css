@@ -7,18 +7,9 @@
 
 html,
 body {
-  /*background-color:#f5f5f5;*/
   padding: 0;
   height: 100%;
 }
-/*
-body { 
- background: url('/images/truck.jpg') no-repeat center center fixed; 
- -webkit-background-size: cover;
- -moz-background-size: cover;
- -o-background-size: cover;
- background-size: cover;
-}*/
 
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -77,27 +68,6 @@ body {
   margin-top: 28px;
 }
 
-.mainView {
-  height: 500px;
-}
-
-.leftNav {
-  height: 500px;
-  border-right: 1px solid;
-  border-right-color: brown;
-  background-color: lightcyan;
-}
-.loginbackgorund { 
-  background: url('/images/truck.jpg') no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  width:100%;
-  height:700px
-}
-
-
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -140,22 +110,25 @@ body {
 .deleterow{cursor:pointer}
 }
 
+
+/* Global */
+
 .button-link {
-background-color: transparent;
-    border: none;
-    color: red;
+  background-color: transparent;
+  border: none;
+  color: red;
 }
 
 .button-link:hover {
-color: blue;
-text-decoration: underline;
+  color: blue;
+  text-decoration: underline;
 }
 
-input[type="checkbox"]{
-width: 15px;
-height: 15px;
-border-width: 0;
-transition: all .3s linear;
+input[type="checkbox"]  {
+  width: 15px;
+  height: 15px;
+  border-width: 0;
+  transition: all .3s linear;
 }
 
 input[type="checkbox"]:checked{
@@ -167,4 +140,41 @@ input[type="checkbox"]:focus{
   box-shadow: none;
 }
 
+/***
+ * 
+ * Page wise
+ * 
+ */
 
+.mainView {
+  height: 600px;
+}
+
+/* each page left nav */
+.leftNav {
+  height: 600px;
+  border-right: 1px solid;
+  border-right-color: brown;
+  background-color: lightcyan;
+}
+
+/* Login background */
+.loginbackgorund { 
+  background: url('/images/truck.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width:100%;
+  height:700px
+}
+
+/* edit lr form */
+.editlrformdiv .btn { 
+   width: 100%;
+}
+
+.editlrformdiv select {
+  width: 100%;
+  height: 30px;
+}
