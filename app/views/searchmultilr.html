@@ -23,15 +23,76 @@
             <div class="form-group">
               <label for="date" class="control-label col-xs-2"><small>Search by Date</small></label>            
               <div class="col-xs-2 col-md-3">
-                <input type="text" class="form-control input-sm" id="date" name="date" placeholder="Date (yyyy-MM-dd)" ng-model="search.fromdate" data-date-format="yyyy-MM-dd" required ng-pattern="/^(\d{4})-(\d{1,2})-(\d{1,2})$/">
+                <input type="text" class="form-control input-sm" id="date" name="date" placeholder="Date (yyyy-MM-dd)" ng-model="filter.date" data-date-format="yyyy-MM-dd" required ng-pattern="/^(\d{4})-(\d{1,2})-(\d{1,2})$/">
                 <div data-ng-messages="SearchMultiLRForm.date.$error" data-ng-if="SearchMultiLRForm.date.$dirty" role="alert" class="text-danger">
                   <div data-ng-message="pattern"><small>Date should be yyyy-MM-dd format</small></div>
                   <div data-ng-message="required"><small>Date is required</small></div>
                 </div>
-              </div>
-              <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>
+              </div>              
             </div>
           </div>
+          <div class="row">
+              <div class="form-group">
+                <label for="status" class="control-label col-xs-2"><small>Status</small></label>            
+                <div class="col-xs-2 col-md-3">
+                  <select id="status"  name="status" style="height: 30px; width: 100%;" ng-model="filter.status" ng-options="status for status in statusList" >
+                    <option value="" selected="selected">Select</option>
+                  </select>
+                </div> 
+              </div>
+          </div>
+          <div class="row">          
+              <div class="form-group">
+                <label for="button" class="control-label col-xs-2"></label>            
+                <div class="col-xs-2 col-md-3">
+                  <input type="submit" value="Search" class="center-block btn btn-block btn-primary btn-lg" ng-disabled="SearchMultiLRForm.$invalid">
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <!-- Show data -->
+        <!-- Blank hight is inserted-->    
+        <div class="col-md-8" style="height: 20px;"></div>  
+
+        <div ng-show="TransactionsList">
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th>SlNo</th>
+                <th>Transaction No</th>
+                <th>LR NOS</th>                
+                <th>Date</th>                
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="lrItem in TransactionsList track by $index">
+                <td><input type='checkbox'  ng-checked="TransactionsList.indexOf(lrItem.id) != -1" ng-click="toggleCheck(lrItem.id)" />{{$index+1}}</td>
+                <td>{{lrItem.id}}</td>
+                <td>{{lrItem.lrs}}</td>                
+                <td>{{lrItem.createDate}}</td>                
+                <td>{{lrItem.status}}</td>              
+                <td>
+                  <input type="button" value="Edit" class="btn btn-primary" ng-click="setLRTransaction(lrItem)"/>
+                </td>
+              </tr>{{array}}
+            </tbody>
+          </table> 
+                    
+              <div class="form-group">    
+                                
+                <div class="col-xs-2 col-md-2">             
+                  <input type="button" value="Approve" class="btn btn-primary" ng-click="updateStatusInLRTransList('Approved')"/>                 
+                </div>
+
+                <div class="col-xs-1 col-md-1"> 
+                 <input type="button" value="Reject" class="btn btn-primary" ng-click="updateStatusInLRTransList('Rejected')"/>
+                 </div>
+               
+            
+            </div>      
         </div>
       </form>
     </div>
