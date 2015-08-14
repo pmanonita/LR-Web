@@ -50,15 +50,16 @@ angular.module('lrwebApp')
           
           $scope.msg = "";
           $scope.msg = u.message;
-          $scope.LRList = u;   
+          $scope.TransactionsList = u;   
           $scope.$apply();
            
         } else {
           $scope.msg = "No data found"
+          $scope.TransactionsList = [];
         }
         
       }, function(res) {
-        $log.debug('Issue while getting LR data' + JSON.stringify(res));
+        $log.debug('Issue while getting LRTransaction data' + JSON.stringify(res));
         $scope.msg = res.msg;    
       });
 

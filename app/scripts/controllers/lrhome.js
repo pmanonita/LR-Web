@@ -46,6 +46,7 @@ angular.module('lrwebApp')
           $scope.LRList = u;          
         } else {
           $scope.msg = "No data found"
+          $scope.LRList = [];
         }
         
       }, function(res) {
@@ -78,6 +79,8 @@ angular.module('lrwebApp')
            
         } else {
           $scope.msg = "No data found"
+          $scope.LRList = [];
+
         }
         
       }, function(res) {
