@@ -62,12 +62,12 @@ angular.module('lrwebApp')
         return false;
      };
 
-     $scope.updateStatus = function(status) {
+     $scope.updateStatusInLRList = function(status) {
       $scope.msg = "";
       $scope.filter.multiLoad = "false";
       $scope.filter.isLRAttached = "false";
 
-      lrService.updateStatus($scope.checkedLRIdList,status,$scope.filter).then(function(u) {
+      lrService.updateStatusInLRList($scope.checkedLRIdList,status,$scope.filter).then(function(u) {
         if(u && u.length > 0) {
           $log.debug('Got LR List');
           

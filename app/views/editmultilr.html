@@ -1,201 +1,696 @@
+<div class="row">
      <!--vertical navigation bar -->
-    <div class="col-md-2">    
-      <div class="leftNav"> 
-        <ul class="nav nav-pills nav-stacked" data-ng-controller="LeftNavCtrl">      
-          <li ><a href="/#/searchmultilr"><i class="fa fa-list-alt fa-fw" ></i>Search MultiLR<span class="glyphicon glyphicon-search"></span></a></li>
-          <li class="active"><a href="/#/createmultilr"><i class="fa fa-list-alt fa-fw" ></i>Process MultiLR<span class="glyphicon glyphicon-save-file"></span></a></li>
-        </ul>
-      </div>
+   <div class="col-md-2">    
+     <div class="leftNav"> 
+       <ul class="nav nav-pills nav-stacked" data-ng-controller="LeftNavCtrl">      
+         <li ><a href="/#/searchmultilr"><i class="fa fa-list-alt fa-fw" ></i>Search MultiLR<span class="glyphicon glyphicon-search"></span></a></li>
+         <li class="active"><a href="/#/createmultilr"><i class="fa fa-list-alt fa-fw" ></i>Process MultiLR<span class="glyphicon glyphicon-save-file"></span></a></li>
+       </ul>
+     </div>
+   </div>
+
+
+  <div class="col-md-8" data-ng-controller="EditMultiLRCtrl">
+    <div class="row centered-form" data-ng-show="msg">
+      <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
     </div>
 
-    <div class="col-md-8" data-ng-controller="EditMultiLRCtrl">
-      <div class="row centered-form" data-ng-show="msg">
-        <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
-      </div>
-
-      <div class="row">
-        <form class="form-horizontal" name="EditMultiLRForm" data-ng-submit="editTransaction()">      
-          <div class="col-xs-12 panel-body">
-            
-            <div class="row">
-              <div class="form-group">
-                <label for="id" class="control-label col-xs-2 col-md-3"><small>Multi LR ID</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="transid" name="transid" placeholder="MultiLR ID" ng-model="transaction.id" disabled>
-                </div> 
-                <label for="status" class="control-label col-xs-2 col-md-3"><small>Status</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="status" name="status" placeholder="Status" ng-model="transaction.status" disabled>
-                </div> 
-              </div>
+    <div class="row">
+      <form class="form-horizontal" name="EditMultiLRForm" data-ng-submit="editTransaction()">      
+        <div class="col-xs-12 panel-body">
+          
+          <div class="row">
+            <div class="form-group">
+              <label for="id" class="control-label col-xs-2 col-md-3"><small>Multi LR ID</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="transid" name="transid" placeholder="MultiLR ID" ng-model="transaction.id" disabled>
+              </div> 
+              <label for="status" class="control-label col-xs-2 col-md-3"><small>Status</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="status" name="status" placeholder="Status" ng-model="transaction.status" disabled>
+              </div> 
             </div>
-
-            <div class="row">
-            <!-- Show data -->
-              <div class="row col-md-offset-2" ng-show="transaction.lrs">
-                <table class="table table-striped table-bordered table-hover table-condensed">
-                  <thead>
-                   <tr>                      
-                      <th>LR No</th>
-                      <th>Vehicle No</th>
-                      <th>Vehicle Owner</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                  <tr ng-repeat="lrItem in transaction.lrs track by $index">
-                    <td>{{lrItem.id}}</td>
-                    <td>{{lrItem.vehicleNo}}</td>
-                    <td>{{lrItem.vehicleOwner}}</td>
-                    <td>{{lrItem.lrDate}}</td>                    
-                    <td>{{lrItem.status}}</td>
-                  </tr>
-                  </tbody>
-                </table>                
-              </div>       
-            </div>
-
-            <div class="row">
-              <div style="height: 10px;"></div>
-            </div>
-
-            <div class="row">
-              <div class="form-group">
-                <label class="control-label col-xs-2 col-md-12" style="text-align: center;color: blue;">Expendature Section</label>
-              </div>           
-            </div>
-
-            <div class="row">
-              <div class="form-group">
-                <label for="multiLoadCharge" class="control-label col-xs-2 col-md-3"><small>Multi Load Charge</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="multiLoadCharge" name="multiLoadCharge" ng-model="transaction.multiLoadCharge">
-                </div> 
-                <label for="freightToBroker" class="control-label col-xs-2 col-md-3"><small>Freight To Broker</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="freightToBroker" name="freightToBroker" ng-model="transaction.freightToBroker">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="form-group">
-                <label for="extraPayToBroker" class="control-label col-xs-2 col-md-3"><small>ExtraPay To Broker</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="extraPayToBroker" name="extraPayToBroker" ng-model="transaction.extraPayToBroker">
-                </div> 
-                <label for="advance" class="control-label col-xs-2 col-md-3"><small>Advance</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="advance" name="advance" ng-model="transaction.advance">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="form-group">
-                <label for="balanceFreight" class="control-label col-xs-2 col-md-3"><small>Balance Freight</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="balanceFreight" name="balanceFreight" ng-model="transaction.balanceFreight">
-                </div> 
-                <label for="loadingCharges" class="control-label col-xs-2 col-md-3"><small>Loading Charges</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="loadingCharges" name="loadingCharges" ng-model="transaction.loadingCharges">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="form-group">
-                <label for="unloadingCharges" class="control-label col-xs-2 col-md-3"><small>Unloading Charges</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="unloadingCharges" name="unloadingCharges" ng-model="transaction.unloadingCharges">
-                </div> 
-                <label for="loadingDetBroker" class="control-label col-xs-2 col-md-3"><small>Loading Det Broker</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="loadingDetBroker" name="loadingDetBroker" ng-model="transaction.loadingDetBroker">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="form-group">
-                <label for="unloadingDetBroker" class="control-label col-xs-2 col-md-3"><small>unloading Det Broker</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="unloadingDetBroker" name="unloadingDetBroker" ng-model="transaction.unloadingDetBroker">
-                </div>                
-              </div>
-            </div>
-
-            <div class="row">
-              <div style="height: 10px;"></div>
-            </div>
-
-            <div class="row">
-              <div class="form-group">
-                <label class="control-label col-xs-2 col-md-12" style="text-align: center;color: blue;">Income Section</label>
-              </div>           
-            </div>
-            
-            <div class="row">
-              <div class="form-group">
-                <label for="multiLoadChargeBilling" class="control-label col-xs-2 col-md-3"><small>Multi Load Charge</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="multiLoadChargeBilling" name="multiLoadChargeBilling" ng-model="transaction.multiLoadChargeBilling">
-                </div> 
-                <label for="freightToBrokerBilling" class="control-label col-xs-2 col-md-3"><small>Freight To Broker</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="freightToBrokerBilling" name="freightToBrokerBilling" ng-model="transaction.freightToBrokerBilling">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="form-group">
-                <label for="loadingChargesBilling" class="control-label col-xs-2 col-md-3"><small>Loading Charges</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="loadingChargesBilling" name="loadingChargesBilling" ng-model="transaction.loadingChargesBilling">
-                </div> 
-                <label for="unloadingChargesBilling" class="control-label col-xs-2 col-md-3"><small>Unloading Charges</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="unloadingChargesBilling" name="unloadingChargesBilling" ng-model="transaction.unloadingChargesBilling">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="form-group">
-                <label for="loadingDetBrokerBilling" class="control-label col-xs-2 col-md-3"><small>Loading Det Broker</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="loadingDetBrokerBilling" name="loadingDetBrokerBilling" ng-model="transaction.loadingDetBrokerBilling">
-                </div> 
-                <label for="unloadingDetBrokerBilling" class="control-label col-xs-2 col-md-3"><small>Unloading Det Broker</small></label>            
-                <div class="col-xs-2 col-md-3">
-                  <input type="text" class="form-control input-sm" id="unloadingDetBrokerBilling" name="unloadingDetBrokerBilling" ng-model="transaction.unloadingDetBrokerBilling">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">          
-              <div class="form-group">                
-                <div class="col-xs-2 col-md-offset-5 col-md-3">
-                  <input type="submit" value="Save" class="center-block btn btn-block btn-primary btn-lg">
-                </div>
-              </div>
-            </div>
-        
-
-
-
           </div>
-        </form>
+
+          <div class="row">
+          <!-- Show data -->
+            <div class="row col-md-offset-2" style="width: 70%;" ng-show="transaction.lrs">
+              <table class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                 <tr>                      
+                    <th>LR No</th>
+                    <th>Vehicle No</th>
+                    <th>Vehicle Owner</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="lrItem in transaction.lrs track by $index">
+                  <td>{{lrItem.id}}</td>
+                  <td>{{lrItem.vehicleNo}}</td>
+                  <td>{{lrItem.vehicleOwner}}</td>
+                  <td>{{lrItem.lrDate}}</td>                    
+                  <td>{{lrItem.status}}</td>
+                </tr>
+                </tbody>
+              </table>                
+            </div>       
+          </div>
+
+          <div class="row">
+            <div style="height: 10px;"></div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="control-label col-xs-2 col-md-12" style="text-align: center;color: blue;">Expenditure Section</label>
+            </div>           
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="multiLoadCharge" class="control-label col-xs-2 col-md-3"><small>Multi Load Charge</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="multiLoadCharge" name="multiLoadCharge" ng-model="transaction.multiLoadCharge">
+              </div> 
+              <label for="freightToBroker" class="control-label col-xs-2 col-md-3"><small>Freight To Broker</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="freightToBroker" name="freightToBroker" ng-model="transaction.freightToBroker">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="extraPayToBroker" class="control-label col-xs-2 col-md-3"><small>ExtraPay To Broker</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="extraPayToBroker" name="extraPayToBroker" ng-model="transaction.extraPayToBroker">
+              </div> 
+              <label for="advance" class="control-label col-xs-2 col-md-3"><small>Advance</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="advance" name="advance" ng-model="transaction.advance">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="balanceFreight" class="control-label col-xs-2 col-md-3"><small>Balance Freight</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="balanceFreight" name="balanceFreight" ng-model="transaction.balanceFreight">
+              </div> 
+              <label for="loadingCharges" class="control-label col-xs-2 col-md-3"><small>Loading Charges</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="loadingCharges" name="loadingCharges" ng-model="transaction.loadingCharges">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="unloadingCharges" class="control-label col-xs-2 col-md-3"><small>Unloading Charges</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="unloadingCharges" name="unloadingCharges" ng-model="transaction.unloadingCharges">
+              </div> 
+              <label for="loadingDetBroker" class="control-label col-xs-2 col-md-3"><small>Loading Det Broker</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="loadingDetBroker" name="loadingDetBroker" ng-model="transaction.loadingDetBroker">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="unloadingDetBroker" class="control-label col-xs-2 col-md-3"><small>unloading Det Broker</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="unloadingDetBroker" name="unloadingDetBroker" ng-model="transaction.unloadingDetBroker">
+              </div>                
+            </div>
+          </div>
+
+          <div class="row">
+            <div style="height: 10px;"></div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="control-label col-xs-2 col-md-12" style="text-align: center;color: blue;">Income Section</label>
+            </div>           
+          </div>
+          
+          <div class="row">
+            <div class="form-group">
+              <label for="multiLoadChargeBilling" class="control-label col-xs-2 col-md-3"><small>Multi Load Charge</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="multiLoadChargeBilling" name="multiLoadChargeBilling" ng-model="transaction.multiLoadChargeBilling">
+              </div> 
+              <label for="freightToBrokerBilling" class="control-label col-xs-2 col-md-3"><small>Freight To Broker</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="freightToBrokerBilling" name="freightToBrokerBilling" ng-model="transaction.freightToBrokerBilling">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="loadingChargesBilling" class="control-label col-xs-2 col-md-3"><small>Loading Charges</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="loadingChargesBilling" name="loadingChargesBilling" ng-model="transaction.loadingChargesBilling">
+              </div> 
+              <label for="unloadingChargesBilling" class="control-label col-xs-2 col-md-3"><small>Unloading Charges</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="unloadingChargesBilling" name="unloadingChargesBilling" ng-model="transaction.unloadingChargesBilling">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label for="loadingDetBrokerBilling" class="control-label col-xs-2 col-md-3"><small>Loading Det Broker</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="loadingDetBrokerBilling" name="loadingDetBrokerBilling" ng-model="transaction.loadingDetBrokerBilling">
+              </div> 
+              <label for="unloadingDetBrokerBilling" class="control-label col-xs-2 col-md-3"><small>Unloading Det Broker</small></label>            
+              <div class="col-xs-2 col-md-3">
+                <input type="text" class="form-control input-sm" id="unloadingDetBrokerBilling" name="unloadingDetBrokerBilling" ng-model="transaction.unloadingDetBrokerBilling">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">          
+            <div class="form-group">                
+              <div class="col-xs-2 col-md-offset-5 col-md-3">
+                <input type="submit" value="Save" class="center-block btn btn-block btn-primary btn-lg">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <!-- start of Other Transaction Expenditure -->
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="modal fade" id="otherexpenditureModal" tabindex="-1" role="dialog" 
+        aria-labelledby="myModalLabel1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <button type="button" class="close" 
+                data-dismiss="modal">
+                   <span aria-hidden="true">&times;</span>
+                   <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel1">
+                Add Other Expediture
+                </h4>
+              </div>
+              <!-- Modal Body -->
+              <div class="modal-body">
+                
+                <form class="form-horizontal" name="lrotherexpendForm" data-ng-submit="submitOtherExpenditureForm()"> 
+                  <div class="row centered-form" data-ng-show="otherexpmsg">
+                    <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{otherexpmsg}}</div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label  class="col-sm-2 control-label col-xs-2" for="lrNo">LR No</label>
+                      <div class="col-xs-2">
+                        <input type="text"  class="form-control" id="lrNo" placeholder="" ng-model="transaction.lrs" disabled/>
+                      </div>                       
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group">                       
+                      <label  class="col-sm-2 control-label col-xs-2" for="amount">Amount</label>
+                      <div class="col-xs-2">
+                        <input type="number"  class="form-control" id="amount" placeholder="" required ng-model="transaction.otherAmount"/>
+                      </div>
+                      <label class="col-sm-2 control-label col-xs-2" for="remarks" >Remarks</label>
+                      <div class="col-xs-4">
+                      <textarea class="form-control input-sm" rows="2" id="remarks" placeholder="" ng-model="transaction.otherRemarks" required ></textarea>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row modal-footer">
+                    <div class="form-group">
+                      <div class="col-xs-4">
+                        <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                            Close
+                        </button>
+                      </div>
+                      <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary">
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <table class="table">
+                        <tr>
+                          <th>SlNo
+                          </th>
+                          <th>LR Nos
+                          </th>
+                          <th>Other Amount
+                          </th>
+                          <th>Remarks
+                          </th>
+                        </tr>
+                        <tr ng-repeat="transItem in transaction.otherExpenditures track by $index">
+                          <td>Other{{$index+1}}
+                          </td>
+                          <td>{{transaction.lrs}}
+                          </td>
+                          <td>{{transItem.amount}}
+                          </td>
+                          <td>{{transItem.remarks}}
+                          </td>
+                         
+                          <td>
+                            <input type="button" value="Remove" class="btn btn-primary" ng-click="removeOtherExpenditure(transItem.id,transaction.id)"/>
+                          </td>
+                        </tr>
+                      </table>                     
+                    </div>
+                  </div>                   
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>      
+    </div>
+    <!-- end of Other Transaction Expenditure -->
+    <!-- start of Other Transaction Income -->
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="modal fade" id="otherincomeModal" tabindex="-1" role="dialog" 
+        aria-labelledby="myModalLabel1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <button type="button" class="close" 
+                data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel1">
+                  Add Other Income
+                </h4>
+              </div>
+            
+              <!-- Modal Body -->
+              <div class="modal-body">
+                
+                <form class="form-horizontal" name="lrotherexpendForm" data-ng-submit="submitOtherIncomeForm()"> 
+                  <div class="row centered-form" data-ng-show="otherincomemsg">
+                    <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{otherincomemsg}}</div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label  class="col-sm-2 control-label col-xs-2" for="lrNo">LR Nos</label>
+                      <div class="col-xs-2">
+                        <input type="text"  class="form-control" id="lrNo" placeholder="" ng-model="transaction.lrs" disabled/>
+                      </div>                       
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">                       
+                      <label  class="col-sm-2 control-label col-xs-2" for="amount">Amount</label>
+                      <div class="col-xs-2">
+                        <input type="number"  class="form-control" id="amount" placeholder="" required ng-model="transaction.otherAmountBilling"/>
+                      </div>
+                      <label class="col-sm-2 control-label col-xs-2" for="remarks" >Remarks</label>
+                      <div class="col-xs-2">
+                        <textarea class="form-control input-sm" rows="2" id="remarks" placeholder="" ng-model="transaction.otherRemarksBilling" required ></textarea>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row modal-footer">
+                    <div class="form-group">
+                      <div class="col-xs-4">
+                        <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                            Close
+                        </button>
+                      </div>
+                      <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary">
+                          Save
+                        </button>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <table class="table">
+                        <tr>
+                          <th>SlNo
+                          </th>
+                          <th>LR Nos
+                          </th>
+                          <th>Other Amount
+                          </th>
+                          <th>Remarks
+                          </th>
+                        </tr>
+                        <tr ng-repeat="lrtransItem in transaction.otherIncomes track by $index">
+                          <td>Other{{$index+1}}
+                          </td>
+                          <td>{{transaction.lrs}}
+                          </td>
+                          <td>{{lrtransItem.amount}}
+                          </td>
+                          <td>{{lrtransItem.remarks}}
+                          </td>
+                         
+                          <td>
+                            <input type="button" value="Remove" class="btn btn-primary" ng-click="removeOtherIncome(lrtransItem.id,transaction.id)"/>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of Other Transaction Income -->
+    
+    <!-- start of new print chalan LR -->
+    <div  class="row">
+      <div class="col-md-8">
+        <div class="well row modal fade" id="printLRChalanModal" tabindex="-1" role="dialog" 
+          aria-labelledby="myModalLabel" aria-hidden="true"> 
+          <form class="form-horizontal" name="printchalanForm" >    
+                 
+          <div class="col-md-2">
+              <button type="button" class="btn btn-success btn-lg btn-block"  ng-click="printDiv('printlrchalan');">
+                  Print Chalan  <span class="glyphicon glyphicon-chevron-right"></span>
+              </button>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+            </button>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="form-group">
+                <label  class="col-sm-4 control-label col-md-4" for="expenditureColumns">Select Expenditures Columns</label>
+                <div class="col-md-8">                    
+                  <select multiple ng-model="expenditureColumns" class="form-control" id="expenditureColumns">
+                    <option value="FREIGHT TO BROKER- {{transaction.freightToBroker}}">FREIGHT TO BROKER</option>
+                    <option value="EXTRA PAY TO BROKER - {{transaction.extraPayToBroker}}">EXTRA PAY TO BROKER</option>
+                    <option value="ADVANCE - {{lr.advance}}">ADVANCE</option>
+                    <option value="BALANCE FREIGHT - {{transaction.balanceFreight}}">BALANCE FREIGHT</option>
+                    <option value="LOADING CHARGES - {{transaction.loadingCharges}}">LOADING CHARGES</option>
+                    <option value="UNLOADING CHARGES - {{transaction.unloadingCharges}}">UNLOADING CHARGES</option>
+                    <option  value="LOADING DET BROKER - {{transaction.loadingdetBroker}}">LOADING DET BROKER</option>
+                    <option value="UNLOADING DET BROKER - {{transaction.unloadingdetBroker}}">UNLOADING DET BROKER</option>
+                    <option value="MULTILOAD CHARGE - {{transaction.multiLoadCharge}}">MULTILOAD CHARGE</option>
+                  </select>
+
+                </div>                    
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="form-group">
+                <label  class="col-sm-4 control-label col-md-4" for="columns">Select Other Expenditures</label>
+                <div class="col-md-8">                       
+                  <select multiple name="otherExpenditureColumn" id="otherExpenditureColumn"  ng-model="otherexpenditurecolumns">    
+                    <option ng-repeat="lrother in transaction.otherExpenditures track by $index" value="Other{{$index+1}}-{{lrother.amount}}">Other{{$index+1}}-{{lrother.remarks}}</option>
+                  </select>                
+                </div>                    
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <button type="submit" class="btn btn-primary" ng-click="saveChalana(transaction.lrs,expenditureColumns,otherexpenditurecolumns,transaction.id)">
+              Save
+            </button> 
+          </div>
+          <div class="row centered-form" data-ng-show="chalanmsg">
+            <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{chalanmsg}}</div>
+          </div>
+          <div class="col-md-8">
+          </div>
+          <div id="printlrchalan" class="well col-xs-8 col-sm-8 col-md-8 col-xs-offset-1 col-sm-offset-1 col-md-offset-3" style="overflow-y: scroll; max-height:85%;  margin-top: 50px; margin-bottom:50px;">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                <address>
+                    <strong>NATIONAL ROADWAYS</strong>
+                    <br>
+                    Shop No7,H.No. 8-59/4, Beside Reliable Ready Mix
+                    <br>
+                    Bauchupally 'X' Road,
+                    <br>
+                    Hyderabad-5000 090.
+                    <br>
+                    <abbr title="Phone">Cell:</abbr> 93911 88488, 93460 10458
+                    <br>
+                    <abbr title="Phone">Email:</abbr> sanjaysinghrathore90@gmail.com
+                </address>
+              </div>
+              <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                <p>
+                    <em>Date: {{transaction.createDate}}</em>
+                </p>
+                <p>
+                    <em>Chalan No #: {{transaction.chalan.id}}</em>
+                </p>
+                <p>
+                    <em>LR No #: {{transaction.chalan.lrs}}</em>
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="row">
+                  <address>
+                    <strong>M/S- {{transaction.billingname.name}},</strong>
+                    <br>
+                    {{transaction.billingname.address}}                      
+                  </address>                
+                </div>
+                <div class="bar row">
+                  <div class="col-md-2">PO No :</div>
+                  <div class="col-md-10">{{transaction.poNo}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2">DO No :</div>
+                  <div class="col-md-10">{{transaction.doNo}}</div>
+                </div>
+                <div class="bar row">
+                  <div class="col-md-12"> 
+                    <table class="table">                            
+                      <tr ng-repeat="column in transaction.chalan.chalanDetails track by $index">                              
+                        <td>{{column}}
+                        </td>                             
+                      </tr>
+                      <th>
+                        <strong>Total Cost: </strong>{{transaction.chalan.totalCost}}
+                      </th>
+                    </table>
+                  </div>                  
+                </div>
+              
+                <div class="row bar">
+                  <div class="col-md-2">Total Cost In Words :</div>
+                  <div class="col-md-10"><input type="text" style="WIDTH: 100%"/></div>
+                </div>
+              </div>               
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>    
+    <!-- end of new create chalan -->
+
+    <!-- start of create billing -->
+
+    <div  class="row">
+      <div class="col-md-8">
+        <div class="well row modal fade" id="printLRBillModal" tabindex="-1" role="dialog" 
+        aria-labelledby="myModalLabel" aria-hidden="true"> 
+          <form class="form-horizontal" name="printbilllForm" > 
+            <div class="col-md-2">
+              <button type="button" class="btn btn-success btn-lg btn-block"  ng-click="printDiv('lrbill');">
+                Print Bill  <span class="glyphicon glyphicon-chevron-right"></span>
+              </button>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                Close
+              </button>
+            </div>
+            <div class="col-md-4">
+              <div class="row">
+                <div class="form-group">
+                  <label  class="col-sm-4 control-label col-md-4" for="billingColumns">Select Billing Columns</label>
+                  <div class="col-md-8">
+                    <select multiple ng-model="billingColumns" class="form-control" id="billingColumns">
+                      <option value="FREIGHT TO BROKER- {{transaction.freightToBrokerBilling}}">FREIGHT TO BROKER</option>
+                      <option value="EXTRA PAY TO BROKER - {{transaction.extraPayToBrokerBilling}}">EXTRA PAY TO BROKER</option>
+                      <option value="ADVANCE - {{transaction.advanceBilling}}">ADVANCE</option>
+                      <option value="BALANCE FREIGHT - {{transaction.balanceFreightBilling}}">BALANCE FREIGHT</option>
+                      <option value="LOADING CHARGES - {{transaction.loadingChargesBilling}}">LOADING CHARGES</option>
+                      <option value="UNLOADING CHARGES - {{transaction.unloadingChargesBilling}}">UNLOADING CHARGES</option>
+                      <option  value="LOADING DET BROKER - {{transaction.loadingDetBrokerBilling}}">LOADING DET BROKER</option>
+                      <option value="UNLOADING DET BROKER - {{transaction.unloadingDetBrokerBilling}}">UNLOADING DET BROKER</option>
+                      <option value="MULTILOAD CHARGE - {{transaction.multiLoadChargeBilling}}">MULTILOAD CHARGE</option>
+                    </select>
+                  </div>                    
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="row">
+                <div class="form-group">
+                  <label  class="col-sm-4 control-label col-md-4" for="columns">Select Other Incomes</label>
+                  <div class="col-md-8">
+                    <select multiple name="otherIncomeColumn" id="otherIncomeColumn"  ng-model="otherincomecolumns">    
+                      <option ng-repeat="lrotherincome in transaction.otherIncomes track by $index" value="Other{{$index+1}} - {{lrotherincome.amount}}">Other{{$index+1}}-{{lrotherincome.remarks}}</option>
+                    </select>
+                  </div>                    
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <button type="submit" class="btn btn-primary" ng-click="saveBill(transaction.lrs,billingColumns,otherincomecolumns,transaction.id)">
+                Save
+              </button>
+            </div>
+            <div class="row centered-form" data-ng-show="billmsg">
+              <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{billmsg}}</div>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div id="lrbill" class="well col-xs-8 col-sm-8 col-md-8 col-xs-offset-1 col-sm-offset-1 col-md-offset-3" style="overflow-y: scroll; max-height:85%;  margin-top: 50px; margin-bottom:50px;">
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                  <address>
+                      <strong>NATIONAL ROADWAYS</strong>
+                      <br>
+                      Shop No7,H.No. 8-59/4, Beside Reliable Ready Mix
+                      <br>
+                      Bauchupally 'X' Road,
+                      <br>
+                      Hyderabad-5000 090.
+                      <br>
+                      <abbr title="Phone">Cell:</abbr> 93911 88488, 93460 10458
+                      <br>
+                      <abbr title="Phone">Email:</abbr> sanjaysinghrathore90@gmail.com
+                  </address>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                  <p>
+                      <em>Date: {{transaction.createDate}}</em>
+                  </p>
+                  <p>
+                      <em>Bill No #: {{transaction.bill.id}}</em>
+                  </p>
+                  <p>
+                      <em>LR No #: {{transaction.bill.lrIds}}</em>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                  <div class="row">
+                    <address>
+                          <strong>M/S- {{transaction.billingname.name}},</strong>
+                          <br>
+                          {{transaction.billingname.address}}
+                    </address>
+                  </div>
+                  <div class="bar row">
+                    <div class="col-md-2">PO No :</div>
+                    <div class="col-md-10">{{lr.vehicleNo}}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2">DO No :</div>
+                    <div class="col-md-10">{{lr.vehicleNo}}</div>
+                  </div>
+                  <div class="bar row">
+                    <div class="col-md-12"> 
+                      <table class="table">                            
+                        <tr ng-repeat="column in lr.bill.billDetails track by $index">                              
+                          <td>{{column}}
+                          </td>                             
+                        </tr>
+                        <th>
+                          <strong>Total Cost: </strong>{{transaction.bill.totalCost}}
+                        </th>
+                      </table>
+                    </div>                  
+                  </div>
+                  
+                  <div class="row bar">
+                    <div class="col-md-2">Total Cost In Words :</div>
+                    <div class="col-md-10"><input type="text" style="WIDTH: 100%"/></div>
+                  </div> 
+                </div>               
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--- end of billing -->
+    
+  </div>      
 
       
-    <div class="col-md-2">
-      <!-- Blank right navigation-->    
-    </div>     
-
+  <div class="col-md-2">
+    <!-- Blank right navigation-->
+    <div class="row">       
+      <div class="col-xs-4"> 
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#otherexpenditureModal">
+          Other Expenditure
+        </button>           
+      </div>                  
+    </div> 
+    <div class="row">          
+      <div class="col-xs-4"> 
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#otherincomeModal">
+          Other Income
+        </button>           
+      </div>                  
+    </div>  
+    <div class="row">        
+      <div  class="col-xs-4">                 
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#printLRChalanModal">
+          Create CHALAN
+        </button>
+      </div>         
+    </div> 
+    <div class="row">        
+      <div  class="col-xs-4">        
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#printLRBillModal">
+            Create BILL
+        </button>            
+      </div>                  
+    </div> 
   </div>
+</div>
+
+

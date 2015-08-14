@@ -13,18 +13,65 @@ angular.module('lrwebApp')
 
     $scope.msg = "";
     $scope.filter = {};
+    $scope.statusList = [ "Open", "Approved", "Rejected"];
+    $scope.checkedLRTransIdList = [];
     
     $scope.submitForm = function() {      
       lrService.getTransactions($scope.filter).then(function(u) {
         $log.debug('Got Multi LR List'); 
-        $scope.TransactionsList = u;      
-        $scope.msg = "Successfully fetched Multi LR List"
-        
+        if(u && u.length > 0) {          
+          $scope.msg = "";
+          $scope.msg = u.message;
+          $scope.TransactionsList = u;
+          $scope.$apply();
+        } else {
+          $scope.msg = "No data found"
+          $scope.TransactionsList = [];
+        }                
       }, function(res) {        
         $log.debug('Issue while getting Multi LR data' + JSON.stringify(res));
         $scope.msg = res.msg;
       });
       return false;
     };
+
+    $scope.setLRTransaction = function(lrTransData) {          
+        lrService.showLRTransaction(lrTransData);
+        $location.path('/editmultilr');   
+        return false;
+     };
+
+    $scope.updateStatusInLRTransList = function(status) {
+      $scope.msg = "";
+      
+      lrService.updateStatusInLRTransList($scope.checkedLRTransIdList,status,$scope.filter).then(function(u) {
+        if(u && u.length > 0) {
+          $log.debug('Got LRTransaction List');
+          
+          $scope.msg = "";
+          $scope.msg = u.message;
+          $scope.LRList = u;   
+          $scope.$apply();
+           
+        } else {
+          $scope.msg = "No data found"
+        }
+        
+      }, function(res) {
+        $log.debug('Issue while getting LR data' + JSON.stringify(res));
+        $scope.msg = res.msg;    
+      });
+
+      return false;
+  };
+
+    $scope.toggleCheck = function (lrTransId) {
+      if ($scope.checkedLRTransIdList.indexOf(lrTransId) === -1) {
+          $scope.checkedLRTransIdList.push(lrTransId);
+      } else {
+          $scope.checkedLRTransIdList.splice($scope.checkedLRTransIdList.indexOf(lrTransId), 1);
+      }
+    };
+
 
   }]);

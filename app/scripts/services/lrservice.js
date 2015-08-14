@@ -110,7 +110,7 @@ angular.module('lrwebApp')
     function _updateLRBillDetails(LRBill) {
       lr.bill  = LRBill; 
       lr.bill.billDetails =   JSON.parse(LRBill.billDetails);     
-    }  
+    }
 
     function _createLR(lrData) {     
       var vehileNo     = lrData.vehicleNo || '';
@@ -877,7 +877,35 @@ angular.module('lrwebApp')
 
 
     function _updateTransaction(trans) {
-      transaction = trans;
+      //transaction = trans;       
+      /*var lrIds = [];
+      $.each(trans.lrs, function(i, lr) {
+        lrIds.push(lr.id);
+      });
+      transaction.lrIds = lrIds.join();*/
+      transaction.id                 = trans.id;
+      transaction.lrs                = trans.lrs;
+      transaction.status             = trans.status;
+      transaction.createDate         = trans.createDate;
+
+      transaction.freightToBroker    = trans.freightToBroker;
+      transaction.extraPayToBroker   = trans.extraPayToBroker;
+      transaction.advance            = trans.advance;
+      transaction.balanceFreight     = trans.balanceFreight;
+      transaction.loadingCharges     = trans.loadingCharges;
+      transaction.unloadingCharges   = trans.unloadingCharges;
+      transaction.loadingDetBroker   = trans.loadingDetBroker;   
+      transaction.unloadingDetBroker = trans.unloadingDetBroker;
+      transaction.multiLoadCharge    = trans.multiLoadCharge;
+
+      lr.freightToBrokerBilling    = trans.freightToBroker;
+      lr.extraPayToBrokerBilling   = trans.extraPayToBroker;
+      lr.loadingChargesBilling     = trans.loadingCharges;
+      lr.unloadingChargesBilling   = trans.unloadingCharges;
+      lr.loadingDetBrokerBilling   = trans.loadingDetBroker;   
+      lr.unloadingDetBrokerBilling = trans.unloadingDetBroker; 
+      transaction.multiLoadChargeBilling = trans.multiLoadChargeBilling;
+
     }
 
     function _createTransaction(checkedLRIdList) {      
@@ -1001,11 +1029,8 @@ angular.module('lrwebApp')
       return d.promise;
     };
 
-    function getTransactions(filter) {
-
-    };
-
-	function _updateStatus(checkedLRIdList,status,filter) {      
+    
+	function _updateStatusInLRList(checkedLRIdList,status,filter) {      
 	  $log.debug("checkedLRIdList : " + checkedLRIdList)
 	  var ret = _defResult, d = $q.defer();      
 	        
@@ -1061,7 +1086,7 @@ angular.module('lrwebApp')
 	    }
 	  };
 	
-	  var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/updateStatus', data, config);
+	  var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/updateStatusInLRList', data, config);
 	
 	  $promise.then(function(data, status, headers, config) {
 	    $log.debug('LRList data after update status + ' + JSON.stringify(data));
@@ -1087,6 +1112,443 @@ angular.module('lrwebApp')
 	
 	};
 
+   function _createTransOtherExpenditure(transaction) {
+      var transId      = transaction.id || '';
+      var otherAmount  = transaction.otherAmount || '';
+      var otherRemarks = transaction.otherRemarks || '';
+    
+      var ret = _defResult, d = $q.defer();
+      
+      var data = 'transId=' +  transId +
+                 '&amount=' + otherAmount +
+                 '&remarks=' + otherRemarks ;
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/addLRTransOtherExp', data, config);
+
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LRTransation Other Expenditure Info + ' + JSON.stringify(data));
+
+        var result = data.data;
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          d.reject(ret);
+          return;
+        }     
+
+        _updateLRTransOtherExpenditureList(result.lrTransOtherExp);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
+    function _updateLRTransOtherExpenditureList(LRTransOtherExpenditure) {
+      transaction.otherExpenditures  = LRTransOtherExpenditure;
+    }
+
+    function _removeTransOtherExpenditure(lrTransOtherExpenditureId,transId) {
+      var ret = _defResult, d = $q.defer();
+      
+      var data = 'lrTransOtherExpenditureId=' +  lrTransOtherExpenditureId +
+                 '&transId=' + transId;
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/removeLRTransOtherExp', data, config);
+
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LRTransOtherExpenditure Info + ' + JSON.stringify(data));
+
+        var result = data.data;
+
+        if(result.code !== 1) {
+          //some error
+          d.reject(ret);
+          return;
+        }     
+
+        _updateLRTransOtherExpenditureList(result.lrTransOtherExp);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
+    function _createTransOtherIncome(transaction) {
+      var transId      = transaction.id || '';
+      var otherAmount  = transaction.otherAmountBilling || '';
+      var otherRemarks = transaction.otherRemarksBilling || '';
+    
+      var ret = _defResult, d = $q.defer();
+      
+      var data = 'transId=' +  transId +
+                 '&amount=' + otherAmount +
+                 '&remarks=' + otherRemarks ;
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/addLRTransOtherIncome', data, config);
+
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LRTransIncome Info + ' + JSON.stringify(data));
+
+        var result = data.data;
+
+        if(result.code !== 1) { 
+          d.reject(ret);
+          return;
+        }     
+
+        _updateLRTransOtherIncomeList(result.lrTransOtherIncome);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
+    function _updateLRTransOtherIncomeList(LRTransOtherIncome) {      
+
+      transaction.otherIncomes  = LRTransOtherIncome;      
+    }
+
+    function _removeTransOtherIncome(lrTransOtherIncomeId,transId) {
+      var ret = _defResult, d = $q.defer();
+      
+      var data = 'lrTransOtherIncomeId=' +  lrTransOtherIncomeId +
+                 '&transId=' + transId;
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/removeLRTransOtherIncome', data, config);
+
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LRTransIncome Info + ' + JSON.stringify(data));
+
+        var result = data.data;
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          d.reject(ret);
+          return;
+        }     
+
+        _updateLRTransOtherIncomeList(result.lrTransOtherIncome);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
+    function _createTransChalan(lrNos,expenditureColumn,otherExpenditureColumn,transId) {
+      var columns = expenditureColumn;
+
+      if(!angular.isUndefined(otherExpenditureColumn) && otherExpenditureColumn != null) {
+        columns = columns.concat(otherExpenditureColumn);
+      }
+      
+      var jsonData=angular.toJson(columns);      
+    
+      var ret = _defResult, d = $q.defer();
+
+      var data = 'lrNos='           +  lrNos   +
+                 '&chalanDetails='  +  jsonData+
+                 '&transId='        +  transId;
+      console.log(data);     
+      
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/createChalan', data, config);
+
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LRChalan Info + ' + JSON.stringify(data));
+
+        var result = data.data;
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        if(result.code !== 1) {
+          d.reject(ret);
+          return;
+        }     
+
+        _updateLRTransChalanDetails(result.lrChalan);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
+    function _updateLRTransChalanDetails(LRTransChalan) {
+      transaction.chalan  = LRTransChalan; 
+      transaction.chalan.chalanDetails  =  JSON.parse(LRTransChalan.chalanDetails);   
+    }
+
+    function _createTransBill(lrNos,billingColumn,otherBillingColumn,transId) {    
+      var columns = billingColumn;
+
+      if(!angular.isUndefined(otherBillingColumn) && otherBillingColumn != null) {
+        columns = columns.concat(otherBillingColumn);
+      } 
+      
+      var jsonData=angular.toJson(columns);      
+    
+      var ret = _defResult, d = $q.defer();
+
+      var data = 'lrNos='         +  lrNos   +
+                 '&billDetails='  +  jsonData+
+                 '&transId='      +   transId;     
+
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/createBill', data, config);
+
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LRBill Info + ' + JSON.stringify(data));
+
+        var result = data.data;
+
+        if(result.code !== 1) {
+          d.reject(ret);
+          return;
+        }     
+
+        _updateLRBillDetails(result.lrBill);
+        ret.sts = true;
+        d.resolve(ret);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
+    function _updateLRTransBillDetails(LRTransBill) {
+      transaction.bill  = LRTransBill; 
+      transaction.bill.billDetails =   JSON.parse(LRTransBill.billDetails);     
+    }
+
+    function _getTransactions(filter) {
+      var ret = _defResult, d = $q.defer();
+
+      var lrTransDate       = '';      
+      var status       = '';      
+
+      if (filter) {
+        if (filter.date && filter.date.length) {
+          lrTransDate = filter.date;
+        }        
+        if (filter.status && filter.status.length)  {
+          status = filter.status;  
+        }               
+      }
+
+      
+      if(lrTransDate && lrTransDate.length > 0) {
+        //date = new Date(frmdate.replace(pattern,'$3-$2-$1'));
+        var date = new Date(lrTransDate);
+        if (isNaN(date.valueOf())) {          
+          ret.msg = 'Date is not valid';
+          d.reject(ret);
+          return d.promise;
+        }
+      }    
+      
+      var data = 'lrTransDate='     +  lrTransDate +                 
+                 '&status='         +  status ;                 
+
+      console.log(data);
+      var config = { 
+        headers: {
+          'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+          'auth_token' :  userService.getAuthToken(),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      };
+
+      var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/listTransactions', data, config);
+
+      $promise.then(function(data, status, headers, config) {
+        $log.debug('LRTransaction LIST Info + ' + JSON.stringify(data));
+
+        var result = data.data;
+
+        $log.debug(result);
+        $log.debug(result.code);
+
+        /*if(result.code !== 1) {
+          some error
+          d.reject(ret);
+          return;
+        }*/
+
+        d.resolve(result.lrTransactions);      
+
+      }, function(r) {
+        $log.debug('Error Info + ' + JSON.stringify(r.data));
+        ret = _parseErrorResponse(r.data);
+        d.reject(ret);
+      });
+      
+      return d.promise;
+    }
+
+    function _showLRTransaction(lrTransData) {
+        transaction = lrTransData;
+        if(!angular.isUndefined(lrTransData.chalan) && lrTransData.chalan != null) {  _updateLRTransChalanDetails(lrTransData.chalan); }
+        if(!angular.isUndefined(lrTransData.bill) && lrTransData.bill != null) {  _updateLRTransBillDetails(lrTransData.bill); }
+        if(!angular.isUndefined(lrTransData.lrTransOtherExp) && lrTransData.lrTransOtherExp != null) {  _updateLRTransOtherExpenditureList(lrTransData.lrTransOtherExp); }
+        if(!angular.isUndefined(lrTransData.lrTransOtherIncome) && lrTransData.lrTransOtherIncome != null) {  _updateLRTransOtherIncomeList(lrTransData.lrTransOtherIncome); }
+
+     };
+
+    function _updateStatusInLRTransList(checkedLRTransIdList,status,filter) {      
+    $log.debug("checkedLRTransIdList : " + checkedLRTransIdList)
+    var ret = _defResult, d = $q.defer();      
+          
+    //input validation       
+    if (!checkedLRTransIdList || checkedLRTransIdList.length <= 0) 
+    {
+      ret.msg = 'Please select at least 1 record to update status';
+      d.reject(ret);
+    }
+  
+    var lrTransDate       = '';    
+  
+    if (filter) {
+      if (filter.date && filter.date.length) {
+        lrTransDate = filter.date;
+      }             
+    }
+  
+    
+    if(lrTransDate && lrTransDate.length > 0) {
+      //date = new Date(frmdate.replace(pattern,'$3-$2-$1'));
+      var date = new Date(lrTransDate);
+      if (isNaN(date.valueOf())) {          
+        ret.msg = 'Date is not valid';
+        d.reject(ret);
+        return d.promise;
+      }
+    }    
+    
+    var data = 'lrTransDate='     +  lrTransDate    +              
+               '&status='    +  status    +               
+               '&lrTransIds='   +  checkedLRTransIdList.join(); 
+               
+  
+    console.log(data);
+  
+    var config = { 
+      headers: {
+        'service_key': '824bb1e8-de0c-401c-9f83-8b1d18a0ca9d',
+        'auth_token' :  userService.getAuthToken(),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    };
+  
+    var $promise = $http.post('http://localhost:8080/LRService/v1/lr-service/updateStatusInLRTransList', data, config);
+  
+    $promise.then(function(data, status, headers, config) {
+      $log.debug('LRTransList data after update status + ' + JSON.stringify(data));
+  
+      var result = data.data;       
+      
+  
+      /*if(result.code !== 1) {
+        //some error
+        d.reject(ret);
+        return;
+      }*/
+      
+      d.resolve(result.lrTransactions);
+  
+    }, function(r) {
+      $log.debug('Error Info + ' + JSON.stringify(r.data));
+      ret = _parseErrorResponse(r.data);
+      d.reject(ret);
+    });
+    
+    return d.promise;
+  
+  };
+
     return { 
       createLR: _createLR,
       createExpenditure: _createExpenditure,
@@ -1098,6 +1560,7 @@ angular.module('lrwebApp')
       getConsigneeList: _getConsigneeList,
       getBillingnameList:_getBillingnameList,
       getLR: function() {return lr;},
+      getTransaction: function() {return transaction;},
       removeOtherExpenditure:_removeOtherExpenditure,
       removeOtherIncome:_removeOtherIncome,      
       getLRList:_getLRList, 
@@ -1106,9 +1569,20 @@ angular.module('lrwebApp')
       searchLR: _searchLR,
       createTransaction: _createTransaction,
       editTransaction: _editTransaction,
-      updateStatus:_updateStatus,
+      updateStatusInLRList:_updateStatusInLRList,
       getTransaction: function() {return transaction;},
-      showLR: _showLR
+      showLR: _showLR,
+      createTransChalan:_createTransChalan,
+      createTransBill:_createTransBill,
+      removeTransOtherIncome:_removeTransOtherIncome,
+      createTransOtherIncome:_createTransOtherIncome,
+      removeTransOtherExpenditure:_removeTransOtherExpenditure,
+      createTransOtherExpenditure:_createTransOtherExpenditure,
+      getTransactions:_getTransactions,
+      showLRTransaction:_showLRTransaction,
+      updateStatusInLRTransList:_updateStatusInLRTransList,
+      showLRTransaction:_showLRTransaction
+
     };
 
   }]);
