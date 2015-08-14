@@ -13,8 +13,8 @@
   <!--view design -->    
   <div class="col-md-10" data-ng-controller="EditLrCtrl">      
     <div class="row">      
-      <div class="col-md-9">
-        <form class="form-horizontal" name="lrForm" data-ng-submit="updateLR()">
+      <div class="col-md-10">
+        <form class="editlrformdiv form-horizontal" name="lrForm" data-ng-submit="updateLR()">
           <div class="row centered-form" data-ng-show="msg">
             <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
           </div>
@@ -78,7 +78,7 @@
             </div>
           </div>
 
-          <div class="row bar">   
+          <div class="row">   
             <div id="fm2" class="form-group" >             
               <label for="names" class="control-label col-xs-2"><small>Billing Name</small></label>            
               <div class="col-xs-4">
@@ -93,7 +93,7 @@
             </div>
           </div>     
           
-          <div class="row bar">   
+          <div class="row">   
             <div id="fm2" class="form-group" >             
               <label for="consignerCode" class="control-label col-xs-2"><small>Consignor Code</small></label>            
               <div class="col-xs-4">
@@ -121,7 +121,7 @@
             </div>
           </div>
 
-          <div class="row bar">   
+          <div class="row">   
             <div id="fm2" class="form-group" >             
               <label for="consigneeCode" class="control-label col-xs-2"><small>Consignee Code</small></label>            
               <div class="col-xs-4">
@@ -153,10 +153,10 @@
             <div class="form-group">
               <div class="col-xs-2">                              
               </div>
-              <div class="col-xs-8">                 
+              <div class="col-md-offset-2 col-md-5">                                
                 <button type="submit" class="btn btn-primary btn-lg" >
                   SAVE
-                </button>           
+                </button>                           
               </div>
             </div>
           </div>
