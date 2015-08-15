@@ -173,8 +173,24 @@ input[type="checkbox"]:focus{
 .editlrformdiv .btn { 
    width: 100%;
 }
-
+.editlrformdiv .lridinput {
+  border-color: blue;
+  border-width: 2px;
+}
+.editlrformdiv .lridlabel {
+  color: blue;
+}
 .editlrformdiv select {
+  width: 100%;
+  height: 30px;
+}
+
+/* create lr form */
+.createlrformdiv .btn { 
+   width: 100%;
+}
+
+.createlrformdiv select {
   width: 100%;
   height: 30px;
 }

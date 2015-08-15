@@ -12,8 +12,8 @@
   </div>
 
   <!--form design -->
-  <div class="col-md-8" data-ng-controller="LrCtrl">
-    <form class="form-horizontal" name="lrForm" data-ng-submit="createLR()"> 
+  <div class="col-md-9" data-ng-controller="LrCtrl">
+    <form class="createlrformdiv form-horizontal" name="lrForm" data-ng-submit="createLR()"> 
       
       <div class="col-xs-12">        
         <div class="row centered-form" data-ng-show="msg">
@@ -33,12 +33,11 @@
               <input type="text" class="form-control input-sm" id="vehicleno" placeholder="Vehicle No"
                ng-model="lr.vehicleNo">          
             </div>
-             <label for="vehicleowner" class="control-label col-xs-2"><small>Vehicle Owner</small></label>            
+             <label for="vehicleowner" class="control-label col-xs-2"><small>Vehicle  Owner</small></label>            
             <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="vehicleowner" placeholder="Vehicle Owner"
                ng-model="lr.vehicleOwner"> 
             </div>
-
           </div>
         </div> 
 
@@ -59,7 +58,6 @@
                 <div data-ng-message="pattern"><smal>DO NO should be numeric</small></div>                      
               </div>  
             </div>
-
           </div>
         </div>    
 
@@ -67,16 +65,19 @@
           <div class="form-group"> 
             <label for="billingParty" class="control-label col-xs-2"><small>Billing Party</small></label>            
             <div class="col-xs-4">
-              <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty">
+              <input type="text" class="form-control input-sm" id="billingParty" placeholder="Billing party name" ng-model="lr.billingParty">
             </div> 
             <label class="control-label col-xs-2"><small>MultiLoad:</small></label>   
             <div class="col-xs-4">
               <label>
                 <input type="checkbox" ng-model="lr.multiLoad" style="margin-top: 10px;">
               </label>
-            </div>                    
-           
+            </div>
           </div>
+        </div>
+
+        <div class="row">
+          <div style="height: 20px;"></div>
         </div> 
 
          <div class="row">   
@@ -85,99 +86,104 @@
             <div class="col-xs-4">
               <select id="names"  ng-model="lr.billingname" ng-options="billingname.name for billingname in billingnameList" >
                 <option value="" selected="selected">Select</option>
-              </select>           
-              
+              </select>
             </div>
-             <label for="billingAddress" class="control-label col-xs-2"><small>Billing Address</small></label>            
-            <div class="col-xs-4">
-              <input type="text" class="form-control input-sm" id="billingAddress" placeholder="BillingAddress" value=" {{ lr.billingname.address }}" disabled>
+            <div ng-show="lr.billingname">
+              <label for="billingAddress" class="control-label col-xs-2"><small>Billing Address</small></label>            
+              <div class="col-xs-4">            
+                <textarea class="form-control input-sm" rows="4" id="billingAddress" placeholder="Billing Address" disabled>{{ lr.billingname.address }}</textarea>
+              </div>
             </div>
-           
-           
           </div>
         </div>   
         
+        <div class="row">
+          <div style="height: 20px;"></div>
+        </div>
+
         <div class="row">   
           <div id="fm2" class="form-group" >             
             <label for="consignerCode" class="control-label col-xs-2"><small>Consignor Code</small></label>            
             <div class="col-xs-4">
               <select id="consignerCode"  ng-model="lr.consigner" ng-options="consigner.consignerCode for consigner in consignerList" >
                 <option value="" selected="selected">Select</option>
-              </select>           
-              
+              </select>
             </div>
-             <label for="consignerName" class="control-label col-xs-2"><small>Consigner Name</small></label>            
-            <div class="col-xs-4">
-              <input type="text" class="form-control input-sm" id="consignerName" placeholder="Consignor Name" value=" {{ lr.consigner.consignerName }}" disabled>
+            <div ng-show="lr.consigner">
+              <label for="consignerName" class="control-label col-xs-2"><small>Consigner Name</small></label>            
+              <div class="col-xs-4">
+                <input type="text" class="form-control input-sm" id="consignerName" placeholder="Consignor Name" value=" {{ lr.consigner.consignerName }}" disabled>
+              </div>
             </div>
-           
-           
           </div>
         </div>
 
-        <div class="row">   
-          <div id="fm2" class="form-group" >             
-           
-            <label for="consignerServTax" class="control-label col-xs-2"><small>Service Tax No(Consignor)</small></label>            
+        <div class="row" ng-show="lr.consigner">   
+          <div id="fm2" class="form-group" >
+            <label for="consignerServTax" class="control-label col-xs-2"><small>Service Tax No</small></label>            
             <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="consignerServTax" placeholder="Consigner Service Tax" value=" {{ lr.consigner.serviceTax}}" disabled>
             </div>  
-            <label for="consignerAddress" class="control-label col-xs-2"><small>Consigner Add</small></label>            
+            <label for="consignerAddress" class="control-label col-xs-2"><small>Consigner Address</small></label>            
            <div class="col-xs-4">
-              <textarea class="form-control input-sm" rows="2" id="consignerAddress" placeholder="Consigner Address" disabled>{{ lr.consigner.address }}</textarea>              
-            </div> 
-           
+              <textarea class="form-control input-sm" rows="4" id="consignerAddress" placeholder="Consigner Address" disabled>{{ lr.consigner.address }}</textarea>
+            </div>
           </div>
         </div>
 
-         <div class="row">   
+        <div class="row">
+          <div style="height: 15px;"></div>
+        </div>
+
+        <div class="row">   
           <div id="fm2" class="form-group" >             
             <label for="consigneeCode" class="control-label col-xs-2"><small>Consignee Code</small></label>            
             <div class="col-xs-4">
               <select id="consigneeCode" ng-model="lr.consignee" ng-options="consignee.consigneeCode for consignee in consigneeList" >
               <option value="" selected="selected">Select</option>
-              </select>         
-                
-              
+              </select>
             </div>
-             <label for="consigneeName" class="control-label col-xs-2"><small>Consignee Name</small></label>            
-            <div class="col-xs-4">
-              <input type="text" class="form-control input-sm" id="consigneeName" placeholder="Consignee Name" value=" {{ lr.consignee.consigneeName }}" disabled>
+            <div ng-show="lr.consignee">
+              <label for="consigneeName" class="control-label col-xs-2"><small>Consignee Name</small></label>            
+              <div class="col-xs-4">
+                <input type="text" class="form-control input-sm" id="consigneeName" placeholder="Consignee Name" value=" {{ lr.consignee.consigneeName }}" disabled>
+              </div>
             </div>
-           
-           
           </div>
         </div>
 
-        <div class="row">   
-          <div id="fm2" class="form-group" >             
-           
-            <label for="consigneeServTax" class="control-label col-xs-2"><small>Service Tax No(Consignee)</small></label>            
+        <div class="row" ng-show="lr.consignee">   
+          <div id="fm2" class="form-group" >
+            <label for="consigneeServTax" class="control-label col-xs-2"><small>Service Tax No</small></label>            
             <div class="col-xs-4">
               <input type="text" class="form-control input-sm" id="consigneeServTax" placeholder="Consignee Service Tax" value=" {{ lr.consignee.serviceTax}}" disabled>
             </div>  
-            <label for="consigneeAddress" class="control-label col-xs-2"><small>Consignee Add</small></label>            
-           <div class="col-xs-4">
-              <textarea class="form-control input-sm" rows="2" id="consigneeAddress" placeholder="Consignee Address" disabled>{{ lr.consignee.address }}</textarea>              
-            </div> 
-           
+            <label for="consigneeAddress" class="control-label col-xs-2"><small>Consignee Address</small></label>            
+            <div class="col-xs-4">
+              <textarea class="form-control input-sm" rows="4" id="consigneeAddress" placeholder="Consignee Address" disabled>{{ lr.consignee.address }}</textarea>              
+            </div>           
           </div>
         </div>
 
+        <div class="row">
+          <div style="height: 10px;"></div>
+        </div>
 
         <div class="row">
          <div class="form-group">
             <div class="col-xs-2">                              
             </div>
-            <div class="col-xs-8"> 
-              <button id="lrBtn" class="btn btn-info btn-lg" ng-disabled="lrForm.$invalid"><span class="glyphicon glyphicon-save-file" ></span></button>           
+            <div class="col-md-offset-2 col-md-5"> 
+              <button id="lrBtn" class="btn btn-info btn-lg" ng-disabled="lrForm.$invalid">
+                SAVE
+              </button>           
             </div>
           </div>           
         </div>
-
       </div>
     </form>
   </div>
+
   <div class="col-md-2">
     <!-- Blank right navigation-->    
   </div>
