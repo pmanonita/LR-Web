@@ -24,10 +24,10 @@
 
             <div class="collapse navbar-collapse pull-left">
               <ul class="nav navbar-nav pull-left">
-                <li role="presentation"><a href="#/lrhome">LR</a></li>
-                <li role="presentation"><a href="#/searchmultilr">MULTILR</a></li>
-                <li role="presentation"><a href="#/searchexpense">EXPENSES</a></li>
-                <li role="presentation" ng-show="isAdmin"><a href="#/searchuser">USER</a></li>
+                <li class="active" ng-class="{active: isLRActive}" role="presentation"><a href="#/lrhome">LR</a></li>
+                <li class="active" ng-class="{active: isMultiLRActive}" role="presentation"><a href="#/searchmultilr">MULTILR</a></li>
+                <li class="active" ng-class="{active: isExpenseActive}" role="presentation"><a href="#/searchexpense">EXPENSES</a></li>
+                <li class="active" ng-class="{active: isUserActive}" role="presentation" ng-show="isAdmin"><a href="#/searchuser">USER</a></li>
               </ul>
             </div>
 
@@ -36,7 +36,7 @@
                 <li class="dropdown" >
                   <a target="_self" href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}}<b class="caret"></b></a>
                   <ul class="dropdown-menu" >
-                    <li><a href="#/editprofile">Profile</a></li>
+                    <!--<li><a href="#/editprofile">Profile</a></li>-->
                     <li><a href="" data-ng-click="signout()">Log out</a></li>
                   </ul>
                 </li>
