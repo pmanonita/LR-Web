@@ -898,13 +898,15 @@ angular.module('lrwebApp')
       transaction.unloadingDetBroker = trans.unloadingDetBroker;
       transaction.multiLoadCharge    = trans.multiLoadCharge;
 
-      lr.freightToBrokerBilling    = trans.freightToBroker;
-      lr.extraPayToBrokerBilling   = trans.extraPayToBroker;
-      lr.loadingChargesBilling     = trans.loadingCharges;
-      lr.unloadingChargesBilling   = trans.unloadingCharges;
-      lr.loadingDetBrokerBilling   = trans.loadingDetBroker;   
-      lr.unloadingDetBrokerBilling = trans.unloadingDetBroker; 
-      transaction.multiLoadChargeBilling = trans.multiLoadChargeBilling;
+      transaction.freightToBrokerBilling    = trans.freightToBroker;
+      transaction.extraPayToBrokerBilling   = trans.extraPayToBroker;
+      transaction.loadingChargesBilling     = trans.loadingCharges;
+      transaction.unloadingChargesBilling   = trans.unloadingCharges;
+      transaction.loadingDetBrokerBilling   = trans.loadingDetBroker;   
+      transaction.unloadingDetBrokerBilling = trans.unloadingDetBroker; 
+      transaction.multiLoadChargeBilling    = trans.multiLoadChargeBilling;
+      transaction.billingname               = transaction.billingname;
+      
 
     }
 
@@ -972,7 +974,12 @@ angular.module('lrwebApp')
       var loadingChargesBilling     = transaction.loadingChargesBilling     || '';
       var unloadingChargesBilling   = transaction.unloadingChargesBilling   || '';
       var loadingDetBrokerBilling   = transaction.loadingDetBrokerBilling   || '';
-      var unloadingDetBrokerBilling = transaction.unloadingDetBrokerBilling || '';     
+      var unloadingDetBrokerBilling = transaction.unloadingDetBrokerBilling || '';   
+      var billignameId =  '';
+
+      if(angular.isObject(transaction.billingname)) {
+        billignameId = transaction.billingname.id || '';  
+      }  
       
       
       var ret = _defResult, d = $q.defer();     
@@ -992,7 +999,10 @@ angular.module('lrwebApp')
                  '&loadingChargesBilling='     + loadingChargesBilling   +
                  '&unloadingChargesBilling='   + unloadingChargesBilling +
                  '&loadingDetBrokerBilling='   + loadingDetBrokerBilling +
-                 '&unloadingDetBrokerBilling=' + unloadingDetBrokerBilling ;
+                 '&unloadingDetBrokerBilling=' + unloadingDetBrokerBilling +
+                 '&billingnameId='             + billignameId ;
+
+      console.log(data);
 
       var config = { 
         headers: {

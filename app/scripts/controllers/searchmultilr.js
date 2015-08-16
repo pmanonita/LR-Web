@@ -22,8 +22,7 @@ angular.module('lrwebApp')
         if(u && u.length > 0) {          
           $scope.msg = "";
           $scope.msg = u.message;
-          $scope.TransactionsList = u;
-          $scope.$apply();
+          $scope.TransactionsList = u;          
         } else {
           $scope.msg = "No data found"
           $scope.TransactionsList = [];
@@ -50,9 +49,7 @@ angular.module('lrwebApp')
           
           $scope.msg = "";
           $scope.msg = u.message;
-          $scope.TransactionsList = u;   
-          $scope.$apply();
-           
+          $scope.TransactionsList = u; 
         } else {
           $scope.msg = "No data found"
           $scope.TransactionsList = [];

@@ -16,6 +16,24 @@ angular.module('lrwebApp')
     $scope.checkedLRIdList = [];
     $scope.LRList = null;
 
+    var handleBillingnameSuccess = function(data) {
+      $scope.billingnameList = data; 
+    };
+    var handleBillingnameError = function(data) {
+      $scope.billingnameList = [];
+    };
+    lrService.getBillingnameList(handleBillingnameSuccess, handleBillingnameError);
+
+     $scope.$watch('text', function(v) {
+      for (var i in $scope.billingnameList) {
+        var option = $scope.billingnameList[i];
+        if (option.name === v) {
+          $scope.lr.billingname = option;
+          break;
+        }
+      }
+    });
+
     $scope.getLRList = function() {
       /* Default filter status to get LR that can be attached  */
       $scope.filter.multiLoad    = "true";
