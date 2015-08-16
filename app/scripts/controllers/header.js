@@ -57,13 +57,7 @@
             $scope.isUserActive = true;          
           } else {
             $scope.isUserActive = false;
-          }
-
-          console.log("lr : " +  $scope.isLRActive);
-          console.log("multilr : " +  $scope.isMultiLRActive);
-          console.log("expense : " +  $scope.isExpenseActive);
-          console.log("user : " +  $scope.isUserActive);
-          
+          }          
         });
         
      

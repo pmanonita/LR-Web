@@ -23,17 +23,38 @@
             <div style="height: 20px;"></div>
           </div>
           
-          <!--first page -->    
+          <!--first page -->
+          <div class="row">
+            <div ng-hide="showLRSave">
+              <label class="editlrmsglabel col-xs-2 col-md-12"><small>** You don't have permission to edit this LR with its current status. Contact Admin **</small></label> 
+            </div>
+          </div>
+
+          <div class = "row">
+            <div ng-show="lr.transid">
+              <label class="editlrmsglabel col-xs-2 col-md-12"><small>This LR is attached to a MultiLR</small></label> 
+            </div>
+          </div>
           <div class="row">
             <div class="form-group">
               <label for="lrNo" class="control-label col-xs-2 lridlabel"><small>LR NO</small></label>
               <div class="col-xs-4">
                 <input type="text"  class="form-control input-sm lridinput" id="lrNo" placeholder="" ng-model="lr.lrNo" disabled />
-              </div> 
-              <div class="col-xs-4">                 
-              </div>                       
+              </div>              
             </div>
           </div>         
+          <div class="row">
+            <div class="form-group">        
+              <label for="createdate" class="control-label col-xs-2"><small>Create Date</small></label>            
+              <div class="col-xs-4">
+                <input type="text" class="form-control input-sm" id="createdate" placeholder="Create Date" ng-model="lr.lrDate" disabled>          
+              </div>
+              <label for="status" class="control-label col-xs-2"><small>Status</small></label>            
+              <div class="col-xs-4">
+                <input type="text" class="form-control input-sm" id="status" placeholder="Status" ng-model="lr.status" disabled> 
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="form-group">        
               <label for="vehicleno" class="control-label col-xs-2"><small>Vehicle No</small></label>            
@@ -73,13 +94,15 @@
               <label for="billingParty" class="control-label col-xs-2"><small>Billing Party</small></label>            
               <div class="col-xs-4">
                 <input type="text" class="form-control input-sm" id="billingParty" placeholder="" ng-model="lr.billingParty">
-              </div> 
-              <label class="control-label col-xs-2"><small>MultiLoad:</small></label>   
-              <div class="col-xs-4">
-                <label>
-                  <input type="checkbox" ng-model="lr.multiLoad" ng-true-value="'true'" ng-false-value="'false'" style="margin-top: 10px;"/>
-                </label>
               </div>
+              <div ng-hide="lr.transid">
+                <label class="control-label col-xs-2"><small>MultiLoad:</small></label> 
+                <div class="col-xs-4">
+                  <label>
+                    <input type="checkbox" ng-model="lr.multiLoad" ng-true-value="'true'" ng-false-value="'false'" style="margin-top: 10px;"/>
+                  </label>
+                </div>
+              </div>              
             </div>
           </div>
 
@@ -176,18 +199,17 @@
             <div style="height: 10px;"></div>
           </div>
 
-          <div class="row">
+          <div class="row" ng-show="showLRSave">
             <div class="form-group">
               <div class="col-xs-2">                              
               </div>
               <div class="col-md-offset-2 col-md-5">                                
                 <button type="submit" class="btn btn-primary btn-lg" ng-disabled="lrEditForm.$invalid">
                   SAVE
-                </button>                           
+                </button>                         
               </div>
             </div>
           </div>
-
         </form>
       </div>    
 
@@ -298,8 +320,7 @@
                       </div>
                       <label class="col-sm-2 control-label col-xs-2" for="balanceFreight" >Balance Freight</label>
                       <div class="col-xs-3">                         
-                        <input type="text" class="form-control" id="balanceFreight1" placeholder="" value="{{ (lr.freightToBroker*1) - ((lr.advance*1)+(lr.extraPayToBroker*1)) }}" disabled/>                          
-
+                        <input type="text" class="form-control" id="balanceFreight1" placeholder="" value="{{ (lr.freightToBroker*1) - ((lr.advance*1)+(lr.extraPayToBroker*1)) }}" disabled/>
                       </div>
                     </div>
                   </div>
@@ -338,7 +359,7 @@
                         Close
                         </button>
                       </div>
-                      <div class="col-xs-4">
+                      <div class="col-xs-4" ng-show="showLRSave">
                         <button type="submit" class="btn btn-primary">
                           Save
                         </button>
@@ -435,7 +456,7 @@
             Close
           </button>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" ng-show="showLRSave">
           <button type="submit" class="btn btn-primary">
             Save
           </button>
@@ -515,7 +536,7 @@
               Close
             </button>
           </div>
-          <div class="col-xs-4">
+          <div class="col-xs-4" ng-show="showLRSave">
             <button type="submit" class="btn btn-primary">
               Save
             </button>
@@ -550,7 +571,9 @@
               </td>
 
               <td>
-                <input type="button" value="Remove" class="btn btn-primary" ng-click="removeOtherExpenditure(lrItem.id,lrItem.lrId)"/>
+                <div ng-show="showLRSave">
+                  <input type="button" value="Remove" class="btn btn-primary" ng-click="removeOtherExpenditure(lrItem.id,lrItem.lrId)"/>
+                </div>
               </td>
             </tr>
           </table>
@@ -631,7 +654,7 @@
               Close
             </button>
           </div>
-          <div class="col-xs-4">
+          <div class="col-xs-4" ng-show="showLRSave">
             <button type="submit" class="btn btn-primary">
               Save
             </button>
@@ -666,7 +689,9 @@
               </td>
 
               <td>
-                <input type="button" value="Remove" class="btn btn-primary" ng-click="removeOtherIncome(lrItem.id,lrItem.lrId)"/>
+                <div ng-show="showLRSave">
+                  <input type="button" value="Remove" class="btn btn-primary" ng-click="removeOtherIncome(lrItem.id,lrItem.lrId)"/>
+                </div>
               </td>
             </tr>
           </table>
@@ -1113,7 +1138,7 @@
       </div>
     </div>
   </div>
-  <div class="col-xs-4">
+  <div class="col-xs-4" ng-show="showLRSave">
     <button type="submit" class="btn btn-primary" ng-click="saveChalana(lr.lrNo,expenditureColumns,otherexpenditurecolumns)">
       Save
     </button>
@@ -1267,7 +1292,7 @@
       </div>
     </div>
   </div>
-  <div class="col-xs-4">
+  <div class="col-xs-4" ng-show="showLRSave">
     <button type="submit" class="btn btn-primary" ng-click="saveBill(lr.lrNo,billingColumns,otherincomecolumns)">
       Save
     </button>

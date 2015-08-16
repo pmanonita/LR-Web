@@ -54,13 +54,15 @@ angular.module('lrwebApp')
     function _updateLRInfo(LR) {
       
       lr.lrNo         = LR.id;
-      lr.transNo      = LR.transid;
+      lr.lrDate       = LR.lrDate;
+      lr.transid      = LR.transid || '';
+      lr.status       = LR.status;
       lr.vehicleNo    = LR.vehicleNo;
       lr.vehicleOwner = LR.vehicleOwner;
       lr.consigner    = LR.consigner;
       lr.consignee    = LR.consignee;     
       lr.billingParty = LR.billingParty;    
-      lr.lrDate       = LR.lrDate;
+      
       lr.poNo         = LR.poNo;
       lr.doNo         = LR.doNo;
       lr.billingname  = LR.billingname;
