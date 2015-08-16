@@ -14,8 +14,13 @@ angular.module('lrwebApp')
       'AngularJS',
       'Karma'
     ]; 
+    
     $scope.msg = "";
-     var handleConsignerSuccess = function(data) {
+    $scope.showLRSave = true;
+
+    $scope.isAdmin = userService.isAdmin();
+
+    var handleConsignerSuccess = function(data) {
       $scope.consignerList = data;  
       console.log("hadling success"); 
       
@@ -48,11 +53,13 @@ angular.module('lrwebApp')
     $scope.chalanColumns = [];
     $scope.lr = lrService.getLR();
 
-    $log.debug("loadig edit controller again.")
-    $log.debug($scope.lr);
+    if (!$scope.isAdmin && ($scope.lr.status === 'Approved'
+                          || $scope.lr.status === 'Rejected')) {
+      $scope.showLRSave = false;
+    }  
     
-    $scope.lr.extraPayToBroker=0 ;
-    $scope.lr.freightToBroker=0 ;
+    //$scope.lr.extraPayToBroker=0 ;
+    //$scope.lr.freightToBroker=0 ;
     $scope.lr.advance=0 ;
     
 

@@ -8,7 +8,8 @@
  * Controller of the lrwebApp
  */
 angular.module('lrwebApp')
-  .controller('LrhomeCtrl',['$scope', '$log', '$location', 'lrService', function ($scope, $log, $location, lrService){
+  .controller('LrhomeCtrl',['$scope', '$log', '$location', 'userService', 'lrService',
+    function ($scope, $log, $location, userService, lrService){
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -19,6 +20,8 @@ angular.module('lrwebApp')
     $scope.filter = {};
     $scope.statusList = [ "Open", "Approved", "Rejected"];
     $scope.checkedLRIdList = [];
+
+    $scope.isAdmin = userService.isAdmin();
 
 
     $scope.searchLR = function() {
