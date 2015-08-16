@@ -29,16 +29,21 @@ angular.module('lrwebApp')
       
       
       $scope.submitForm = function() {        
-        $scope.msg = "";      
-        
-        generalExpenseService.listExpense($scope.search).then(function(u) {
+        $scope.msg      = "";      
+        $scope.expenses = null;
 
-          $scope.expenses = u;
+        generalExpenseService.listExpense($scope.search).then(function(u) {          
+          if(u && u.length > 0) {
+            $log.debug('Got expenses List');
+            $scope.msg = "";
+            $scope.expenses = u;    
+          } else {
+            $scope.msg = "No data found"          
+          }
 
         }, function(res) {
           $log.debug('Issue while getting expense search data' + JSON.stringify(res));
-          $scope.msg = '';
-          $scope.expenses = [];
+          $scope.msg = '';          
           $scope.msg = res.msg;
         });
         return false;

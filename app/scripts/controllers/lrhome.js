@@ -41,6 +41,7 @@ angular.module('lrwebApp')
       $scope.msg = "";
       $scope.filter.multiLoad = "false";
       $scope.filter.isLRAttached = "false";
+      $scope.LRList = null;
 
       lrService.getLRList($scope.filter).then(function(u) {
         if(u && u.length > 0) {
@@ -48,8 +49,7 @@ angular.module('lrwebApp')
           $scope.msg = "";
           $scope.LRList = u;          
         } else {
-          $scope.msg = "No data found"
-          $scope.LRList = [];
+          $scope.msg = "No data found"          
         }
         
       }, function(res) {

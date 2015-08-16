@@ -61,9 +61,12 @@
         <!-- Show data -->
         <!-- Blank hight is inserted-->    
       <div class="col-md-12" style="height: 20px;"></div>      
-
-                             
+      
       <div class="col-md-offset-1 col-md-12" ng-show="LRList">
+        <div class="form-group col-md-4">
+          <label >Search in Table : </label>
+          <input type="text" ng-model="searchintable" class="form-control" placeholder="Ex: Type LR No">
+        </div>
         <table class="table table-striped table-bordered table-hover table-condensed">
           <thead>
             <tr>
@@ -78,7 +81,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="lrItem in LRList track by $index">
+            <tr ng-repeat="lrItem in LRList | filter:searchintable track by $index">
               <td><input type='checkbox'  ng-show="isAdmin" ng-checked="LRList.indexOf(lrItem.id) != -1" ng-click="toggleCheck(lrItem.id)" />{{$index+1}}</td>
               <td>{{lrItem.id}}</td>
               <td>{{lrItem.vehicleNo}}</td>
