@@ -71,10 +71,10 @@ angular.module('lrwebApp')
 
     function _updateLRExpenditureInfo(LR) {
 
-      lr.freightToBroker    = LR.freightToBroker;
-      lr.extraPayToBroker   = LR.extraPayToBroker;
-      lr.advance            = LR.advance;
-      lr.balanceFreight     = LR.balanceFreight;
+      lr.freightToBroker    = LR.freightToBroker || 0;
+      lr.extraPayToBroker   = LR.extraPayToBroker || 0;
+      lr.advance            = LR.advance || 0;
+      lr.balanceFreight     = LR.balanceFreight || 0;
       lr.loadingCharges     = LR.loadingCharges;
       lr.unloadingCharges   = LR.unloadingCharges;
       lr.loadingDetBroker   = LR.loadingDetBroker;   

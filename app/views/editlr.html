@@ -320,7 +320,7 @@
                       </div>
                       <label class="col-sm-2 control-label col-xs-2" for="balanceFreight" >Balance Freight</label>
                       <div class="col-xs-3">                         
-                        <input type="text" class="form-control" id="balanceFreight1" placeholder="" value="{{ (lr.freightToBroker*1) - ((lr.advance*1)+(lr.extraPayToBroker*1)) }}" disabled/>
+                        <input type="text" class="form-control" id="balanceFreight" placeholder="" ng-model="lr.balanceFreight" disabled/>
                       </div>
                     </div>
                   </div>

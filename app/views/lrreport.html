@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <div class="col-md-8" data-ng-controller="LrhomeCtrl">  
+  <div class="col-md-9" data-ng-controller="LrhomeCtrl">  
     <form id="LRReportForm" name="LRReportForm" class="form-search form-horizontal" data-ng-submit="getLRByDate()">
       <div class="row centered-form" data-ng-show="msg">
           <div class="alert alert-danger text-center col-md-offset-2 col-md-8 col-sm-offset2 col-sm8 col-xs-offset-1 col-xs-10" role="alert">{{msg}}</div>
@@ -62,7 +62,7 @@
         <!-- Blank hight is inserted-->    
       <div class="col-md-12" style="height: 20px;"></div>      
       
-      <div class="col-md-offset-1 col-md-12" ng-show="LRList">
+      <div ng-show="LRList">
         <div class="form-group col-md-4">
           <label >Search in Table : </label>
           <input type="text" ng-model="searchintable" class="form-control" placeholder="Ex: Type LR No">
@@ -70,19 +70,31 @@
         <table class="table table-striped table-bordered table-hover table-condensed">
           <thead>
             <tr>
-              <th>SlNo</th>
-              <th>LR No</th>
-              <th>Vehicle No</th>
-              <th>Vehicle Owner</th>
-              <th>Date</th>
-              <th>MultiLoad</th>
-              <th>Status</th>
+              <th></th>
+              <th ng-click="sort('lrItem.id')">LR No
+                <span class="glyphicon sort-icon" ng-show="sortKey==lrItem.id" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}">
+              </th>
+              <th ng-click="sort(lrItem.vehicleNo)">Vehicle No
+                <span class="glyphicon sort-icon" ng-show="sortKey==lrItem.vehicleNo" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}">
+              </th>
+              <th ng-click="sort(lrItem.vehicleOwner)">Vehicle Owner
+                <span class="glyphicon sort-icon" ng-show="sortKey==lrItem.vehicleOwner" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}">
+              </th>
+              <th ng-click="sort(lrItem.lrDate)">Date
+                <span class="glyphicon sort-icon" ng-show="sortKey==lrItem.lrDate" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}">
+              </th>
+              <th ng-click="sort(lrItem.multiLoad)">MultiLoad
+                <span class="glyphicon sort-icon" ng-show="sortKey==lrItem.multiLoad" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}">
+              </th>
+              <th ng-click="sort(lrItem.status)">Status
+                <span class="glyphicon sort-icon" ng-show="sortKey==lrItem.status" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}">
+              </th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="lrItem in LRList | filter:searchintable track by $index">
-              <td><input type='checkbox'  ng-show="isAdmin" ng-checked="LRList.indexOf(lrItem.id) != -1" ng-click="toggleCheck(lrItem.id)" />{{$index+1}}</td>
+            <tr dir-paginate="lrItem in LRList | orderBy:sortKey:reverse | filter:searchintable | itemsPerPage:5">
+              <td><input type='checkbox'  ng-show="isAdmin" ng-checked="LRList.indexOf(lrItem.id) != -1" ng-click="toggleCheck(lrItem.id)" /></td>
               <td>{{lrItem.id}}</td>
               <td>{{lrItem.vehicleNo}}</td>
               <td>{{lrItem.vehicleOwner}}</td>
@@ -94,7 +106,13 @@
               </td>
             </tr>{{array}}
           </tbody>
-        </table> 
+        </table>
+        
+        <dir-pagination-controls
+        max-size="5"
+        direction-links="true"
+        boundary-links="true" >
+        </dir-pagination-controls> 
                   
         <div class="form-group" ng-show="isAdmin">                                
           <div class="col-xs-2 col-md-2">             
@@ -109,7 +127,7 @@
     </form>    
 
   </div>
-  <div class="col-md-2">
+  <div class="col-md-1">
     <!-- Blank right navigation-->    
   </div>
 </div>

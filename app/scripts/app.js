@@ -17,6 +17,7 @@ var app = angular.module('lrwebApp', [
   'ngRoute',
   'ngSanitize',
   'cgBusy',
+  'angularUtils.directives.dirPagination',
   'ngTouch']);
 
 app.config(['$routeProvider',function ($routeProvider) {

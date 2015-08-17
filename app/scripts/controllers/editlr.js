@@ -18,8 +18,9 @@ angular.module('lrwebApp')
     $scope.msg = "";
     $scope.showLRSave = true;
 
-    $scope.isAdmin = userService.isAdmin();
+    $scope.isAdmin = userService.isAdmin();   
 
+    
     var handleConsignerSuccess = function(data) {
       $scope.consignerList = data;  
       console.log("hadling success"); 
@@ -37,9 +38,7 @@ angular.module('lrwebApp')
       $scope.consigneeList = [];
     };
     var handleBillingnameSuccess = function(data) {
-      $scope.billingnameList = data;  
-      console.log("hadling success"); 
-      
+      $scope.billingnameList = data;     
     };
     var handleBillingnameError = function(data) {
       $scope.billingnameList = [];
@@ -57,14 +56,18 @@ angular.module('lrwebApp')
                           || $scope.lr.status === 'Rejected')) {
       $scope.showLRSave = false;
     }  
-    
-    //$scope.lr.extraPayToBroker=0 ;
-    //$scope.lr.freightToBroker=0 ;
-    $scope.lr.advance=0 ;
-    
+
+    var freightToBroker  = $scope.lr.freightToBroker  || 0;
+    var extraPayToBroker = $scope.lr.extraPayToBroker || 0;
+    var advance          = $scope.lr.advance          || 0;   
+    $scope.lr.balanceFreight = freightToBroker - (extraPayToBroker + advance);
 
 
-     $scope.submitExpenditureForm = function(){
+    $scope.$watch('lr.freightToBroker - (lr.extraPayToBroker + lr.advance)', function (value) {
+        $scope.lr.balanceFreight = value;
+    });
+    
+    $scope.submitExpenditureForm = function(){
       //send a request to user service and submit the form
       $log.debug('on add expenditure for lr form ' );
       lrService.createExpenditure($scope.lr).then(function(/*res*/) {
