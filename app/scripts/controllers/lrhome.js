@@ -70,27 +70,23 @@ angular.module('lrwebApp')
       $scope.msg = "";
       $scope.filter.multiLoad = "false";
       $scope.filter.isLRAttached = "false";
-
+      $scope.LRList = null;
       lrService.updateStatusInLRList($scope.checkedLRIdList,status,$scope.filter).then(function(u) {
         if(u && u.length > 0) {
           $log.debug('Got LR List');
           
           $scope.msg = "";
           $scope.msg = u.message;
-          $scope.LRList = u;   
-          $scope.$apply();
-           
+          $scope.LRList = u; 
         } else {
           $scope.msg = "No data found"
-          $scope.LRList = [];
-
         }
         
       }, function(res) {
         $log.debug('Issue while getting LR data' + JSON.stringify(res));
         $scope.msg = res.msg;    
       });
-
+      $scope.checkedLRIdList = [];
       return false;
     };
 

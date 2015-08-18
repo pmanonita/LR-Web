@@ -84,7 +84,7 @@ angular.module('lrwebApp')
     function _updateLRIncomeInfo(LR) {      
 
       lr.freightToBrokerBilling    = LR.freightToBroker;
-     // lr.extraPayToBrokerBilling   = LR.extraPayToBroker;
+      //lr.extraPayToBrokerBilling   = LR.extraPayToBroker;
       lr.loadingChargesBilling     = LR.loadingCharges;
       lr.unloadingChargesBilling   = LR.unloadingCharges;
       lr.loadingDetBrokerBilling   = LR.loadingDetBroker;   
@@ -1495,13 +1495,13 @@ angular.module('lrwebApp')
     var ret = _defResult, d = $q.defer();      
           
     //input validation       
-    if (!checkedLRTransIdList || checkedLRTransIdList.length <= 0) 
+    if (!checkedLRTransIdList || !checkedLRTransIdList.length) 
     {
       ret.msg = 'Please select at least 1 record to update status';
       d.reject(ret);
     }
   
-    var lrTransDate       = '';    
+    var lrTransDate = '';    
   
     if (filter) {
       if (filter.date && filter.date.length) {
@@ -1598,4 +1598,3 @@ angular.module('lrwebApp')
     };
 
   }]);
-

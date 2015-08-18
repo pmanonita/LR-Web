@@ -70,6 +70,7 @@ angular.module('lrwebApp')
     $scope.submitExpenditureForm = function(){
       //send a request to user service and submit the form
       $log.debug('on add expenditure for lr form ' );
+      $scope.expmsg = "";
       lrService.createExpenditure($scope.lr).then(function(/*res*/) {
         //success callback
         $log.debug('LR Expenditure Created Sucessfully');        
@@ -86,6 +87,7 @@ angular.module('lrwebApp')
     $scope.submitIncomeForm = function(){
       //send a request to user service and submit the form
       $log.debug('on add income for lr form ' );
+      $scope.incomemsg = "";
       lrService.createIncome($scope.lr).then(function(/*res*/) {
         //success callback
         $log.debug('LR Income Created Sucessfully');        
@@ -102,6 +104,7 @@ angular.module('lrwebApp')
     $scope.submitOtherExpenditureForm = function(){
       //send a request to user service and submit the form
       console.log('on add otherexpenditure for lr form ' );
+      $scope.otherexpmsg =  "";
       lrService.createOtherExpenditure($scope.lr).then(function(/*res*/) {
         //success callback
         $log.debug('LR Other Expenditure Created Sucessfully'); 
@@ -126,6 +129,7 @@ angular.module('lrwebApp')
      $scope.submitOtherIncomeForm = function(){
       //send a request to user service and submit the form
       console.log('on add otherincome for lr form ' );
+      $scope.otherincomemsg = "";
       lrService.createOtherIncome($scope.lr).then(function(/*res*/) {
         //success callback
         $log.debug('LR Other Income Created Sucessfully'); 
@@ -163,7 +167,8 @@ angular.module('lrwebApp')
     };
 
      $scope.removeOtherExpenditure = function(otherExpenditureId,lrNo){ 
-      console.log("removing lrotherexpenditure "+lrNo);  
+      console.log("removing lrotherexpenditure "+lrNo); 
+      $scope.otherexpmsg = ""; 
        lrService.removeOtherExpenditure(otherExpenditureId,lrNo).then(function(/*res*/) {
         //success callback
         $log.debug('LROtherExpenditure Removed Sucessfully');        
@@ -179,7 +184,8 @@ angular.module('lrwebApp')
     };
 
      $scope.removeOtherIncome = function(otherIncomeId,lrNo){ 
-      console.log("removing lrotherincome "+lrNo);  
+      console.log("removing lrotherincome "+lrNo);
+      $scope.otherincomemsg = "";  
        lrService.removeOtherIncome(otherIncomeId,lrNo).then(function(/*res*/) {
         //success callback
         $log.debug('LROtherIncome Removed Sucessfully');        
@@ -195,7 +201,7 @@ angular.module('lrwebApp')
     };
 
      $scope.saveChalana = function(lrNos,expenditureColumn,otherExpenditureColumn){ 
-      
+        $scope.chalanmsg = "";
        lrService.createChalan(lrNos,expenditureColumn,otherExpenditureColumn).then(function(/*res*/) {
         //success callback
         $log.debug('LRChalan saved Sucessfully'); 
@@ -215,7 +221,7 @@ angular.module('lrwebApp')
     };
 
      $scope.saveBill = function(lrNos,billingColumn,otherBillingColumn){ 
-      
+        $scope.billmsg = "";
        lrService.createBill(lrNos,billingColumn,otherBillingColumn).then(function(/*res*/) {
         //success callback
         $log.debug('LRBill saved Sucessfully'); 
