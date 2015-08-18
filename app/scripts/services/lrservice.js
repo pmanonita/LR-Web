@@ -84,7 +84,7 @@ angular.module('lrwebApp')
     function _updateLRIncomeInfo(LR) {      
 
       lr.freightToBrokerBilling    = LR.freightToBroker;
-      lr.extraPayToBrokerBilling   = LR.extraPayToBroker;
+     // lr.extraPayToBrokerBilling   = LR.extraPayToBroker;
       lr.loadingChargesBilling     = LR.loadingCharges;
       lr.unloadingChargesBilling   = LR.unloadingCharges;
       lr.loadingDetBrokerBilling   = LR.loadingDetBroker;   

@@ -14,7 +14,7 @@ angular.module('lrwebApp')
     $scope.msg = "";
     
     $scope.transaction = lrService.getTransaction();
-      var handleBillingnameSuccess = function(data) {
+    var handleBillingnameSuccess = function(data) {
       $scope.billingnameList = data; 
     };
     var handleBillingnameError = function(data) {
@@ -22,11 +22,22 @@ angular.module('lrwebApp')
     };
     lrService.getBillingnameList(handleBillingnameSuccess, handleBillingnameError);
 
+    var freightToBroker  = $scope.transaction.freightToBroker  || 0;
+    var extraPayToBroker = $scope.transaction.extraPayToBroker || 0;
+    var advance          = $scope.transaction.advance          || 0;   
+    $scope.transaction.balanceFreight = freightToBroker - (extraPayToBroker + advance);
+
+
+    $scope.$watch('transaction.freightToBroker - (transaction.extraPayToBroker + transaction.advance)', function (value) {
+        $scope.transaction.balanceFreight = value;
+    });
+
+
      $scope.$watch('text', function(v) {
       for (var i in $scope.billingnameList) {
         var option = $scope.billingnameList[i];
         if (option.name === v) {
-          $scope.lr.billingname = option;
+          $scope.transaction.billingname = option;
           break;
         }
       }

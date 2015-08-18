@@ -99,7 +99,7 @@
             <div class="form-group">
               <label for="balanceFreight" class="control-label col-xs-2 col-md-3"><small>Balance Freight</small></label>            
               <div class="col-xs-2 col-md-3">
-                <input type="text" class="form-control input-sm" id="balanceFreight" name="balanceFreight" ng-model="transaction.balanceFreight">
+                <input type="text" class="form-control input-sm" id="balanceFreight" name="balanceFreight" ng-model="transaction.balanceFreight" disabled>
               </div> 
               <label for="loadingCharges" class="control-label col-xs-2 col-md-3"><small>Loading Charges</small></label>            
               <div class="col-xs-2 col-md-3">
@@ -434,7 +434,7 @@
                   <select multiple ng-model="expenditureColumns" class="form-control" id="expenditureColumns">
                     <option value="FREIGHT TO BROKER- {{transaction.freightToBroker}}">FREIGHT TO BROKER</option>
                     <option value="EXTRA PAY TO BROKER - {{transaction.extraPayToBroker}}">EXTRA PAY TO BROKER</option>
-                    <option value="ADVANCE - {{lr.advance}}">ADVANCE</option>
+                    <option value="ADVANCE - {{transaction.advance}}">ADVANCE</option>
                     <option value="BALANCE FREIGHT - {{transaction.balanceFreight}}">BALANCE FREIGHT</option>
                     <option value="LOADING CHARGES - {{transaction.loadingCharges}}">LOADING CHARGES</option>
                     <option value="UNLOADING CHARGES - {{transaction.unloadingCharges}}">UNLOADING CHARGES</option>
@@ -566,9 +566,6 @@
                   <div class="col-md-8">
                     <select multiple ng-model="billingColumns" class="form-control" id="billingColumns">
                       <option value="FREIGHT TO BROKER- {{transaction.freightToBrokerBilling}}">FREIGHT TO BROKER</option>
-                      <option value="EXTRA PAY TO BROKER - {{transaction.extraPayToBrokerBilling}}">EXTRA PAY TO BROKER</option>
-                      <option value="ADVANCE - {{transaction.advanceBilling}}">ADVANCE</option>
-                      <option value="BALANCE FREIGHT - {{transaction.balanceFreightBilling}}">BALANCE FREIGHT</option>
                       <option value="LOADING CHARGES - {{transaction.loadingChargesBilling}}">LOADING CHARGES</option>
                       <option value="UNLOADING CHARGES - {{transaction.unloadingChargesBilling}}">UNLOADING CHARGES</option>
                       <option  value="LOADING DET BROKER - {{transaction.loadingDetBrokerBilling}}">LOADING DET BROKER</option>
@@ -655,7 +652,7 @@
                           </td>                             
                         </tr>
                         <th>
-                          <strong>Total Cost: </strong>{{transaction.bill.totalCost}}
+                          <strong>Total Cost: </strong>{{transaction.bill.totalBill}}
                         </th>
                       </table>
                     </div>                  
