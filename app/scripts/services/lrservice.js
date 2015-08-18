@@ -1495,13 +1495,13 @@ angular.module('lrwebApp')
     var ret = _defResult, d = $q.defer();      
           
     //input validation       
-    if (!checkedLRTransIdList || checkedLRTransIdList.length <= 0) 
+    if (!checkedLRTransIdList || !checkedLRTransIdList.length) 
     {
       ret.msg = 'Please select at least 1 record to update status';
       d.reject(ret);
     }
   
-    var lrTransDate       = '';    
+    var lrTransDate = '';    
   
     if (filter) {
       if (filter.date && filter.date.length) {

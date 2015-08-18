@@ -16,7 +16,8 @@ angular.module('lrwebApp')
     $scope.statusList = [ "Open", "Approved", "Rejected"];
     $scope.checkedLRTransIdList = [];
     
-    $scope.submitForm = function() {      
+    $scope.submitForm = function() {
+      $scope.TransactionsList = null;    
       lrService.getTransactions($scope.filter).then(function(u) {
         $log.debug('Got Multi LR List'); 
         if(u && u.length > 0) {          
@@ -24,8 +25,7 @@ angular.module('lrwebApp')
           $scope.msg = u.message;
           $scope.TransactionsList = u;          
         } else {
-          $scope.msg = "No data found"
-          $scope.TransactionsList = [];
+          $scope.msg = "No data found"          
         }                
       }, function(res) {        
         $log.debug('Issue while getting Multi LR data' + JSON.stringify(res));
@@ -42,7 +42,7 @@ angular.module('lrwebApp')
 
     $scope.updateStatusInLRTransList = function(status) {
       $scope.msg = "";
-      
+      $scope.TransactionsList = null;
       lrService.updateStatusInLRTransList($scope.checkedLRTransIdList,status,$scope.filter).then(function(u) {
         if(u && u.length > 0) {
           $log.debug('Got LRTransaction List');
@@ -51,8 +51,7 @@ angular.module('lrwebApp')
           $scope.msg = u.message;
           $scope.TransactionsList = u; 
         } else {
-          $scope.msg = "No data found"
-          $scope.TransactionsList = [];
+          $scope.msg = "No data found"          
         }
         
       }, function(res) {
